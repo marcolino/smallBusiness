@@ -1,7 +1,9 @@
 {
   "name": "smallbusiness",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "phantomjs": "~1.9.7-14"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
