@@ -1,0 +1,13 @@
+<div ng-repeat="order in orders">
+  <a href="{{ order.url }}">{{ order.title }}</a>
+  <a ng-click="deleteOrder($index)"> <span class="glyphicon glyphicon-trash"></span></a>
+</div>
+ 
+<form ng-submit="submitOrder()">
+  <input type="text" ng-model="order.title" />
+  <input type="text" ng-model="order.url" />
+  <input type="submit" value="Add Order" />
+</form>
+
+Orders: {{ orders }}<br />
+Order: {{ order }}
