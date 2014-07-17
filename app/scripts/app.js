@@ -25,6 +25,22 @@ var app = angular.module('smallBusinessApp', [
         templateUrl: 'views/orders.html',
         controller: 'OrdersCtrl'
       })
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'AuthCtrl'
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'AuthCtrl'
+      })
+      .when('/orders/:orderId', {
+        templateUrl: 'views/showorder.html',
+        controller: 'OrderViewCtrl'
+      })
+      .when('/contacts', {
+        templateUrl: 'views/contacts.html',
+        controller: 'ContactsCtrl'
+      })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
