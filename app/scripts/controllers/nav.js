@@ -3,7 +3,8 @@
 app.controller('NavCtrl', function ($scope, $location, Auth, Order) {
   $scope.orderPlaceholder = { url: 'http://', title: '' };
   $scope.order = $scope.orderPlaceholder;
- 
+  console.log('NAV CTRL');
+
   $scope.submitOrder = function () {
     Order.create($scope.order).then(function (ref) {
       $scope.order = $scope.orderPlaceholder;

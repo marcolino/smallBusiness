@@ -47,6 +47,16 @@ ul {
 
 .nav-pic {
   max-height: 32px;
-  padding-top: 0;
-  padding-bottom: 0;
 }
+
+.nav-pic-user {
+  position: fixed;    
+  overflow: visible;
+  margin-top: -5px;    
+  margin-left: -35px;    
+}
+/*
+div.navbar-inner {
+  height: 100px;
+}
+*/

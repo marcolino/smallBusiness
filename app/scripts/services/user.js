@@ -1,6 +1,6 @@
 'use strict';
  
-app.factory('User', function ($rootScope, $firebase, FIREBASE_URL/*, Auth*/) {
+app.factory('User', function ($rootScope, $firebase, FIREBASE_URL, Auth) {
   var ref = new Firebase(FIREBASE_URL + 'users');
  
   var users = $firebase(ref);
@@ -26,23 +26,28 @@ app.factory('User', function ($rootScope, $firebase, FIREBASE_URL/*, Auth*/) {
       return $rootScope.currentUser;
     },
     signedIn: function () {
+      console.info('$rootScope.currentUser:', $rootScope.currentUser);
       return $rootScope.currentUser !== undefined;
     }
   };
 
   function setCurrentUser (username) {
+    console.log('setCurrentUser():', username);
     $rootScope.currentUser = User.findByUsername(username);
+    console.log('setCurrentUser() - $rootScope.currentUser:', $rootScope.currentUser);
   }
 
   $rootScope.$on('$firebaseSimpleLogin:login', function (e, authUser) {
     var query = $firebase(ref.startAt(authUser.uid).endAt(authUser.uid));
      
     query.$on('loaded', function () {
+      console.info('query.$on("loaded" ...:', authUser.uid);
       setCurrentUser(query.$getIndex()[0]);
     });
   });
 
   $rootScope.$on('$firebaseSimpleLogin:logout', function() {
+    console.info('Logout fired...');
     delete $rootScope.currentUser;
   });
 

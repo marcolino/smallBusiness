@@ -10,10 +10,22 @@ app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope) {
       return auth.$createUser(user.email, user.password);
     },
     signedIn: function () {
-      return auth.user !== null;
+      console.info('Service auth - signedIn()');
+      if (auth.user !== null) {
+        //$rootScope.currentUser = auth.user;
+        console.log('auth.user:', auth.user);
+        console.log('$rootScope.currentUser:', $rootScope.currentUser);
+        return true;
+      }
+      return false;
+      //return auth.user !== null;
     },
     login: function (user) {
-      return auth.$login('password', user);
+      return auth.$login('password', {
+        email: user.email,
+        password: user.password,
+        rememberMe: true
+      });
     },
     logout: function () {
       auth.$logout();

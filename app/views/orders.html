@@ -1,6 +1,6 @@
 <div class="container orders-page">
   <hr>
-  <div class="order row" ng-repeat="(orderId, order) in orders">
+  <div class="order row" ng-repeat="(orderId, order) in orders" ng-show="signedIn()">
     <div class="col-xs-4">
       <span class="info">
         <a href="{{ order.url }}">{{ order.title }}
@@ -8,7 +8,7 @@
         </a>
       </span>
     </div>
-    <div class="col-xs-1">
+    <div class="col-xs-1" style="white-space: nowrap;" >
       <a href="#/orders/{{ orderId }}"><span class="glyphicon glyphicon-list" title="details"></span></a>
       &nbsp;
       <a href="#" ng-click="deleteOrder(orderId)"><span class="glyphicon glyphicon-trash" title="remove"></span></a>
