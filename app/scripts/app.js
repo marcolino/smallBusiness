@@ -85,4 +85,11 @@ app.run(function (stateFactory) {
 });
 */
 
-app.run(function () {});
+app.run(function () {
+
+  $('.nav a').on('click', function() {
+    //$(".btn-navbar").click();
+    $(".navbar-toggle").click();
+  });
+  
+});

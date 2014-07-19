@@ -14,13 +14,17 @@ console.info('*************** $firebaseSimpleLogin:login did fire, redirecting t
 
   $scope.login = function () {
   	console.info('$scope.login() - $scope.user:', $scope.user);
-    Auth.login($scope.user).then(function () {
-      //$scope.user.md5_hash = '19b5c7e6c2772d88adcbd928daddc170'; // if not email auth mode...
-      console.info('Auth.login() returned - $scope.user:', $scope.user);
-      $location.path('/');
-    }, function (error) {
-      $scope.error = error.toString();
-    });
+    if ($scope.user) {
+      Auth.login($scope.user).then(function () {
+        //$scope.user.md5_hash = '19b5c7e6c2772d88adcbd928daddc170'; // if not email auth mode...
+        console.info('Auth.login() returned - $scope.user:', $scope.user);
+        $location.path('/');
+      }, function (error) {
+        $scope.error = error.toString();
+      });
+    } else {
+      $scope.error = "Please specify a user name and a password";
+    }
   };
 
   $scope.register = function () {

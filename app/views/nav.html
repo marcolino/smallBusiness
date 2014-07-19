@@ -2,7 +2,7 @@
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
     <!-- button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" -->
-    <button type="button" class="navbar-toggle" ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
@@ -12,7 +12,7 @@
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
-  <div ng-controller="NavCtrl" class="navbar-collapse" ng-class="isCollapsed ? 'collapse' : 'in'">
+  <div ng-controller="NavCtrl" class="collapse navbar-collapse n_avbar-app-collapse" id="navbar-collapse" nav-collapse="">
 <!--
     <form class="navbar-form navbar-left" role="search" ng-submit="submitOrder()" ng-show="signedIn()">
       <div class="form-group">
@@ -24,30 +24,6 @@
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
 -->
-    <ul class="nav navbar-nav navbar-right" ng-hide="signedIn()">
-      <li>
-        <a href="#/register"><span class="glyphicon glyphicon-user" title="Register"></span></a>
-      </li>
-      <li>
-        <a href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in"></span></a>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right navbar-inner" ng-show="signedIn()">
-      <li>
-        <a href="#/users/{{ currentUser.username }}">
-          <img class="nav-pic nav-pic-user" ng-src="http://www.gravatar.com/avatar/{{ currentUser.md5_hash }}" />
-            <i>{{ currentUser.username }}</i>
-        </a>
-      </li>
-      <li>
-        <a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Logout"></span></a>
-      </li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li>
-        <a>&nbsp;</a>
-      </li>
-    </ul>
     <ul class="nav navbar-nav navbar-right">
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#">Home</a>
@@ -62,3 +38,25 @@
 
   </div><!-- /.navbar-collapse -->
 </nav>
+
+<div ng-controller="NavCtrl">
+  <ul class="list-inline list-inline-right" ng-hide="signedIn()">
+    <li>
+      <a href="#/register"><span class="glyphicon glyphicon-user" title="Register"></span></a>
+    </li>
+    <li>
+      <a href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in"></span></a>
+    </li>
+  </ul>
+  <ul class="list-inline list-inline-right" ng-show="signedIn()">
+    <li>
+      <a href="#/users/{{ currentUser.username }}">
+        <img class="nav-pic-user" ng-src="http://www.gravatar.com/avatar/{{ currentUser.md5_hash }}" title="logged user: {{ currentUser.username }}" />
+          <span title="logged user: {{ currentUser.username }}"><i>{{ currentUser.username }}</i></span>
+      </a>
+    </li>
+    <li>
+      <a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Logout"></span></a>
+    </li>
+  </ul>
+</div>

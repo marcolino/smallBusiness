@@ -34,7 +34,7 @@ ul {
 }
 
 .footer {
-  font-size: 90%;
+  font-size: 80%;
   text-align: right;
   margin-top: 0.5em;
   padding-top: 0.3em;
@@ -45,18 +45,16 @@ ul {
   font-size: 90%;
 }
 
-.nav-pic {
-  max-height: 32px;
+.nav-pic-user {
+  max-height: 28px;
 }
 
-.nav-pic-user {
-  position: fixed;    
-  overflow: visible;
-  margin-top: -5px;    
-  margin-left: -35px;    
+.list-inline-right {
+  margin-top: -0.5em;
+  text-align: right;
+  padding-right: 1.0em;
 }
-/*
-div.navbar-inner {
-  height: 100px;
+
+.centered {
+  text-align: center;
 }
-*/
