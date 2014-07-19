@@ -1,5 +1,5 @@
-'use strict';
 /* global app:true */
+'use strict';
 
 /**
  * @ngdoc overview
@@ -10,45 +10,45 @@
  * Main module of the application.
  */
 var app = angular.module('smallBusinessApp', [
-    'ngAnimate',
+    'ngAnimate', // TODO: learn how to use it (if we need it...)
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
+    'ngTouch', // TODO: learn how to use it (if we need it...)
     'firebase'
-  ])
-  .constant('FIREBASE_URL', 'https://smallbusiness.firebaseio.com/')
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/orders.html',
-        controller: 'OrdersCtrl'
-      })
-      .when('/register', {
-        templateUrl: 'views/register.html',
-        controller: 'AuthCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'AuthCtrl'
-      })
-      .when('/orders/:orderId', {
-        templateUrl: 'views/showorder.html',
-        controller: 'OrderViewCtrl'
-      })
-      .when('/contacts', {
-        templateUrl: 'views/contacts.html',
-        controller: 'ContactsCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+  ]);
+app.config(function ($routeProvider) {
+  $routeProvider
+    .when('/', {
+      templateUrl: 'views/orders.html',
+      controller: 'OrdersCtrl'
+    })
+    .when('/register', {
+      templateUrl: 'views/register.html',
+      controller: 'AuthCtrl'
+    })
+    .when('/login', {
+      templateUrl: 'views/login.html',
+      controller: 'AuthCtrl'
+    })
+    .when('/orders/:orderId', {
+      templateUrl: 'views/showorder.html',
+      controller: 'OrderViewCtrl'
+    })
+    .when('/contacts', {
+      templateUrl: 'views/contacts.html',
+      controller: 'ContactsCtrl'
+    })
+    .when('/about', {
+      templateUrl: 'views/about.html',
+      controller: 'AboutCtrl'
+    })
+    .otherwise({
+      redirectTo: '/'
+    });
+});
+app.constant('FIREBASE_URL', 'https://smallbusiness.firebaseio.com/');
 
 /*
   .config(function ($httpProvider) {
@@ -86,10 +86,10 @@ app.run(function (stateFactory) {
 */
 
 app.run(function () {
-
+/*
   $('.nav a').on('click', function() {
     //$(".btn-navbar").click();
     $(".navbar-toggle").click();
   });
-  
+*/
 });

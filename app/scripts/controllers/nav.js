@@ -1,20 +1,22 @@
 'use strict';
  
-app.controller('NavCtrl', function ($scope, $location, Auth, Order) {
+app.controller('NavCtrl', function ($scope, $location, Auth) {
+/*
   $scope.orderPlaceholder = { url: 'http://', title: '' };
   $scope.order = $scope.orderPlaceholder;
   console.log('NAV CTRL');
 
   $scope.submitOrder = function () {
-    Order.create($scope.order).then(function (ref) {
+    console.log('submitOrder in NavCtrl');
+    Order.create($scope.order).then(function (orderId) {
       $scope.order = $scope.orderPlaceholder;
-      $location.path('/orders/' + ref.name());
+      $location.path('/orders/' + orderId);
     });
   };
+*/
 
   $scope.logout = function () {
     console.info('logout...');
     Auth.logout();
   };
-
 });

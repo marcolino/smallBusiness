@@ -1,13 +1,11 @@
-<div class="container orders-page">
+<div class="container REMOVEMEorders-page">
   <div ng-hide="signedIn()">
     <div class="jumbotron centered">
-      Questa è la home page di smallBusiness per i visitatori. <br />
+      Questa è la home page di <em>smallBusiness</em> per gli utenti non registrati. <br />
       <br />
       Loggarsi come <i>demo@mail.com</i> / <i>demo</i>, oppure <br />
       registrare un nuovo account e loggarsi <br />
       per utilizzare la parte amministrativa. <br />
-      <br />
-      &star;&star;&star;
     </div>
   </div>
   <div ng-show="signedIn()">
@@ -20,15 +18,18 @@
           </a>
         </span>
       </div>
+      <div class="col-xs-2" style="white-space: nowrap;" >
+        <span>by <a href="#/users/{{ order.owner }}">{{ order.owner }}</a></span>
+      </div>
       <div class="col-xs-1" style="white-space: nowrap;" >
-        <a href="#/orders/{{ orderId }}"><span class="glyphicon glyphicon-list" title="details"></span></a>
+        <a href="#/orders/{{ orderId }}"><span class="glyphicon glyphicon-list" title="order details"></span></a>
         &nbsp;
-        <a href="#" ng-click="deleteOrder(orderId)"><span class="glyphicon glyphicon-trash" title="  remove"></span></a>
+        <a href="#" ng-click="deleteOrder(orderId)" ng-show="signedIn() && order.owner === currentUser.username"><span class="glyphicon glyphicon-trash" title="remove order"></span></a>
       </div>
     </div>
     <hr>
-    <input type="button" value="Add Order" ng-show="!addingOrder" ng-click="addingOrder = true;" />
-    <form ng-submit="submitOrder()" ng-show="addingOrder">
+    <input type="button" value="Add Order" ng-show="signedIn() && !addingOrder" ng-click="addingOrder = true;" />
+    <form ng-submit="submitOrder()" ng-show="signedIn() && addingOrder">
       <input type="text" ng-model="order.title" />
       <input type="text" ng-model="order.url" />
       <input type="submit" value="Add Order" />

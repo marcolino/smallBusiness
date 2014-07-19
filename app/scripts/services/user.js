@@ -1,12 +1,13 @@
 'use strict';
  
-app.factory('User', function ($rootScope, $firebase, FIREBASE_URL, Auth) {
+app.factory('User', function ($rootScope, $firebase, FIREBASE_URL) {
   var ref = new Firebase(FIREBASE_URL + 'users');
  
   var users = $firebase(ref);
  
   var User = {
     create: function (authUser, username) {
+      /* jshint camelcase: false */
       users[username] = {
         md5_hash: authUser.md5_hash,
         username: username,
@@ -32,9 +33,8 @@ app.factory('User', function ($rootScope, $firebase, FIREBASE_URL, Auth) {
   };
 
   function setCurrentUser (username) {
-    console.log('setCurrentUser():', username);
     $rootScope.currentUser = User.findByUsername(username);
-    console.log('setCurrentUser() - $rootScope.currentUser:', $rootScope.currentUser);
+    console.log('setCurrentUser('+username+') - $rootScope.currentUser:', $rootScope.currentUser);
   }
 
   $rootScope.$on('$firebaseSimpleLogin:login', function (e, authUser) {

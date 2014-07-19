@@ -9,9 +9,10 @@ app.directive('autoFocus', function($timeout) {
     link: function(scope, element) {
       scope.$watch('trigger',
         function(value) {
-        if (value === "true") {
+        if (value === 'true') {
           $timeout(function() {
-            element[0].focus();
+            console.log('autoFocus:', element);
+            element.focus();
           });
         }
       });
