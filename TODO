@@ -1,3 +1,7 @@
 TODO:
 
  - add toastr's (see teamPlayerRating...)
+ - add security features (https://www.firebase.com/docs/security/security-rules.html)
+    to prevent users from being able to delete orders they do not own
+ - add loading spinner (spinnerFactory from teamPlayerRating?)
+ - add more auth methods (google, fb, twitter) ?

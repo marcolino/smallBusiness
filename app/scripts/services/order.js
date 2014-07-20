@@ -38,7 +38,31 @@ app.factory('Order', function ($firebase, FIREBASE_URL, User) {
           });
         });
       }
+    },
+    addItem: function (orderId, item) {
+      if (User.signedIn()) {
+        var user = User.getCurrent();
+ 
+        item.username = user.username;
+        item.orderId = orderId;
+ 
+        orders.$child(orderId).$child('items').$add(item).then(
+          function (ref) { // add a reference to this order item on current user
+            user.$child('items').$child(ref.name()).$set({id: ref.name(), orderId: orderId});
+          }
+        );
+      }
+    },
+    deleteItem: function (order, item, itemId) {
+      if (User.signedIn()) {
+        var user = User.findByUsername(item.username);
+ 
+        order.$child('items').$remove(itemId).then(function () {
+          user.$child('items').$remove(itemId);
+        });
+      }
     }
+    
   };
  
   return Order;

@@ -1,4 +1,4 @@
-<div class="container REMOVEMEorders-page">
+<div class="container orders-page">
   <div ng-hide="signedIn()">
     <div class="jumbotron centered">
       Questa è la home page di <em>smallBusiness</em> per gli utenti non registrati. <br />
@@ -11,14 +11,14 @@
   <div ng-show="signedIn()">
     <hr>
     <div class="order row" ng-repeat="(orderId, order) in orders" ng-show="signedIn()">
-      <div class="col-xs-4">
+      <div class="col-xs-8">
         <span class="info">
           <a href="{{ order.url }}">{{ order.title }}
             <span class="url">[{{ order.url | hostnameFromUrl }}]</span>
           </a>
         </span>
       </div>
-      <div class="col-xs-2" style="white-space: nowrap;" >
+      <div class="col-xs-3">
         <span>by <a href="#/users/{{ order.owner }}">{{ order.owner }}</a></span>
       </div>
       <div class="col-xs-1" style="white-space: nowrap;" >

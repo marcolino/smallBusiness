@@ -1,7 +1,9 @@
 'use strict';
  
 app.controller('OrdersCtrl', function ($scope, $location, Order) {
-  $scope.orders = Order.all;
+  if ($location.path() === '/') { // avoid overriding $scope.orders when listing specific user's orders
+    $scope.orders = Order.all;
+  }
 
   $scope.orderPlaceholder = { url: 'http://', title: '' };
   $scope.order = $scope.orderPlaceholder;

@@ -2,12 +2,20 @@
  
   <h2>Register</h2>
  
-  <form ng-submit="register()">
-  	<p ng-show="error" class="text-danger">{{ error }}</p>
-  	<input type="text" ng-model="user.username" placeholder="Username" class="form-control" auto-fill-sync><br>
-    <input type="email" ng-model="user.email" placeholder="Email" class="form-control" auto-fill-sync><br>
-    <input type="password" ng-model="user.password" placeholder="Password" class="form-control" auto-fill-sync><br>
-    <input type="submit" value="Register" class="btn btn-primary" />
+  <form ng-submit="register()" name="form">
+    <div style="float: left;">
+      <div ng-hide="error || form.username.$error.taken || form.username.$error.invalid || form.password.$error.equals" class="text-danger">&nbsp;</div>
+      <div ng-show="error" class="text-danger">{{ error }}</div>
+      <div ng-show="form.username.$error.taken" class="text-danger">Username is already taken</div>
+      <div ng-show="form.username.$error.invalid" class="text-danger">Username contains invalid characters</div>
+      <div ng-show="form.password.$error.equals" class="text-danger">Passwords do not match</div>
+    </div>
+    <div style="clear: both;"></div>
+  	<input type="text" ng-model="user.username" placeholder="Username" name="username" class="form-control" autocomplete="off" required check-username><br>
+    <input type="email" ng-model="user.email" placeholder="Email" class="form-control" autocomplete="on" auto-fill-sync required><br> 
+    <input type="password" ng-model="user.password" placeholder="Password" name="password" class="form-control" autocomplete="on" auto-fill-sync required equals="{{user.passwordVerify}}"><br>
+    <input type="password" ng-model="user.passwordVerify" placeholder="Confirm password" name="password-verify" class="form-control" autocomplete="on" auto-fill-sync required equals="{{user.password}}"><br>
+    <input type="submit" value="Register" class="btn btn-primary" ng-disabled="error || form.$invalid" />
   </form>
  
 </div>

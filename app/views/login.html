@@ -3,7 +3,11 @@
   <h2>Log In</h2>
  
   <form ng-submit="login()" autocomplete="on">
-  	<p ng-show="error" class="text-danger">{{ error }}</p>
+    <div style="float: left;">
+      <div ng-hide="error" class="text-danger">&nbsp;</div>
+      <div ng-show="error" class="text-danger">{{ error }}</div>
+    </div>
+    <div style="clear: both;"></div>
     <input type="email" ng-model="user.email" placeholder="Email" class="form-control" autocomplete="on" auto-fill-sync><br>
     <input type="password" ng-model="user.password" placeholder="Password" class="form-control" autocomplete="on" auto-fill-sync><br>
     <input type="submit" value="Log in" class="btn btn-primary" auto-focus="true" autofocus />
