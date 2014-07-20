@@ -11,7 +11,7 @@
   <div ng-show="signedIn()">
     <hr>
     <div class="order row" ng-repeat="(orderId, order) in orders" ng-show="signedIn()">
-      <div class="col-xs-8">
+      <div class="col-xs-7">
         <span class="info">
           <a href="{{ order.url }}">{{ order.title }}
             <span class="url">[{{ order.url | hostnameFromUrl }}]</span>
@@ -21,7 +21,7 @@
       <div class="col-xs-3">
         <span>by <a href="#/users/{{ order.owner }}">{{ order.owner }}</a></span>
       </div>
-      <div class="col-xs-1" style="white-space: nowrap;" >
+      <div class="col-xs-2" style="white-space: nowrap;" >
         <a href="#/orders/{{ orderId }}"><span class="glyphicon glyphicon-list" title="order details"></span></a>
         &nbsp;
         <a href="#" ng-click="deleteOrder(orderId)" ng-show="signedIn() && order.owner === currentUser.username"><span class="glyphicon glyphicon-trash" title="remove order"></span></a>

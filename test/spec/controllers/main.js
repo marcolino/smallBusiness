@@ -5,6 +5,9 @@ describe('Controller: MainCtrl', function () {
   // load the controller's module
   beforeEach(module('smallBusinessApp'));
 
+  it('one is one', function () {
+    expect(1).toBe(1);
+  });
 /*
   var MainCtrl,
     scope;
