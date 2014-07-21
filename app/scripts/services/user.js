@@ -27,27 +27,27 @@ app.factory('User', function ($rootScope, $firebase, FIREBASE_URL) {
       return $rootScope.currentUser;
     },
     signedIn: function () {
-      console.info('$rootScope.currentUser:', $rootScope.currentUser);
+      //console.info('$rootScope.currentUser:', $rootScope.currentUser);
       return $rootScope.currentUser !== undefined;
     }
   };
 
   function setCurrentUser (username) {
     $rootScope.currentUser = User.findByUsername(username);
-    console.log('setCurrentUser('+username+') - $rootScope.currentUser:', $rootScope.currentUser);
+    //console.log('setCurrentUser('+username+') - $rootScope.currentUser:', $rootScope.currentUser);
   }
 
   $rootScope.$on('$firebaseSimpleLogin:login', function (e, authUser) {
     var query = $firebase(ref.startAt(authUser.uid).endAt(authUser.uid));
      
     query.$on('loaded', function () {
-      console.info('query.$on("loaded" ...:', authUser.uid);
+      //console.info('query.$on("loaded" ...:', authUser.uid);
       setCurrentUser(query.$getIndex()[0]);
     });
   });
 
   $rootScope.$on('$firebaseSimpleLogin:logout', function() {
-    console.info('Logout fired...');
+    //console.info('Logout fired...');
     delete $rootScope.currentUser;
   });
 

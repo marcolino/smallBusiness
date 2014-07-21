@@ -1,7 +1,7 @@
 'use strict';
 
 app.directive('autoFocus', function($timeout) {
-  console.info('autoFocus is running...');
+  //console.info('autoFocus is running...');
   return {
     scope: {
       trigger: '@autoFocus'
@@ -11,7 +11,7 @@ app.directive('autoFocus', function($timeout) {
         function(value) {
         if (value === 'true') {
           $timeout(function() {
-            console.log('autoFocus:', element);
+            //console.log('autoFocus:', element);
             element.focus();
           });
         }

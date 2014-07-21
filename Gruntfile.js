@@ -69,7 +69,7 @@ module.exports = function (grunt) {
         port: 9000,
         //hostname: 'localhost',
         hostname: '0.0.0.0', // allow access from outside (LAN)
-        livereload: 12345 //35729
+        livereload: 35729
       },
       livereload: {
         options: {
@@ -355,9 +355,38 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    // favicons settings
+    favicons: {
+      options: {
+/*
+        trueColor: true,
+        precomposed: false,
+        appleTouchBackgroundColor: "#111111",
+        windowsTile: true,
+        tileBlackWhite: false,
+        tileColor: "auto",
+        //html: 'build/out/index.html',
+        //HTMLPrefix: "/images/icons/"
+        androidHomescreen: true
+*/
+      },
+      icons: {
+        src: 'logo.png',
+        dest: 'dist/images/icons'
+      }
     }
+
   });
 
+
+
+  grunt.loadNpmTasks('grunt-favicons');
+
+  grunt.registerTask('favicons', [
+    'favicons',
+  ]);
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {

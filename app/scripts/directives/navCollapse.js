@@ -1,7 +1,6 @@
 'use strict';
 
 app.directive('navCollapse', function () {
-  console.log('nav-collapse running...');
   return {
     restrict: 'A',
     link: function (scope, element/*, attrs*/) {

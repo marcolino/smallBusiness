@@ -9,7 +9,7 @@ app.controller('OrdersCtrl', function ($scope, $location, Order) {
   $scope.order = $scope.orderPlaceholder;
 
   $scope.submitOrder = function () {
-    console.log('submitOrder in OrdersCtrl');
+    //console.log('submitOrder in OrdersCtrl');
     Order.create($scope.order).then(function (postId) { /*ref*/
       $scope.order = $scope.orderPlaceholder;
       $location.path('/orders/' + /*ref.name()*/postId);

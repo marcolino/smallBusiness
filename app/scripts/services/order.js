@@ -4,8 +4,8 @@ app.factory('Order', function ($firebase, FIREBASE_URL, User) {
   //return $resource(FIREBASE_URL + 'orders/:id.json');
   var ref = new Firebase(FIREBASE_URL + 'orders');
   var orders = $firebase(ref);
-  console.info('ref:', ref);
-  console.info('orders:', orders);
+  //console.info('ref:', ref);
+  //console.info('orders:', orders);
 
   var Order = {
     all: orders,

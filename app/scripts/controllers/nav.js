@@ -16,7 +16,7 @@ app.controller('NavCtrl', function ($scope, $location, Auth) {
 */
 
   $scope.logout = function () {
-    console.info('logout...');
+    //console.info('logout...');
     Auth.logout();
   };
 });
