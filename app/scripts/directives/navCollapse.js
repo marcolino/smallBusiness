@@ -4,19 +4,19 @@ app.directive('navCollapse', function () {
   console.log('nav-collapse running...');
   return {
     restrict: 'A',
-    link: function (scope, element, attrs) {
+    link: function (scope, element/*, attrs*/) {
       var visible = false;
 
       element.on('show.bs.collapse', function () {
         visible = true;
       });
 
-      element.on("hide.bs.collapse", function () {
+      element.on('hide.bs.collapse', function () {
         visible = false;
       });
 
-      element.on('click', function(event) {
-        if (visible && 'auto' == element.css('overflow-y')) {
+      element.on('click', function(/*event*/) {
+        if (visible && 'auto' === element.css('overflow-y')) {
           element.collapse('hide');
         }
       });

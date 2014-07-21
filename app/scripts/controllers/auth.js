@@ -23,7 +23,7 @@ console.info('*************** $firebaseSimpleLogin:login did fire, redirecting t
         $scope.error = error.toString();
       });
     } else {
-      $scope.error = "Please specify a user name and a password";
+      $scope.error = 'Please specify a user name and a password';
     }
   };
 

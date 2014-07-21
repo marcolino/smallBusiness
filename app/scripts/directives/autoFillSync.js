@@ -12,5 +12,5 @@ app.directive('autoFillSync', function($timeout) {
         }
       }, 500);
     }
-  }
+  };
 });
