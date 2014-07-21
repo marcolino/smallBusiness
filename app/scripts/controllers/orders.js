@@ -1,7 +1,8 @@
 'use strict';
  
 app.controller('OrdersCtrl', function ($scope, $location, Order) {
-  if ($location.path() === '/') { // avoid overriding $scope.orders when listing specific user's orders
+
+  if ($location.path() === '/orders') { // avoid overriding $scope.orders when listing specific user's orders
     $scope.orders = Order.all;
   }
 
@@ -10,9 +11,9 @@ app.controller('OrdersCtrl', function ($scope, $location, Order) {
 
   $scope.submitOrder = function () {
     //console.log('submitOrder in OrdersCtrl');
-    Order.create($scope.order).then(function (postId) { /*ref*/
+    Order.create($scope.order).then(function (orderId) { /*ref*/
       $scope.order = $scope.orderPlaceholder;
-      $location.path('/orders/' + /*ref.name()*/postId);
+      $location.path('/orders/' + /*ref.name()*/orderId);
     });
   };
 

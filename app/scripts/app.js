@@ -21,8 +21,9 @@ var app = angular.module('smallBusinessApp', [
 app.config(function ($routeProvider) {
   $routeProvider
     .when('/', {
-      templateUrl: 'views/orders.html',
-      controller: 'OrdersCtrl'
+      templateUrl: 'views/home.html',
+      //controller: 'HomeCtrl'
+      controller: 'AuthCtrl' // WITHOUT THIS lINE A HARD PAGE REFRESH LOOSES AUTH USER! ...
     })
     .when('/register', {
       templateUrl: 'views/register.html',
@@ -31,6 +32,14 @@ app.config(function ($routeProvider) {
     .when('/login', {
       templateUrl: 'views/login.html',
       controller: 'AuthCtrl'
+    })
+    .when('/customers', {
+      templateUrl: 'views/customers.html',
+      controller: 'CustomersCtrl'
+    })
+    .when('/orders', {
+      templateUrl: 'views/orders.html',
+      controller: 'OrdersCtrl'
     })
     .when('/orders/:orderId', {
       templateUrl: 'views/showorder.html',
