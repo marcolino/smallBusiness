@@ -356,10 +356,11 @@ module.exports = function (grunt) {
       }
     },
 
+/*
     // favicons settings
     favicons: {
       options: {
-/*
+/ *
         trueColor: true,
         precomposed: false,
         appleTouchBackgroundColor: "#111111",
@@ -369,23 +370,19 @@ module.exports = function (grunt) {
         //html: 'build/out/index.html',
         //HTMLPrefix: "/images/icons/"
         androidHomescreen: true
-*/
+* /
       },
       icons: {
         src: 'logo.png',
         dest: 'dist/images/icons'
       }
     }
-
+*/
   });
 
 
 
-  grunt.loadNpmTasks('grunt-favicons');
-
-  grunt.registerTask('favicons', [
-    'favicons',
-  ]);
+  //grunt.loadNpmTasks('grunt-favicons');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -429,7 +426,8 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    //'favicon'
   ]);
 
   grunt.registerTask('default', [

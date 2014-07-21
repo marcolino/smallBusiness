@@ -3,15 +3,17 @@
     <hr>
     <div class="customer row" ng-repeat="(customerId, customer) in customers">
       <div ng-hide="customer.hasOwnProperty('deleted')">
-        <div class="col-xs-7">
+        <div class="col-xs-6">
           {{ customer.name }}
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-4">
           {{ customer.address }}
         </div>
         <div class="col-xs-2" style="white-space: nowrap;" >
+          <!--
           <a href="#/customers/{{ customerId }}"><span class="glyphicon glyphicon-list" title="customer details"></span></a>
           &nbsp;
+          -->
           <a href="#/customers" ng-click="deleteCustomer(customerId)"><span class="glyphicon glyphicon-trash" title="remove customer"></span></a>
         </div>
       </div>
