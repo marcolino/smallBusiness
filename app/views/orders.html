@@ -19,7 +19,7 @@
       </div>
     </div>
     <hr>
-    <input type="button" value="New order" ng-show="signedIn() && !addingOrder" ng-click="addingOrder = true;" />
+    <input type="button" value="New order" ng-show="signedIn() && !addingOrder" ng-click="addingOrder = true" />
     <form ng-submit="submitOrder()" ng-show="signedIn() && addingOrder">
       <input type="text" ng-model="order.title" />
       <input type="text" ng-model="order.url" />
