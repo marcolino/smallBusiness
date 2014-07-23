@@ -6,7 +6,6 @@ app.controller('ServicereportsCtrl', function ($scope, $location, Servicereport)
     $scope.servicereports = Servicereport.all;
   }
   var now = new Date();
-  console.info('now:', now);
   //var today = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss Z');
   //console.info('today:', today);
 

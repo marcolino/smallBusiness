@@ -335,6 +335,10 @@ module.exports = function (grunt) {
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
+      options: {
+        logConcurrentOutput: true,
+        limit: 8
+      },
       server: [
         'copy:styles'
       ],
@@ -356,33 +360,33 @@ module.exports = function (grunt) {
       }
     },
 
-/*
     // favicons settings
     favicons: {
       options: {
-/ *
         trueColor: true,
         precomposed: false,
-        appleTouchBackgroundColor: "#111111",
+        appleTouchBackgroundColor: '#111111',
         windowsTile: true,
         tileBlackWhite: false,
-        tileColor: "auto",
-        //html: 'build/out/index.html',
-        //HTMLPrefix: "/images/icons/"
+        tileColor: 'auto',
+        html: 'build/index-apple.html',
+        HTMLPrefix: '/',
         androidHomescreen: true
-* /
       },
       icons: {
-        src: 'logo.png',
-        dest: 'dist/images/icons'
+        src: 'local/logo.png',
+        dest: '<%= yeoman.app %>/'
       }
     }
-*/
   });
 
 
 
-  //grunt.loadNpmTasks('grunt-favicons');
+  grunt.loadNpmTasks('grunt-favicons');
+
+  grunt.registerTask('create-favicons', [
+    'favicons',
+  ]);
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {

@@ -12,7 +12,7 @@
         <span><a href="#/users/{{ servicereport.owner }}">{{ servicereport.owner }}</a></span>
       </div>
       <div class="col-xs-2">
-        {{ servicereport.date | date: 'yyyy-MM-dd' }}
+        {{ servicereport.date | date: 'yyyy-MM-dd HH:mm:ss Z' }}
       </div>
       <div class="col-xs-2" style="white-space: nowrap;" >
 <!--
@@ -27,15 +27,15 @@
       </div>
     </div>
     <hr>
-    <input type="button" value="New service report" ng-show="signedIn() && !addingServicereport" ng-click="addingServicereport = true" />
-    <form ng-submit="submitServicereport()" ng-show="signedIn() && addingServicereport">
+    <input type="button" value="New service report" ng-show="signedIn() && !adding" ng-click="adding = true" />
+    <form ng-submit="submitServicereport()" ng-show="signedIn() && adding">
       <input type="text" ng-model="servicereport.customer" placeholder="customer name" /><br /><br />
       <input type="text" ng-model="servicereport.title" placeholder="title" /><br /><br />
       <input type="datetime" ng-model="servicereport.date" p_laceholder="{{ servicereport.date | date: 'yyyy-MM-dd' }}" /><br /><br />
       <textarea ng-model="servicereport.text" placeholder="description" style="width: 75%; height: 8.0em;"></textarea><br /><br />
       <br />
-      <input type="submit" value="Add service report" />
-      <button type="cancel" ng-click="addingServicereport = false">cancel</button>
+      <input type="submit">Add service report</button>
+      <button type="cancel" ng-click="adding = false">cancel</button>
     </form>  
   </div>
 </div>

@@ -1,7 +1,6 @@
 <nav class="navbar navbar-inverse disable-highlight" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
-    <!-- button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" -->
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
@@ -13,17 +12,6 @@
 
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse n_avbar-app-collapse" id="navbar-collapse" nav-collapse="">
-<!--
-    <form class="navbar-form navbar-left" role="search" ng-submit="submitOrder()" ng-show="signedIn()">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Title" ng-model="order.title">
-      </div>
-      <div class="form-group">
-      <input type="text" class="form-control" placeholder="Link" ng-model="order.url">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
--->
     <ul class="nav navbar-nav navbar-right">
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#">Home</a>
@@ -48,16 +36,16 @@
       </li>
     </ul>
 
-  </div><!-- /.navbar-collapse -->
+  </div><!-- /.navbar navbar-collapse -->
 </nav>
 
 <div ng-controller="NavCtrl">
   <ul class="list-inline list-inline-right" ng-hide="signedIn()">
     <li>
-      <a href="#/register"><span class="glyphicon glyphicon-user" title="Register"></span></a>
-    </li>
+      <a class="btn btn-primary" href="#/register"><span class="glyphicon glyphicon-user" title="Register if you have not an account already"></span>&emsp;<span>Register</span></a>
     <li>
-      <a href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in"></span></a>
+<!--      <a href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in"></span></a> -->
+      <a class="btn btn-primary" href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in with your credentials"></span>&emsp;<span>Login</span></a>
     </li>
   </ul>
   <ul class="list-inline list-inline-right" ng-show="signedIn()">
@@ -68,7 +56,8 @@
       </a>
     </li>
     <li>
-      <a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Logout"></span></a>
+<!--      <a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Logout"></span></a> -->
+      <a class="btn btn-primary" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Log out"></span></a>
     </li>
   </ul>
 </div>

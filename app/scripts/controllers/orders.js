@@ -5,8 +5,10 @@ app.controller('OrdersCtrl', function ($scope, $location, Order) {
   if ($location.path() === '/orders') { // avoid overriding $scope.orders when listing specific user's orders
     $scope.orders = Order.all;
   }
+  var now = new Date();
 
   $scope.orderPlaceholder = { url: 'http://', title: '' };
+  $scope.orderPlaceholder = { customer: '', title: '', date: now, delivery: '', };
   $scope.order = $scope.orderPlaceholder;
 
   $scope.submitOrder = function () {
