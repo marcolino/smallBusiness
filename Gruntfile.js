@@ -369,8 +369,8 @@ module.exports = function (grunt) {
         windowsTile: true,
         tileBlackWhite: false,
         tileColor: 'auto',
-        html: 'build/index-apple.html',
-        HTMLPrefix: '/',
+        html: 'local/index-favicons.html',
+        HTMLPrefix: '',
         androidHomescreen: true
       },
       icons: {
@@ -384,9 +384,11 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-favicons');
 
-  grunt.registerTask('create-favicons', [
+/*
+  grunt.registerTask('favicons-create', [
     'favicons',
   ]);
+*/
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -418,6 +420,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'favicons',
+    //'favicons-create',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
@@ -431,7 +435,6 @@ module.exports = function (grunt) {
     'filerev',
     'usemin',
     'htmlmin',
-    //'favicon'
   ]);
 
   grunt.registerTask('default', [
