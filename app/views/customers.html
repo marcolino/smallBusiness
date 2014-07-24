@@ -1,12 +1,26 @@
 <div class="container customers-page">
   <div ng-show="signedIn()" ng-controller="CustomersCtrl">
-    <table ng-table="tableCustomersWHAT-IS-THIS---" class="table">
+
+    Search customer: <input type="text" ng-model="customerSelected" typeahead="customer as customer.name for customer in customers | orderByPriority | filter:{name: $viewValue} | limitTo:8" class="form-control">
+<!--    <pre>{{ customerSelected }}</pre> -->
+<!--    | filter:$viewValue  -->
+
+    <table ng-table="tableParams" class="table">
+
+      <!-- See http://bazalt-cms.com/ng-table/example/3 for table sorting -->
+
       <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted')">
-        <td title="Customer name" sortable="name" class="condensed">
+        <td title="Customer name" sortable="'name'" class="condensed">
           {{ customer.name }}
         </td>
-        <td title="Customer street address" sortable="address" class="condensed">
+        <td title="Customer P. IVA" sortable="'piva'" class="condensed">
+          {{ customer.piva }}
+        </td>
+        <td title="Customer street address" sortable="'address'" class="condensed">
           {{ customer.address }}
+        </td>
+        <td title="Customer email address" sortable="'email'" class="condensed">
+          {{ customer.email }}
         </td>
         <td title="Edit customer data" class="condensed">
           <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editCustomer(customerId)" t_itle="Edit customer data"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -40,6 +54,9 @@
       <div class="form-group form-group-condensed" title="Street address of the customer">
         <label for="address" class="control-label col-xs-2">Address</label>
         <div class="col-xs-10">
+
+          <!-- See http://plnkr.co/edit/il2J8qOI2Dr7Ik1KHRm8?p=preview for address autocomplete -->
+
           <input type="text" class="form-control" id="address" ng-model="customer.address">
         </div>
       </div>

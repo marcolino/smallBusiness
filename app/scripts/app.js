@@ -16,7 +16,8 @@ var app = angular.module('smallBusinessApp', [
     'ngRoute',
     'ngSanitize',
     'ngTouch', // TODO: learn how to use it (if we need it...)
-    'firebase'
+    'firebase',
+    'ui.bootstrap',
   ]);
 app.config(function ($routeProvider) {
   $routeProvider

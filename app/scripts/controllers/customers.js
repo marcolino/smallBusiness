@@ -3,12 +3,14 @@
 app.controller('CustomersCtrl', function ($scope, $location, Customer, User) {
   console.info('customers controller...');
 
+  $scope.customerSelected = undefined;
+
   //if ($location.path() === '/customers') {
     $scope.customers = Customer.all;
   //}
 console.log('$scope.customers:', $scope.customers);
 
-  $scope.customerPlaceholder = { name: '', address: '', dateCreation: '', };
+  $scope.customerPlaceholder = { name: '', address: '', dateCreation: '', email: '', };
   $scope.customer =  angular.copy($scope.customerPlaceholder);
   $scope.customerAddMode = $scope.customerEditMode = false;
 
