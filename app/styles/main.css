@@ -165,3 +165,66 @@ a, a:hover {
   font-size: 80%;
   padding-bottom: 0.3em;
 }
+
+/* divider-vertical */
+.navbar .divider-vertical {
+  height: 40px;
+  margin: 5px 5px;
+  border-right: 1px solid #ffffff;
+  border-left: 1px solid #bbbbbb;
+}
+
+.navbar-inverse .divider-vertical {
+  border-right-color: #333333;
+  border-left-color: #111111;
+}
+
+@media (max-width: 767px) {
+  .navbar-collapse .nav > .divider-vertical {
+    /* display: none; */
+    height: 2px;
+    width: 95%;
+    margin: 5px 15px;
+    border-bottom: 1px solid #ffffff;
+    border-top: 1px solid #bbbbbb;
+    border-bottom-color: #333333; /* enable only for .navbar-inverse */
+    border-top-color: #111111; /* enable only for .navbar-inverse */
+  }
+}
+
+/* icons in inputs */
+.left-inner-addon {
+  position: relative;
+}
+.left-inner-addon input {
+  padding-left: 30px;
+}
+.left-inner-addon i {
+  position: absolute;
+  padding: 10px 12px;
+  pointer-events: none;
+}
+.right-inner-addon {
+  position: relative;
+}
+.right-inner-addon input {
+  padding-right: 30px;
+}
+.right-inner-addon i {
+  position: absolute;
+  right: 0px;
+  padding: 10px 12px;
+  pointer-events: none;
+}
+
+.form-group-condensed {
+  margin: 0.2em;
+}
+
+.table .condensed {
+  margin: 0;
+  padding: 0.1em;
+  padding-left: 0.7em;
+  p_adding-right: 1.0em;
+  background-color: #d8d8d8;
+}

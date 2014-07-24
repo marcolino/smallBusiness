@@ -1,32 +1,63 @@
 <div class="container customers-page">
   <div ng-show="signedIn()" ng-controller="CustomersCtrl">
-    <hr>
-    <div class="customer row" ng-repeat="(customerId, customer) in customers">
-      <div ng-hide="customer.hasOwnProperty('deleted')">
-        <div class="col-xs-6">
+    <table ng-table="tableCustomersWHAT-IS-THIS---" class="table">
+      <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted')">
+        <td title="Customer name" sortable="name" class="condensed">
           {{ customer.name }}
-        </div>
-        <div class="col-xs-4">
+        </td>
+        <td title="Customer street address" sortable="address" class="condensed">
           {{ customer.address }}
-        </div>
-        <div class="col-xs-2" style="white-space: nowrap;" >
-          <!--
-          <a href="#/customers/{{ customerId }}"><span class="glyphicon glyphicon-list" title="customer details"></span></a>
-          &nbsp;
-          -->
-          <a href="#/customers" ng-click="deleteCustomer(customerId)"><span class="glyphicon glyphicon-trash" title="remove customer"></span></a>
+        </td>
+        <td title="Edit customer data" class="condensed">
+          <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editCustomer(customerId)" t_itle="Edit customer data"><i class="glyphicon glyphicon-pencil"></i></a>
+        </td>
+        <td title="Delete customer" class="condensed">
+          <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="deleteCustomer(customerId)" t_itle="Remove customer"><i class="glyphicon glyphicon-trash"></i></a>
+        </td>
+      </tr>
+    </table>  
+    <hr>
+
+    <input type="button" value="New customer" ng-show="signedIn() && !(customerAddMode || customerEditMode)" ng-click="customerAddMode = true" />
+
+    <form ng-show="signedIn() && (customerAddMode || customerEditMode)" class="customer form-horizontal">
+
+      <div class="form-group form-group-condensed" title="Name of the customer">
+        <label for="name" class="control-label col-xs-2">Name</label>
+        <div class="col-xs-10 left-inner-addon">
+          <i class="glyphicon glyphicon-user"></i>
+          <input type="text" class="form-control" id="name" ng-model="customer.name">
         </div>
       </div>
-    </div>
-    <hr>
-    <input type="button" value="New customer" ng-show="signedIn() && !adding" ng-click="adding = true;" />
-    <form ng-submit="submitCustomer()" ng-show="signedIn() && adding">
-      <label for="customer-name">Name</label>
-      <input type="text" id="customer-name" ng-model="customer.name" />
-      <label for="customer-address">Address</label>
-      <input type="text" id="customer-address" ng-model="customer.address" />
-      <button type="submit">Add customer</button>
-      <button type="reset" ng-click="adding = false">cancel</button>
+
+      <div class="form-group form-group-condensed" title="P. IVA of the customer">
+        <label for="piva" class="control-label col-xs-2">P. IVA</label>
+        <div class="col-xs-10">
+          <input type="text" class="form-control" id="piva" ng-model="customer.piva">
+        </div>
+      </div>
+
+      <div class="form-group form-group-condensed" title="Street address of the customer">
+        <label for="address" class="control-label col-xs-2">Address</label>
+        <div class="col-xs-10">
+          <input type="text" class="form-control" id="address" ng-model="customer.address">
+        </div>
+      </div>
+
+      <div class="form-group form-group-condensed" title="Email address of the customer">
+        <label for="email" class="control-label col-xs-2">Email</label>
+        <div class="col-xs-10">
+          <input type="email" class="form-control" id="email" ng-model="customer.email">
+        </div>
+      </div>
+
+      <div class="customer row" style="margin-top: 0.2em;">
+        <div class="col-xs-12">
+          <button type="submit" ng-click="submitCustomer()">Save</button>
+          <button type="reset" ng-click="cancelCustomer()">cancel</button>
+        </div>
+      </div>
+
     </form>  
   </div>
 </div>

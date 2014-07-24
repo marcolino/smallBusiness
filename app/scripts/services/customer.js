@@ -15,6 +15,9 @@ app.factory('Customer', function ($firebase, FIREBASE_URL, User) {
         return customerId;
       });
     },
+    set: function(id, customer) {
+      ref.child(id).set(customer);
+    },
     find: function (customerId) {
       return customers.$child(customerId);
     },

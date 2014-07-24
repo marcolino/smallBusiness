@@ -11,7 +11,7 @@
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse n_avbar-app-collapse" id="navbar-collapse" nav-collapse="">
+  <div class="collapse navbar-collapse" id="navbar-collapse" nav-collapse="">
     <ul class="nav navbar-nav navbar-right">
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#">Home</a>
@@ -25,9 +25,10 @@
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/servicereports">Service reports</a>
       </li>
-      <li role="presentation">
-        <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed">|</a>
+
+      <li class="divider-vertical">
       </li>
+
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/contacts">Contacts</a>
       </li>
