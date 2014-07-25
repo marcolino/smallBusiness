@@ -1,29 +1,32 @@
 'use strict';
  
-app.controller('CustomersCtrl', function ($scope, $location, Customer, User) {
+app.controller('CustomersCtrl', function ($scope, $location, Customer/*, UserNotify*//*, User*/) {
   console.info('customers controller...');
-
-  $scope.customerSelected = undefined;
 
   //if ($location.path() === '/customers') {
     $scope.customers = Customer.all;
   //}
 console.log('$scope.customers:', $scope.customers);
 
-  $scope.customerPlaceholder = { name: '', address: '', dateCreation: '', email: '', };
+  $scope.customerSelected = '';
+console.log('$scope.typeof(customerSelected):', typeof($scope.customerSelected));
+  $scope.customerIdCurrent = null;
+
+  $scope.customerPlaceholder = { name: '', piva: '', address: '', email: '', dateCreation: '', };
   $scope.customer =  angular.copy($scope.customerPlaceholder);
   $scope.customerAddMode = $scope.customerEditMode = false;
 
   $scope.submitCustomer = function () {
-console.log('submitCustomer in CustomersCtrl:', $scope.customer);
-console.log('customerId in CustomersCtrl:', customerId);
     var now = new Date();
     $scope.customer.dateCreation = now;
     if ($scope.customerEditMode) {
-      var customerId = $scope.customerIdCurrent;
-      playerFactory.set(id, player).then(function (customerId) {
+      //var customerId = $scope.customerIdCurrent;
+      var customer = {};
+      for (var fld in $scope.customerPlaceholder) {
+        customer[fld] = $scope.customer[fld];
+      }
+      Customer.set($scope.customerIdCurrent, customer).then(function () {
         $scope.customer = angular.copy($scope.customerPlaceholder);
-console.log('customerId: ', customerId);
       });
     }
     if ($scope.customerAddMode) {
@@ -40,7 +43,7 @@ console.log('$scope.customer: ', $scope.customer);
   $scope.cancelCustomer = function () {
     $scope.customerAddMode = $scope.customerEditMode = false;
     $scope.customer = angular.copy($scope.customerPlaceholder);
-  }
+  };
 
   $scope.deleteCustomer = function (customerId) {
     Customer.delete(customerId);
@@ -50,11 +53,21 @@ console.log('$scope.customer: ', $scope.customer);
 console.log('customerId: ', customerId);
     if (!$scope.customerEditMode) {
       $scope.customerIdCurrent = customerId;
+console.log('customerIdCurrent: ', $scope.customerIdCurrent);
       $scope.customer = Customer.find(customerId);
       $scope.customerEditMode = true;
     } else {
       $scope.customerEditMode = false;
     }
-  }
+  };
+
+  $scope.typeof = function (val) {
+    return typeof val;
+  };
+
+  $scope.match = function (str, pattern) {
+    var regex = new RegExp(pattern, 'g');
+    return str.match(regex);
+  };
 
 });

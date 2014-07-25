@@ -11,12 +11,12 @@ app.factory('Customer', function ($firebase, FIREBASE_URL, User) {
     create: function (customer) {
       //console.info('creating customer in service...');
       return customers.$add(customer).then(function (ref) {
-        var customerId = ref.name(); 
+        var customerId = ref.name();
         return customerId;
       });
     },
-    set: function(id, customer) {
-      ref.child(id).set(customer);
+    set: function(customerId, customer) {
+      return customers.$child(customerId).$set(customer);
     },
     find: function (customerId) {
       return customers.$child(customerId);

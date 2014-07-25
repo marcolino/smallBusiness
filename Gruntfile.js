@@ -370,12 +370,12 @@ module.exports = function (grunt) {
         tileBlackWhite: false,
         tileColor: 'auto',
         html: 'local/index-favicons.html',
-        HTMLPrefix: '',
+        HTMLPrefix: 'icons',
         androidHomescreen: true
       },
       icons: {
         src: 'local/logo.png',
-        dest: '<%= yeoman.app %>/'
+        dest: '<%= yeoman.app %>/icons/'
       }
     }
   });
@@ -383,12 +383,6 @@ module.exports = function (grunt) {
 
 
   grunt.loadNpmTasks('grunt-favicons');
-
-/*
-  grunt.registerTask('favicons-create', [
-    'favicons',
-  ]);
-*/
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -421,7 +415,6 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'favicons',
-    //'favicons-create',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',

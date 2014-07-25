@@ -211,6 +211,7 @@ a, a:hover {
   padding-right: 30px;
 }
 .right-inner-addon i {
+  margin: 0 1.0em;
   position: absolute;
   right: 0px;
   padding: 10px 12px;
@@ -227,4 +228,11 @@ a, a:hover {
   padding-left: 0.7em;
   p_adding-right: 1.0em;
   b_ackground-color: #e3e3e3;
+}
+
+/* browse happy */
+.browsehappy {
+  text-align: center;
+  margin-top: 1.0em;
+  color: darkred;
 }

@@ -25,7 +25,7 @@ app.factory('Order', function ($firebase, FIREBASE_URL, User) {
     find: function (orderId) {
       return orders.$child(orderId);
     },
-    delete: function (orderId) {
+    delet: function (orderId) {
       //return orders.$remove(orderId);
       if (User.signedIn()) {
         var order = Order.find(orderId);

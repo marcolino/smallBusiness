@@ -1,15 +1,27 @@
 <div class="container customers-page">
   <div ng-show="signedIn()" ng-controller="CustomersCtrl">
 
-    Search customer: <input type="text" ng-model="customerSelected" typeahead="customer as customer.name for customer in customers | orderByPriority | filter:{name: $viewValue} | limitTo:8" class="form-control">
-<!--    <pre>{{ customerSelected }}</pre> -->
-<!--    | filter:$viewValue  -->
-
+    <!-- Search customer: <input type="text" ng-model="customerSelected" typeahead="customer as customer.name for customer in customers | orderByPriority | filter:{name: $viewValue} | limitTo:8" class="form-control"> -->
+    <form ng-show="signedIn() && !(customerAddMode || customerEditMode)" class="customer form-horizontal">
+      <div class="form-group form-group-condensed" title="Search customer by name">
+        <!--<label for="name" class="control-label col-xs-2">Search</label>-->
+        <div class="col-xs-10"></div>
+        <div class="col-xs-2 right-inner-addon">
+          <i class="glyphicon glyphicon-search"></i>
+          <input type="text" ng-model="customerSelected" typeahead="customer as customer.name for customer in customers | orderByPriority | filter:{name: $viewValue} | limitTo:8" class="form-control">
+        </div>
+      </div>
+    </form>
+    <br />
     <table ng-table="tableParams" class="table">
-
-      <!-- See http://bazalt-cms.com/ng-table/example/3 for table sorting -->
-
-      <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted')">
+      <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting -->
+<!--
+      <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted') && ((typeof(customerSelected) !== 'object') || (customer.name === customerSelected.name))">
+-->
+<!--
+      <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted') && ((typeof(customerSelected) !== 'object') || (match(customer.name, customerSelected.name)))">
+-->
+      <tr ng-repeat="(customerId, customer) in customers | onlySearched:customerSelected.name" ng-if="!customer.hasOwnProperty('deleted')">
         <td title="Customer name" sortable="'name'" class="condensed">
           {{ customer.name }}
         </td>
@@ -26,7 +38,13 @@
           <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editCustomer(customerId)" t_itle="Edit customer data"><i class="glyphicon glyphicon-pencil"></i></a>
         </td>
         <td title="Delete customer" class="condensed">
-          <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="deleteCustomer(customerId)" t_itle="Remove customer"><i class="glyphicon glyphicon-trash"></i></a>
+          <button
+            class="btn btn-primary btn-xs glyphicon glyphicon-trash"
+            NOng-click="deleteCustomer(customerId)"
+            really-message="Are you really sure to remove customer <i>{{customer.name}}</i> ?" really-click="deleteCustomer(customerId)"
+          >
+          </button>
+<!--            <i class="glyphicon glyphicon-trash"></i> -->
         </td>
       </tr>
     </table>  
@@ -46,24 +64,25 @@
 
       <div class="form-group form-group-condensed" title="P. IVA of the customer">
         <label for="piva" class="control-label col-xs-2">P. IVA</label>
-        <div class="col-xs-10">
+        <div class="col-xs-10 left-inner-addon">
+          <i class="glyphicon glyphicon-credit-card"></i>
           <input type="text" class="form-control" id="piva" ng-model="customer.piva">
         </div>
       </div>
 
       <div class="form-group form-group-condensed" title="Street address of the customer">
         <label for="address" class="control-label col-xs-2">Address</label>
-        <div class="col-xs-10">
-
-          <!-- See http://plnkr.co/edit/il2J8qOI2Dr7Ik1KHRm8?p=preview for address autocomplete -->
-
+        <div class="col-xs-10 left-inner-addon">
+          <i class="glyphicon glyphicon-globe"></i>
+          <!-- TODO: see http://plnkr.co/edit/il2J8qOI2Dr7Ik1KHRm8?p=preview for address autocomplete -->
           <input type="text" class="form-control" id="address" ng-model="customer.address">
         </div>
       </div>
 
       <div class="form-group form-group-condensed" title="Email address of the customer">
         <label for="email" class="control-label col-xs-2">Email</label>
-        <div class="col-xs-10">
+        <div class="col-xs-10 left-inner-addon">
+          <i class="glyphicon glyphicon-envelope"></i>
           <input type="email" class="form-control" id="email" ng-model="customer.email">
         </div>
       </div>
