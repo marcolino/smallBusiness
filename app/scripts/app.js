@@ -10,15 +10,28 @@
  * Main module of the application.
  */
 var app = angular.module('smallBusinessApp', [
-    'ngAnimate', // TODO: learn how to use it (if we need it...)
+  /*
+    // currently we don't need these modules
+    'ngAnimate',
     'ngCookies',
     'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch', // TODO: learn how to use it (if we need it...)
-    'firebase',
-    'ui.bootstrap',
-  ]);
+    'ngTouch',
+    
+    // in bower.json:
+    "dependencies": {
+      ...
+      "angular-resource": "1.2.16",
+      "angular-cookies": "1.2.16",
+      "angular-animate": "1.2.16",
+      "angular-touch": "1.2.16",
+      ...
+    },
+  */
+  'ngSanitize',
+  'ngRoute',
+  'firebase',
+  'ui.bootstrap',
+]); 
 app.config(function ($routeProvider) {
   $routeProvider
     .when('/', {

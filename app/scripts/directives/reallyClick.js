@@ -1,16 +1,7 @@
 'use strict';
 
-app.directive('reallyClick', function($modal) {
-  var ModalInstanceCtrl = function ($scope, $modalInstance) {
-    $scope.ok = function () {
-      $modalInstance.close();
-    };
-
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
-  };
-
+//app.directive('reallyClick', ['$modal', function($modal) {    
+app.directive('reallyClick', function($modal) {    
   return {
     restrict: 'A',
     scope: {
@@ -25,16 +16,15 @@ app.directive('reallyClick', function($modal) {
 
         var modalInstance = $modal.open({
           template: modalHtml,
-          controller: ModalInstanceCtrl
+          controller: 'ModalInstanceCtrl'
         });
 
         modalInstance.result.then(function () {
-          scope.reallyClick({item:scope.item}); // raise an error : $digest already in progress
+          scope.reallyClick({item:scope.item}); // raise an error: $digest already in progress
         }, function() {
           // modal dismissed
         });
       });
-
     }
   };
 });

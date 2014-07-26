@@ -1,7 +1,9 @@
 'use strict';
  
-app.controller('CustomersCtrl', function ($scope, $location, Customer/*, UserNotify*//*, User*/) {
+app.controller('CustomersCtrl', function ($scope, $location, Customer/*, UserNotify*/) {
   console.info('customers controller...');
+
+  //UserNotify.warning('Testing User Factory');
 
   //if ($location.path() === '/customers') {
     $scope.customers = Customer.all;
@@ -59,6 +61,10 @@ console.log('customerIdCurrent: ', $scope.customerIdCurrent);
     } else {
       $scope.customerEditMode = false;
     }
+  };
+
+  $scope.resetCustomerSelected = function () {
+    $scope.customerSelected = '';
   };
 
   $scope.typeof = function (val) {

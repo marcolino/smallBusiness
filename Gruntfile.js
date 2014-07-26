@@ -307,11 +307,13 @@ module.exports = function (grunt) {
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
           src: [
-            '*.{ico,png,txt}',
+            //'*.{ico,png,txt}',
+            '*.{txt}',
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
+            'icons/{,*/}*.{ico,png}',
           ]
         }, {
           expand: true,
@@ -337,7 +339,7 @@ module.exports = function (grunt) {
     concurrent: {
       options: {
         logConcurrentOutput: true,
-        limit: 8
+        limit: 8 // run a maximum of 8 tasks in parallel
       },
       server: [
         'copy:styles'
@@ -377,11 +379,26 @@ module.exports = function (grunt) {
         src: 'local/logo.png',
         dest: '<%= yeoman.app %>/icons/'
       }
+    },
+
+    // auto-install
+    autoInstall: {
+      local: {},
+      subdir: {
+        options: {
+          cwd: '.auto.install/',
+          stdout: true,
+          stderr: true,
+          failOnError: true
+        }
+      }
     }
+
   });
 
 
 
+  grunt.loadNpmTasks('grunt-auto-install');
   grunt.loadNpmTasks('grunt-favicons');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
@@ -413,6 +430,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'auto_install',
     'clean:dist',
     'favicons',
     'wiredep',
@@ -427,7 +445,7 @@ module.exports = function (grunt) {
     'uglify',
     'filerev',
     'usemin',
-    'htmlmin',
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [

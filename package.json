@@ -1,9 +1,11 @@
 {
   "name": "smallbusiness",
   "version": "0.0.0",
-  "dependencies": {
-    "phantomjs": "~1.9.7-14"
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marcolino/smallBusiness.git"
   },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
@@ -32,7 +34,9 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma": "^0.12.17",
     "karma-jasmine": "^0.1.5",
-    "grunt-favicons": "~0.6.4"
+    "grunt-favicons": "~0.6.4",
+    "phantomjs": "~1.9.7-14",
+    "grunt-auto-install": "^0.1.1"
   },
   "engines": {
     "node": ">=0.10.0"

@@ -60,6 +60,6 @@ app.factory('UserNotify', function ($timeout) {
         $timeout(function() { resetLast('error'); }, toastr.options.timeOut, false);
         last.error = text;
       }
-    },
+    }
   };
 });
