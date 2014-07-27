@@ -14,23 +14,6 @@
 
     <table ng-table="tableParams" class="table">
       <tr>
-<!--
-        <th>
-          Number
-          <a ng-click="orderby = 'number'"><i ng-click="numberChewron = numberChewron === 'down' ? 'up' : 'down'" ng-show="numberChewron === 'up'" class="glyphicon glyphicon-chevron-up"></i></a>
-          <a ng-click="orderby = '-number'"><i ng-click="numberChewron = numberChewron === 'up' ? 'down' : 'up'" ng-show="numberChewron === 'down'" class="glyphicon glyphicon-chevron-down"></i></a>
-        </th>
-        <th>
-          Date
-          <a ng-click="orderby = 'date'"><i ng-click="dateChewron = dateChewron === 'down' ? 'up' : 'down'" ng-show="dateChewron === 'up'" class="glyphicon glyphicon-chevron-up"></i></a>
-          <a ng-click="orderby = '-date'"><i ng-click="dateChewron = dateChewron === 'up' ? 'down' : 'up'" ng-show="dateChewron === 'down'" class="glyphicon glyphicon-chevron-down"></i></a>
-        </th>
-        <th>
-          Customer name
-          <a ng-click="orderby = 'customername'"><i ng-click="customernameChewron = customernameChewron === 'down' ? 'up' : 'down'" ng-show="customernameChewron === 'up'" class="glyphicon glyphicon-chevron-up"></i></a>
-          <a ng-click="orderby = '-customername'"><i ng-click="customernameChewron = customernameChewron === 'up' ? 'down' : 'up'" ng-show="customernameChewron === 'down'" class="glyphicon glyphicon-chevron-down"></i></a>
-        </th>
--->
         <th style="border: 1px solid #ccc;">
           <span ng-click="orderby = '-number'">Number</span>
           <a ng-click="orderby = 'number'"><i ng-show="orderby === '-number'" class="glyphicon glyphicon-chevron-up"></i></a>
@@ -56,7 +39,6 @@
         <th style="border: 1px solid #ccc;"></th>
       </tr>
       <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting -->
-<!--      <tr ng-repeat="(servicereportId, servicereport) in servicereports | filter:onlySearched:servicereportSelected.name" ng-if="!servicereport.hasOwnProperty('deleted')"> -->
       <tr ng-repeat="(servicereportId, servicereport) in servicereports | orderByPriority | filter:search | orderBy: orderby" ng-if="!servicereport.hasOwnProperty('deleted')">
         <td title="Number" sortable="'number'" class="condensed">
           {{ servicereport.number }}
@@ -135,7 +117,7 @@
       <div class="form-group form-group-condensed" title="Notes about intervention">
         <label for="notes" class="control-label col-xs-2">Notes</label>
         <div class="col-xs-10">
-          <textarea rows="5" class="form-control" id="notes" ng-model="servicereport.notes" />
+          <textarea rows="5" class="form-control" id="notes" ng-model="servicereport.notes" ></textarea>
         </div>
       </div>
 
@@ -149,43 +131,3 @@
     </form>  
   </div>
 </div>
-
-<!--
-<div class="container servicereports-page">
-  <div ng-show="signedIn()" ng-controller="ServicereportsCtrl">
-    <hr>
-    <div class="servicereport row" ng-repeat="(servicereportId, servicereport) in servicereports">
-      <div class="col-xs-4">
-        <strong><a href="#/customers/{{ servicereport.servicereportId }}">{{ servicereport.customer }}</a></strong>
-      </div>
-      <div class="col-xs-3">
-        <strong><i>{{ servicereport.title }}</i></strong>
-      </div>
-      <div class="col-xs-1">
-        <span><a href="#/users/{{ servicereport.owner }}">{{ servicereport.owner }}</a></span>
-      </div>
-      <div class="col-xs-2">
-        {{ servicereport.date | date: 'yyyy-MM-dd HH:mm:ss Z' }}
-      </div>
-      <div class="col-xs-2" style="white-space: nowrap;" >
-        <a href="#/servicereports" ng-click="deleteServicereport(servicereportId)" ng-show="signedIn() && servicereport.owner === currentUser.username"><span class="glyphicon glyphicon-trash" title="remove servicereport"></span></a>
-      </div>
-      <br />
-      <div class="col-xs-12" style="font-size: 90%;">
-        {{ servicereport.text }}
-      </div>
-    </div>
-    <hr>
-    <input type="button" value="New service report" ng-show="signedIn() && !adding" ng-click="adding = true" />
-    <form ng-submit="submitServicereport()" ng-show="signedIn() && adding">
-      <input type="text" ng-model="servicereport.customer" placeholder="customer name" /><br /><br />
-      <input type="text" ng-model="servicereport.title" placeholder="title" /><br /><br />
-      <input type="datetime" ng-model="servicereport.date" p_laceholder="{{ servicereport.date | date: 'yyyy-MM-dd' }}" /><br /><br />
-      <textarea ng-model="servicereport.text" placeholder="description" style="width: 75%; height: 8.0em;"></textarea><br /><br />
-      <br />
-      <input type="submit">Add service report</button>
-      <button type="cancel" ng-click="adding = false">cancel</button>
-    </form>  
-  </div>
-</div>
--->
