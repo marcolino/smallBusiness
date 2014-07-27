@@ -1,9 +1,13 @@
 'use strict';
      
+/* NOjshint NOunused: false */
 app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
   // N.B.: User injection is necessary to mantain current user across hard page loads...
-  var ref = new Firebase(FIREBASE_URL + 'servicereports');
-  var servicereports = $firebase(ref);
+  var refServiceReports = new Firebase(FIREBASE_URL + 'servicereports');
+  var servicereports = $firebase(refServiceReports);
+
+  //var refStash = new Firebase(FIREBASE_URL + 'stash');
+  //var stash = $firebase(refStash);
 
   var Servicereport = {
     all: servicereports,
@@ -16,38 +20,50 @@ app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
         return servicereports.$add(servicereport).then(function (ref) {
           var servicereportId = ref.name(); 
           user.$child('servicereports').$child(servicereportId).$set(servicereportId);
+          servicereports.$child('stash').$set({ 'serviceReportNumber': servicereport.number });
           return servicereportId;
         });
       }
     },
+    set: function(servicereportId, servicereport) {
+      return servicereports.$child(servicereportId).$set(servicereport);
+    },
     find: function (servicereportId) {
       return servicereports.$child(servicereportId);
     },
-    set: function (servicereportId, servicereport) {
-      if (User.signedIn()) {
-        ref.child(servicereportId).set(servicereport);
+    findByCustomername: function (customername) {
+      if (customername) {
+        return servicereports.$child('customername').$child(customername); // ???
       }
     },
+    getNumberNext: function () {
+      var n = servicereports.$child('stash').serviceReportNumber;
+      return n ? n + 1 : 1;
+    },
+/*
     setAttribute: function (servicereportId, attributeValue) {
       if (User.signedIn()) {
         ref.child(servicereportId).attribute.set(attributeValue);
       }
     },
+*/
     delete: function (servicereportId) {
-      //return servicereports.$remove(servicereportId);
       if (User.signedIn()) {
+        console.info('DELETE SR SERVICE:', servicereportId);
         var servicereport = Servicereport.find(servicereportId);
- 
+
         servicereport.$on('loaded', function () {
           var user = User.findByUsername(servicereport.owner);
  
+          console.info('delete SR service servicereportId');
           servicereports.$remove(servicereportId).then(function () {
-            user.$child('servicereports').$remove(servicereportId);
+            if (user) { // REMOVE THIS...
+              user.$child('servicereports').$remove(servicereportId);
+            }
           });
         });
       }
     },
-
 /*
     deleteItem: function (servicereport, item, itemId) {
       if (User.signedIn()) {
@@ -59,6 +75,15 @@ app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
       }
     }
 */    
+/*
+    getNextNumber: function () {
+      return stash.$on('loaded', function () {
+        var number = stash['serviceReportNumber'];
+        console.log('number was ', number, 'returning ', number + 1);
+        return number + 1;
+      });
+    }
+*/
   };
  
   return Servicereport;

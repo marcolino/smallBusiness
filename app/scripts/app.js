@@ -60,7 +60,7 @@ app.config(function ($routeProvider) {
       controller: 'OrderViewCtrl'
     })
     .when('/servicereports', {
-      templateUrl: 'views/servicereports.html',
+      templateUrl: 'views/serviceReports.html',
       //controller: 'ServicereportCtrl'
     })
     .when('/contacts', {
@@ -78,6 +78,13 @@ app.config(function ($routeProvider) {
     .otherwise({
       redirectTo: '/'
     });
+
+});
+app.config(function (datepickerConfig, datepickerPopupConfig) {
+  datepickerPopupConfig.showWeeks = false;
+  datepickerPopupConfig.formatYear = 'yyyy';
+  datepickerPopupConfig.startingDay = 1;
+  datepickerPopupConfig.showButtonBar = false;
 });
 app.constant('FIREBASE_URL', 'https://smallbusiness.firebaseio.com/');
 

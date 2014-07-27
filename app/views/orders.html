@@ -1,5 +1,6 @@
 <div class="container orders-page">
   <div ng-show="signedIn()" ng-controller="OrdersCtrl">
+  owner: {{owner}}
     <hr>
     <div class="order row" ng-repeat="(orderId, order) in orders">
 <!--

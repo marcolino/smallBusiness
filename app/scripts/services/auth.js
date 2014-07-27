@@ -16,6 +16,12 @@ app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope) {
       }
       return false;
     },
+    currentUser: function () {
+      if (auth.user !== null) {
+        return $rootScope.currentUser;
+      }
+      return null;
+    },
     login: function (user) {
       //return auth.$login('password', user);
       /**/

@@ -7,7 +7,7 @@
         </span>
       </div>
     </form>
---> <form ng-show="signedIn() && !(customerAddMode || customerEditMode)" class="customer form-inline"> <div class="form-group form-group-condensed" title="Search customer by name"> <div class="right-inner-addon"> <i class="glyphicon glyphicon-search"></i> <input type="text" ng-model="customerSelected" typeahead="customer as customer.name for customer in customers | orderByPriority | filter:{name: $viewValue} | limitTo:8" class="form-control form-control-search"> </div> </div> </form> <br> <table ng-table="tableParams" class="table"> <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting --> <!--
+--> <form ng-show="signedIn() && !(customerAddMode || customerEditMode)" class="customer form-inline"> <div class="form-group form-group-condensed" title="Filter customers by name"> <div class="right-inner-addon"> <i class="glyphicon glyphicon-search"></i> <input type="text" ng-model="customerSelected" typeahead="customer as customer.name for customer in customers | orderByPriority | filter:{name: $viewValue} | limitTo:8" class="form-control form-control-search"> </div> </div> </form> <br> <table ng-table="tableParams" class="table"> <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting --> <!--
       <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted') && ((typeof(customerSelected) !== 'object') || (customer.name === customerSelected.name))">
 --> <!--
       <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted') && ((typeof(customerSelected) !== 'object') || (match(customer.name, customerSelected.name)))">
