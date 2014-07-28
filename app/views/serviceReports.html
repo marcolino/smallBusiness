@@ -61,7 +61,7 @@
           <td class="condensed">
             <a title="Edit service report" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editServicereport(servicereport)"><i class="glyphicon glyphicon-pencil"></i></a>
   
-            <a title="Print service report" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="printServicereport(servicereport)"><i class="glyphicon glyphicon-print"></i></a>
+            <a title="Print service report" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="preprintServicereport()"><i class="glyphicon glyphicon-print"></i></a>
   
             <button
               title="Delete service report" 
@@ -79,26 +79,31 @@
       <div class="form-group form-group-condensed" title="Number of service report">
         <label for="name" class="control-label col-xs-2">Number</label>
         <div class="col-xs-10">
-          <input type="number" class="form-control" id="number" ng-model="servicereport.number" disabled>
+          <input type="text" class="form-control" id="number" ng-model="servicereport.number" disabled />
         </div>
       </div>
 
       <div class="form-group form-group-condensed" title="Date of service report">
         <label for="name" class="control-label col-xs-2">Date</label>
         <div class="col-xs-10 l_eft-inner-addon">
+          <span ng-hide="servicereportPrintMode">
           <p class="input-group" style="margin-bottom: 0;">
             <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
             </span>
-            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="servicereport.date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"  style="border-radius: 4px;"/>
+            <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="servicereport.date" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" style="border-radius: 4px;" />
           </p>
+          </span>
+          <span ng-show="servicereportPrintMode">
+            <input type="text" class="form-control" ng-value="servicereport.date | date: 'dd MMMM yyyy H:mm'" />
+          </span>
         </div>
       </div>
 
       <div class="form-group form-group-condensed" title="Owner of service report">
         <label for="owner" class="control-label col-xs-2">Owner</label>
         <div class="col-xs-10">
-          <input type="text" class="form-control" id="owner" ng-model="servicereport.owner" disabled>
+          <input type="text" class="form-control" id="owner" ng-model="servicereport.owner">
         </div>
       </div>
 
@@ -124,12 +129,15 @@
         </div>
       </div>
 
-      <div ng-hide="servicereportPrintMode">
-        <div class="servicereport row" style="margin-top: 0.2em;">
-          <div class="col-xs-12">
+      <div class="servicereport row no-print" style="margin-top: 0.2em;">
+        <div class="col-xs-12">
+          <span ng-hide="servicereportPrintMode">
             <button type="submit" ng-click="submitServicereport()">Save</button>
-            <button type="text" ng-click="cancelServicereport()">cancel</button>
-          </div>
+          </span>
+          <span ng-show="servicereportPrintMode">
+            <button type="submit" ng-click="printServicereport()">Print</button>
+          </span>
+          <button type="text" ng-click="cancelServicereport()">cancel</button>
         </div>
       </div>
 

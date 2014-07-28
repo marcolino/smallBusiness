@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse disable-highlight" role="navigation">
+<nav class="navbar navbar-inverse disable-highlight no-print" role="navigation">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -40,7 +40,7 @@
   </div><!-- /.navbar navbar-collapse -->
 </nav>
 
-<div ng-controller="NavCtrl">
+<div ng-controller="NavCtrl" class="no-print">
   <ul class="list-inline list-inline-right" ng-hide="signedIn()">
     <li>
       <a class="btn btn-primary" href="#/register"><span class="glyphicon glyphicon-user" title="Register if you have not an account already"></span>&emsp;<span>Register</span></a>

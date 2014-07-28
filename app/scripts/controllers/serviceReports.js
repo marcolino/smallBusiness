@@ -1,6 +1,6 @@
 'use strict';
  
-app.controller('ServicereportsCtrl', function ($scope, $location, Servicereport, Customer, Auth/*, UserNotify*/) {
+app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth/*, UserNotify*/) {
   console.info('servicereports controller...');
 
   $scope.servicereport = { number: '', date: '', customername: '', place: '', notes: '', owner: '', dateCreation: '', };
@@ -37,6 +37,31 @@ console.info('$scope.servicereport.number:', $scope.servicereport.number);
   $scope.servicereportEditMode = false;  
   $scope.servicereportPrintMode = false;
   $scope.orderby = '-number';
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  // onbeforeprint / onafterprint compatibility stub
+  ////////////////////////////////////////////////////////////////////////////////////
+  //(function() {
+  var beforePrint = function() {
+    console.log('Functionality to run before printing.');
+  };
+  var afterPrint = function() {
+    console.log('Functionality to run after printing');
+  };
+  if (window.matchMedia) {
+    var mediaQueryList = window.matchMedia('print');
+    mediaQueryList.addListener(function(mql) {
+      if (mql.matches) {
+        beforePrint();
+      } else {
+        afterPrint();
+      }
+    });
+  }
+  window.onbeforeprint = beforePrint;
+  window.onafterprint = afterPrint;
+  //}());
+  ////////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////////
   function initDate () {
@@ -107,7 +132,7 @@ console.info('$scope.servicereport.number:', $scope.servicereport.number);
   };
 
   $scope.cancelServicereport = function () {
-    $scope.servicereportAddMode = $scope.servicereportEditMode = false;
+    $scope.servicereportAddMode = $scope.servicereportEditMode = $scope.servicereportPrintMode = false;
 console.info('$scope.servicereport:', $scope.servicereport);
     $scope.servicereport = angular.copy($scope.servicereportPlaceholder);
   };
@@ -125,13 +150,33 @@ console.info('$scope.servicereport:', $scope.servicereport);
       $scope.servicereport = Servicereport.find(id);
       console.info('EDIT $scope.servicereport:', id, $scope.servicereport);
       $scope.servicereportEditMode = true;
+  $scope.servicereportPrintMode = false;
     } else {
       $scope.servicereportEditMode = false;
     }
   };
 
+  $scope.preprintServicereport = function (servicereport) {
+    var id = servicereport.$id;
+    if (!$scope.servicereportPrintMode) {
+      $scope.servicereportIdCurrent = id;
+      $scope.servicereport = Servicereport.find(id);
+      console.info('Preprint $scope.servicereport:', id, $scope.servicereport);
+      $scope.servicereportPrintMode = true;
+    } else {
+      $scope.servicereportPrintMode = false;
+    }
+  };
+
   $scope.printServicereport = function () {
-    $scope.servicereportPrintMode = true;
+    if ($scope.servicereportPrintMode) {
+      $scope.print();
+      window.onafterprint = function () {
+        console.log('Printing dialog closed...');
+        $scope.servicereportPrintMode = false;
+        $scope.$apply();
+      };
+    }
   };
 
   $scope.resetServicereportSelected = function () {
@@ -145,6 +190,12 @@ console.info('$scope.servicereport:', $scope.servicereport);
   $scope.match = function (str, pattern) {
     var regex = new RegExp(pattern, 'g');
     return str.match(regex);
+  };
+
+  $scope.print = function () {
+    setTimeout(function () {
+      window.print();
+    }, 0);
   };
 
 });

@@ -265,3 +265,10 @@ form.form-search:before {
     z-index: 1000;
 }
 */
+
+/* print */
+@media print {    
+  .no-print, .no-print * {
+    display: none !important;
+  }
+}
