@@ -1,77 +1,80 @@
 <div class="container servicereports-page">
   <div ng-show="signedIn()" ng-controller="ServicereportsCtrl">
 
-    <form ng-hide="servicereportAddMode || servicereportEditMode" class="servicereport form-inline">
-      <div class="form-group form-group-condensed" title="Filter servicereports">
+    <form ng-hide="servicereportAddMode || servicereportEditMode || servicereportPrintMode" class="servicereport form-inline">
+      <div class="form-group form-group-condensed" title="Filter service reports">
         <div class="right-inner-addon">
           <i class="glyphicon glyphicon-search"></i>
           <input type="text" ng-model="search" class="form-control form-control-search">
         </div>
       </div>
+      <div class="form-group form-group-condensed" title="Add service report">
+        <input type="button" value="New service report" ng-show="signedIn() && !(servicereportAddMode || servicereportEditMode)" ng-click="servicereportAddMode = true" />
+      </div>
+      <div class="vertical-spacer" style="height: 1.0em;">
+      </div>
     </form>
 
-    <br />
+    <div ng-hide="servicereportPrintMode">
+      <table ng-table="tableParams" class="table">
+        <tr>
+          <th style="border: 1px solid #ccc;">
+            <span ng-click="orderby = '-number'">Number</span>
+            <a ng-click="orderby = 'number'"><i ng-show="orderby === '-number'" class="glyphicon glyphicon-chevron-up"></i></a>
+            <a ng-click="orderby = '-number'"><i ng-show="orderby === 'number'" class="glyphicon glyphicon-chevron-down"></i></a>
+          </th>
+          <th style="border: 1px solid #ccc;">
+            <span ng-click="orderby = '-date'">Date</span>
+            <a ng-click="orderby = 'date'"><i ng-show="orderby === '-date'" class="glyphicon glyphicon-chevron-up"></i></a>
+            <a ng-click="orderby = '-date'"><i ng-show="orderby === 'date'" class="glyphicon glyphicon-chevron-down"></i></a>
+          </th>
+          <th style="border: 1px solid #ccc;">
+            <span ng-click="orderby = 'customername'">Customer name</span>
+            <a ng-click="orderby = 'customername'"><i ng-show="orderby === '-customername'" class="glyphicon glyphicon-chevron-up"></i></a>
+            <a ng-click="orderby = '-customername'"><i ng-show="orderby === 'customername'" class="glyphicon glyphicon-chevron-down"></i></a>
+          </th>
+          <th style="border: 1px solid #ccc;">
+            Place
+          </th>
+          <th style="border: 1px solid #ccc;">
+            Notes
+          </th>
+          <th style="border: 1px solid #ccc;"></th>
+        </tr>
+        <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting -->
+        <tr ng-repeat="(servicereportId, servicereport) in servicereports | orderByPriority | filter:search | orderBy: orderby" ng-if="!servicereport.hasOwnProperty('deleted') && servicereport.hasOwnProperty('number')">
+          <td title="Number" sortable="'number'" class="condensed">
+            {{ servicereport.number }}
+          </td>
+          <td title="Date" sortable="'name'" class="condensed">
+            {{ servicereport.date | date: 'dd MMMM yyyy H:mm' }}
+          </td>
+          <td title="Customer name" sortable="'name'" class="condensed">
+            {{ servicereport.customername }}
+          </td>
+          <td title="Place" sortable="'place'" class="condensed">
+            {{ servicereport.place }}
+          </td>
+          <td title="Notes" sortable="'notes'" class="condensed">
+            {{ servicereport.notes }}
+          </td>
+          <td class="condensed">
+            <a title="Edit service report" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editServicereport(servicereport)"><i class="glyphicon glyphicon-pencil"></i></a>
+  
+            <a title="Print service report" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="printServicereport(servicereport)"><i class="glyphicon glyphicon-print"></i></a>
+  
+            <button
+              title="Delete service report" 
+              class="btn btn-primary btn-xs glyphicon glyphicon-trash"
+              really-message="Are you really sure to remove service report <i>{{servicereport.number}}</i> ?" really-click="deleteServicereport(servicereport)"
+            >
+            </button>
+          </td>
+        </tr>
+      </table>  
+    </div>
 
-    <table ng-table="tableParams" class="table">
-      <tr>
-        <th style="border: 1px solid #ccc;">
-          <span ng-click="orderby = '-number'">Number</span>
-          <a ng-click="orderby = 'number'"><i ng-show="orderby === '-number'" class="glyphicon glyphicon-chevron-up"></i></a>
-          <a ng-click="orderby = '-number'"><i ng-show="orderby === 'number'" class="glyphicon glyphicon-chevron-down"></i></a>
-        </th>
-        <th style="border: 1px solid #ccc;">
-          <span ng-click="orderby = '-date'">Date</span>
-          <a ng-click="orderby = 'date'"><i ng-show="orderby === '-date'" class="glyphicon glyphicon-chevron-up"></i></a>
-          <a ng-click="orderby = '-date'"><i ng-show="orderby === 'date'" class="glyphicon glyphicon-chevron-down"></i></a>
-        </th>
-        <th style="border: 1px solid #ccc;">
-          <span ng-click="orderby = 'customername'">Customer name</span>
-          <a ng-click="orderby = 'customername'"><i ng-show="orderby === '-customername'" class="glyphicon glyphicon-chevron-up"></i></a>
-          <a ng-click="orderby = '-customername'"><i ng-show="orderby === 'customername'" class="glyphicon glyphicon-chevron-down"></i></a>
-        </th>
-        <th style="border: 1px solid #ccc;">
-          Place
-        </th>
-        <th style="border: 1px solid #ccc;">
-          Notes
-        </th>
-        <th style="border: 1px solid #ccc;"></th>
-        <th style="border: 1px solid #ccc;"></th>
-      </tr>
-      <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting -->
-      <tr ng-repeat="(servicereportId, servicereport) in servicereports | orderByPriority | filter:search | orderBy: orderby" ng-if="!servicereport.hasOwnProperty('deleted')">
-        <td title="Number" sortable="'number'" class="condensed">
-          {{ servicereport.number }}
-        </td>
-        <td title="Date" sortable="'name'" class="condensed">
-          {{ servicereport.date }}
-        </td>
-        <td title="Customer name" sortable="'name'" class="condensed">
-          {{ servicereport.customername }}
-        </td>
-        <td title="Place" sortable="'place'" class="condensed">
-          {{ servicereport.place }}
-        </td>
-        <td title="Notes" sortable="'notes'" class="condensed">
-          {{ servicereport.notes }}
-        </td>
-        <td title="Edit servicereport data" class="condensed">
-          <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editServicereport(servicereport)"><i class="glyphicon glyphicon-pencil"></i></a>
-        </td>
-        <td title="Delete service report" class="condensed">
-          <button
-            class="btn btn-primary btn-xs glyphicon glyphicon-trash"
-            really-message="Are you really sure to remove service report <i>{{servicereport.number}}</i> ?" really-click="deleteServicereport(servicereport)"
-          >
-          </button>
-        </td>
-      </tr>
-    </table>  
-    <hr>
-
-    <input type="button" value="New service report" ng-show="signedIn() && !(servicereportAddMode || servicereportEditMode)" ng-click="servicereportAddMode = true" />
-
-    <form ng-show="signedIn() && (servicereportAddMode || servicereportEditMode)" class="servicereport form-horizontal">
+    <form ng-show="signedIn() && (servicereportPrintMode || servicereportAddMode || servicereportEditMode)" class="servicereport form-horizontal">
 
       <div class="form-group form-group-condensed" title="Number of service report">
         <label for="name" class="control-label col-xs-2">Number</label>
@@ -121,10 +124,12 @@
         </div>
       </div>
 
-      <div class="servicereport row" style="margin-top: 0.2em;">
-        <div class="col-xs-12">
-          <button type="submit" ng-click="submitServicereport()">Save</button>
-          <button type="text" ng-click="cancelServicereport()">cancel</button>
+      <div ng-hide="servicereportPrintMode">
+        <div class="servicereport row" style="margin-top: 0.2em;">
+          <div class="col-xs-12">
+            <button type="submit" ng-click="submitServicereport()">Save</button>
+            <button type="text" ng-click="cancelServicereport()">cancel</button>
+          </div>
         </div>
       </div>
 

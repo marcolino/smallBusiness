@@ -33,7 +33,9 @@ console.info('$scope.servicereport.number:', $scope.servicereport.number);
   $scope.servicereportSelected = '';
   $scope.servicereportIdCurrent = null;
 
-  $scope.servicereportAddMode = $scope.servicereportEditMode = false;  
+  $scope.servicereportAddMode = false;
+  $scope.servicereportEditMode = false;  
+  $scope.servicereportPrintMode = false;
   $scope.orderby = '-number';
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -126,6 +128,10 @@ console.info('$scope.servicereport:', $scope.servicereport);
     } else {
       $scope.servicereportEditMode = false;
     }
+  };
+
+  $scope.printServicereport = function () {
+    $scope.servicereportPrintMode = true;
   };
 
   $scope.resetServicereportSelected = function () {
