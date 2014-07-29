@@ -1,6 +1,25 @@
 <div class="container servicereports-page">
   <div ng-show="signedIn()" ng-controller="ServicereportsCtrl">
 
+    <form class="form-horizontal" ng-hide="servicereportAddMode || servicereportEditMode || servicereportPrintMode">
+      <div class="form-group">
+        <div class="col-xs-3" title="Add new service report">
+          <button type="submit" class="btn btn-primary" ng-show="signedIn() && !(servicereportAddMode || servicereportEditMode)" ng-click="servicereportAddMode = true">
+            <i class="glyphicon glyphicon-plus"></i>&nbsp;New report
+          </button>
+        </div>
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-3" title="Filter service reports">
+          <div class="right-inner-addon">
+            <i class="glyphicon glyphicon-search"></i>
+            <input type="text" ng-model="search" class="form-control form-control-search" style="min-width: 8.0em;">
+          </div>
+        </div>  
+      </div>
+      <div class="vertical-spacer" style="height: 1.0em;"></div>
+    </form>
+<!--
     <form ng-hide="servicereportAddMode || servicereportEditMode || servicereportPrintMode" class="servicereport form-inline">
       <div class="form-group form-group-condensed" title="Filter service reports">
         <div class="right-inner-addon">
@@ -8,38 +27,38 @@
           <input type="text" ng-model="search" class="form-control form-control-search">
         </div>
       </div>
-      <div class="form-group form-group-condensed" title="Add service report">
-        <input type="button" value="New service report" ng-show="signedIn() && !(servicereportAddMode || servicereportEditMode)" ng-click="servicereportAddMode = true" />
-      </div>
-      <div class="vertical-spacer" style="height: 1.0em;">
-      </div>
+
+      <button type="submit" class="btn btn-primary" ng-show="signedIn() && !(servicereportAddMode || servicereportEditMode)" ng-click="servicereportAddMode = true">
+        <i class="glyphicon glyphicon-plus"></i>&emsp;New report
+      </button>
     </form>
+-->
 
     <div ng-hide="servicereportPrintMode">
       <table ng-table="tableParams" class="table">
         <tr>
-          <th style="border: 1px solid #ccc;">
+          <th s_tyle="border: 1px solid #ccc;">
             <span ng-click="orderby = '-number'">Number</span>
             <a ng-click="orderby = 'number'"><i ng-show="orderby === '-number'" class="glyphicon glyphicon-chevron-up"></i></a>
             <a ng-click="orderby = '-number'"><i ng-show="orderby === 'number'" class="glyphicon glyphicon-chevron-down"></i></a>
           </th>
-          <th style="border: 1px solid #ccc;">
+          <th s_tyle="border: 1px solid #ccc;">
             <span ng-click="orderby = '-date'">Date</span>
             <a ng-click="orderby = 'date'"><i ng-show="orderby === '-date'" class="glyphicon glyphicon-chevron-up"></i></a>
             <a ng-click="orderby = '-date'"><i ng-show="orderby === 'date'" class="glyphicon glyphicon-chevron-down"></i></a>
           </th>
-          <th style="border: 1px solid #ccc;">
+          <th s_tyle="border: 1px solid #ccc;">
             <span ng-click="orderby = 'customername'">Customer name</span>
             <a ng-click="orderby = 'customername'"><i ng-show="orderby === '-customername'" class="glyphicon glyphicon-chevron-up"></i></a>
             <a ng-click="orderby = '-customername'"><i ng-show="orderby === 'customername'" class="glyphicon glyphicon-chevron-down"></i></a>
           </th>
-          <th style="border: 1px solid #ccc;">
+          <th s_tyle="border: 1px solid #ccc;">
             Place
           </th>
-          <th style="border: 1px solid #ccc;">
+          <th s_tyle="border: 1px solid #ccc;">
             Notes
           </th>
-          <th style="border: 1px solid #ccc;"></th>
+          <th s_tyle="border: 1px solid #ccc;"> </th>
         </tr>
         <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting -->
         <tr ng-repeat="(servicereportId, servicereport) in servicereports | orderByPriority | filter:search | orderBy: orderby" ng-if="!servicereport.hasOwnProperty('deleted') && servicereport.hasOwnProperty('number')">
@@ -110,7 +129,7 @@
       <div class="form-group form-group-condensed" title="Customer name">
         <label for="customername" class="control-label col-xs-2">Customer</label>
         <div class="col-xs-10">
-          <input type="text" class="form-control" id="customername" ng-model="servicereport.customername" autofocus>
+          <input type="text" class="form-control" id="customername" ng-model="servicereport.customername" typeahead="customer.name as customer.name for customer in getCustomers($viewValue) | orderByPriority | filter:$viewValue | limitTo:5" typeahead-on-select="onCustomerSelect($item, $model, $label)" autocomplete="off" autofocus>
         </div>
       </div>
 
@@ -131,16 +150,31 @@
 
       <div class="servicereport row no-print" style="margin-top: 0.2em;">
         <div class="col-xs-12">
+<!--
           <span ng-hide="servicereportPrintMode">
             <button type="submit" ng-click="submitServicereport()">Save</button>
           </span>
+
           <span ng-show="servicereportPrintMode">
             <button type="submit" ng-click="printServicereport()">Print</button>
           </span>
           <button type="text" ng-click="cancelServicereport()">cancel</button>
+-->
+          <button type="submit" class="btn btn-primary" ng-hide="servicereportPrintMode" ng-click="submitServicereport()">
+            <i class="glyphicon glyphicon-save"></i>&nbsp;Save
+          </button>
+          <button type="submit" class="btn btn-primary" ng-show="servicereportPrintMode" ng-click="printServicereport()">
+            <i class="glyphicon glyphicon-print"></i>&nbsp;Print
+          </button>
+
+          &emsp;
+          <button type="text" class="btn btn-inverse" ng-click="cancelServicereport()">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;cancel
+          </button>
         </div>
       </div>
 
-    </form>  
+    </form>
+
   </div>
 </div>

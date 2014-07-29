@@ -183,6 +183,16 @@ console.info('$scope.servicereport:', $scope.servicereport);
     $scope.servicereportSelected = '';
   };
 
+  $scope.getCustomers = function (viewValue) {
+console.info('getCustomers() - viewValue:', viewValue);
+    return Customer.all;
+  };
+  $scope.onCustomerSelect = function(item, model, label) {
+    console.info('onCustomerSelect() - item, model, label:', item, model, label);
+    //if (!$scope.servicereport.place)
+    $scope.servicereport.place = item.address;
+  };
+
   $scope.typeof = function (val) {
     return typeof val;
   };

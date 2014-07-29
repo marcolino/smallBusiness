@@ -381,6 +381,18 @@ module.exports = function (grunt) {
       }
     },
 
+/*
+    // remove logging from production code
+    removelogging: {
+      dist: {
+        src: '<%= yeoman.dist %>/scripts/{,*   /}*.js',
+        options: {
+          replaceWith: '0;'
+        }
+      }
+    },
+*/
+
     // auto-install
     autoInstall: {
       local: {},
@@ -400,6 +412,7 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-auto-install');
   grunt.loadNpmTasks('grunt-favicons');
+  //grunt.loadNpmTasks('grunt-remove-logging');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
@@ -444,6 +457,7 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'filerev',
+//  'removelogging',
     'usemin',
     'htmlmin'
   ]);
