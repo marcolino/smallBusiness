@@ -18,6 +18,15 @@ console.log('$scope.typeof(customerSelected):', typeof($scope.customerSelected))
   $scope.customer = angular.copy($scope.customerPlaceholder);
   $scope.customerAddMode = $scope.customerEditMode = false;
 
+
+  // address autocomplete (TODO...)
+  $scope.result1 = '';
+  $scope.options1 = null;
+//    country: 'it',
+//    types: '(cities)'
+//  };
+  $scope.details1 = '';
+
   $scope.submitCustomer = function () {
     var now = new Date();
     $scope.customer.dateCreation = now;
