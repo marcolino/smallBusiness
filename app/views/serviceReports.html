@@ -86,31 +86,31 @@
     <form ng-show="signedIn() && (servicereportPrintMode || servicereportAddMode || servicereportEditMode)" class="servicereport form-horizontal">
 
       <div class="form-group form-group-condensed" title="Number of service report">
-        <label for="number" class="control-label col-xs-2">Number</label>
+        <label class="control-label col-xs-2">Number</label>
         <div class="col-xs-1">
-          <input type="text" class="form-control" id="number" ng-model="servicereport.number">
+          <input type="text" class="form-control" ng-model="servicereport.number">
         </div>
       </div>
 
       <div class="form-group form-group-condensed" title="Owner of service report">
-        <label for="owner" class="control-label col-xs-2">Owner</label>
+        <label class="control-label col-xs-2">Owner</label>
         <div class="col col-xs-3">
-          <input type="text" class="form-control" id="owner" ng-model="servicereport.owner">
+          <input type="text" class="form-control" ng-model="servicereport.owner">
         </div>
       </div>
 
       <div class="form-group form-group-condensed" title="Date of intervention start">
-        <label for="date" class="control-label col-xs-2">Date in</label>
+        <label class="control-label col-xs-2">Date</label>
         <div class="col-xs-3">
           <span ng-hide="servicereportPrintMode">
        <!-- <datetimepicker data-ng-model="servicereport.dateIn"></datetimepicker> -->
        <!-- <quick-datepicker class="form-control" style="font-family: Open Sans; font-size: 100%; padding: 0;" ng-model="servicereport.dateIn" date-format="d MMMM yyyy" time-format="HH:mm" placeholder='Start of intervention date' disable-clear-button="true" required></quick-datepicker> -->
-            <p class="input-group">
+            <span class="input-group">
               <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="servicereport.dateIn" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
-            </p>
+            </span>
           </span>
           <span ng-show="servicereportPrintMode">
             <input type="text" class="form-control" ng-value="servicereport.dateIn | date: 'd MMMM yyyy hh:mm'" />
@@ -118,20 +118,54 @@
         </div>
       </div>
 
-      <div class="form-group form-group-condensed" title="Date of intervention end">
-        <label for="date" class="control-label col-xs-2">Date out</label>
-        <div class="col-xs-4">
+      <div class="form-group form-group-condensed" title="Duration of intervention (hours:minutes)">
+        <label class="control-label col-xs-2">Duration</label>
+        <div class="col-xs-2">
           <span ng-hide="servicereportPrintMode">
-            <quick-datepicker style="font-family: Open Sans; font-size: 100%;" ng-model="servicereport.dateOut" date-format="d MMMM yyyy" time-format="HH:mm" placeholder='End of intervention date' disable-clear-button="true" required></quick-datepicker>
+        <!--<input type="text" class="form-control" dn-timepicker="HH:mm" min-time="00:00" max-time="23:59" step="10" ng-model="servicereport.duration" />-->
+            <input type="text" class="form-control" ng-model="servicereport.duration" placeholder="hh:mm" />
           </span>
           <span ng-show="servicereportPrintMode">
-            <input type="text" class="form-control" ng-value="servicereport.dateOut | date: 'd MMMM yyyy hh:mm'" />
+            <input type="text" class="form-control" ng-value="servicereport.duration" />
           </span>
         </div>
       </div>
 
+      <div class="form-group form-group-condensed" title="Customer name">
+        <label class="control-label col-xs-2">Customer</label>
+        <div class="col-xs-3">
+          <span ng-hide="servicereportPrintMode">
+            <input type="text" class="form-control" ng-model="servicereport.customername" typeahead="customer.name as customer.name for customer in getCustomers($viewValue) | orderByPriority | filter:$viewValue | limitTo:5" typeahead-on-select="onCustomerSelect($item, $model, $label)" autocomplete="off" autofocus>
+          </span>
+          <span ng-show="servicereportPrintMode">
+            <input type="text" class="form-control" ng-model="servicereport.customername">
+          </span>
+        </div>
+      </div>
 
+      <div class="form-group form-group-condensed" title="TITLE">
+        <label class="control-label col-xs-2">TITLE</label>
+        <div class="col-xs-2">
+          <span ng-hide="servicereportPrintMode">
+            <input type="text" class="form-control" ng-model="servicereport.TITLE" placeholder="..." />
+          </span>
+          <span ng-show="servicereportPrintMode">
+            <input type="text" class="form-control" ng-value="servicereport.TITLE" />
+          </span>
+        </div>
+      </div>
 
+      <div class="form-group form-group-condensed" title="TITLE">
+        <label class="control-label col-xs-2">TITLE</label>
+        <div class="col-xs-2">
+          <span ng-hide="servicereportPrintMode">
+            <input type="text" class="form-control" ng-model="servicereport.TITLE" placeholder="..." />
+          </span>
+          <span ng-show="servicereportPrintMode">
+            <input type="text" class="form-control" ng-value="servicereport.TITLE" />
+          </span>
+        </div>
+      </div>
 
       <div class="servicereport row no-print" style="margin-top: 1.0em;">
         <div class="col">

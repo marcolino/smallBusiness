@@ -15,13 +15,13 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
       });
 */
       $scope.servicereport.date = new Date();
+      $scope.servicereport.duration = '';
       $scope.servicereport.owner = $scope.currentUser.username;
       $scope.servicereport.number = Servicereport.getNumberNext();
 console.info('$scope.servicereport.number:', $scope.servicereport.number);
 
       $scope.servicereportPlaceholder = angular.copy($scope.servicereport);
 
-      initDate();
       console.info($scope.servicereport);
     }
   }, true);
@@ -37,6 +37,17 @@ console.info('$scope.servicereport.number:', $scope.servicereport.number);
   $scope.servicereportEditMode = false;  
   $scope.servicereportPrintMode = false;
   $scope.orderby = '-number';
+console.info('INIT DATE');
+  initializeDate();
+
+/*
+    $scope.dateOptions = {
+      formatYear: 'yyyy',
+      startingDay: 1,
+      showWeeks: false
+    };
+    console.info('dateOptions:', $scope.dateOptions);
+*/
 
   ////////////////////////////////////////////////////////////////////////////////////
   // onbeforeprint / onafterprint compatibility stub
@@ -64,7 +75,7 @@ console.info('$scope.servicereport.number:', $scope.servicereport.number);
   ////////////////////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////////////////
-  function initDate () {
+  function initializeDate () {
     $scope.today = function() {
       $scope.dt = new Date();
     };
@@ -93,13 +104,12 @@ console.info('$scope.servicereport.number:', $scope.servicereport.number);
       $scope.opened = true;
     };
 
-/*
-  $scope.dateOptions = {
-    formatYear: 'yyyy',
-    startingDay: 1,
-    showWeeks: false
-  };
-*/
+    $scope.dateOptions = {
+      formatYear: 'yyyy',
+      startingDay: 1,
+      showWeeks: false
+    };
+    console.info('dateOptions:', $scope.dateOptions);
 
     $scope.initDate = $scope.servicereport.date;
     /*

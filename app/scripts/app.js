@@ -30,10 +30,8 @@ var app = angular.module('smallBusinessApp', [
   'ngSanitize',
   'ngRoute',
   'ngAutocomplete',
-  'ngQuickDate', // TODO: REMOVE-ME ?
   'firebase',
   'ui.bootstrap',
-  'ui.bootstrap.datetimepicker'
 ]); 
 app.config(function ($routeProvider) {
   $routeProvider
@@ -83,14 +81,13 @@ app.config(function ($routeProvider) {
     });
 
 });
-/*
 app.config(function (datepickerConfig, datepickerPopupConfig) {
   datepickerPopupConfig.showWeeks = false;
   datepickerPopupConfig.formatYear = 'yyyy';
   datepickerPopupConfig.startingDay = 1;
   datepickerPopupConfig.showButtonBar = false;
 });
-*/
+/*
 app.config(function(ngQuickDateDefaultsProvider) {
   return ngQuickDateDefaultsProvider.set({
     closeButtonHtml: '<i class="glyphicon glyphicon-remove-circle"></i>',
@@ -99,6 +96,7 @@ app.config(function(ngQuickDateDefaultsProvider) {
     prevLinkHtml: '<i class="glyphicon glyphicon-chevron-left"></i>'
   });
 });
+*/
 app.constant('FIREBASE_URL', 'https://smallbusiness.firebaseio.com/');
 
 /*
