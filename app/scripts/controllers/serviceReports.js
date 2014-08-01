@@ -3,7 +3,7 @@
 app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth/*, UserNotify*/) {
   console.info('servicereports controller...');
 
-  $scope.servicereport = { number: '', date: '', customername: '', place: '', notes: '', owner: '', dateCreation: '', };
+  $scope.servicereport = { number: '', date: '', customer: '', customername: '', location: '', notes: '', operator: '', dateCreation: '', };
   $scope.$watch(Auth.currentUser, function(user) {
     if (user) {
       //$scope.servicereport = angular.copy($scope.servicereportPlaceholder);
@@ -14,9 +14,10 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
         $scope.servicereport.number = number + 1;
       });
 */
-      $scope.servicereport.date = new Date();
-      $scope.servicereport.duration = '';
-      $scope.servicereport.owner = $scope.currentUser.username;
+      $scope.servicereport.dateIn = new Date();
+      $scope.servicereport.duration = '1:30';
+
+      $scope.servicereport.operator = $scope.currentUser.username;
       $scope.servicereport.number = Servicereport.getNumberNext();
 console.info('$scope.servicereport.number:', $scope.servicereport.number);
 
@@ -121,8 +122,18 @@ console.info('INIT DATE');
   ////////////////////////////////////////////////////////////////////////////////////
 
   $scope.submitServicereport = function () {
+    // set report creation date
     var now = new Date();
     $scope.servicereport.dateCreation = now;
+
+    // set report date out
+    $scope.servicereport.dateOut = angular.copy($scope.servicereport.dateIn);
+    var hhmm = $scope.servicereport.duration.split(':');
+    $scope.servicereport.dateOut.addHours(hhmm[0] || 0);
+    $scope.servicereport.dateOut.addMinutes(hhmm[1] || 0);
+    console.log('dateIn:', $scope.servicereport.dateIn);
+    console.log('dateOut:', $scope.servicereport.dateOut);
+
     if ($scope.servicereportEditMode) {
       //var servicereportId = $scope.servicereportIdCurrent;
       var servicereport = {};
@@ -199,8 +210,9 @@ console.info('getCustomers() - viewValue:', viewValue);
   };
   $scope.onCustomerSelect = function(item, model, label) {
     console.info('onCustomerSelect() - item, model, label:', item, model, label);
-    //if (!$scope.servicereport.place)
-    $scope.servicereport.place = item.address;
+    //if (!$scope.servicereport.location)
+    $scope.servicereport.customer = item;
+    $scope.servicereport.location = item.address; // TODO: remove this, use customer object...
   };
 
   $scope.typeof = function (val) {

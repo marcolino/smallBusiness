@@ -14,7 +14,7 @@ console.log('$scope.customers:', $scope.customers);
 console.log('$scope.typeof(customerSelected):', typeof($scope.customerSelected));
   $scope.customerIdCurrent = null;
 
-  $scope.customerPlaceholder = { name: '', piva: '', address: '', email: '', dateCreation: '', };
+  $scope.customerPlaceholder = { name: '', piva: '', address: '', phone: '', email: '', dateCreation: '', };
   $scope.customer = angular.copy($scope.customerPlaceholder);
   $scope.customerAddMode = $scope.customerEditMode = false;
 

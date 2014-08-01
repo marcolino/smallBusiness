@@ -1,5 +1,15 @@
 'use strict';
 
+  Date.prototype.addHours = function(h) {
+    this.setHours(this.getHours() + parseInt(h));
+    return this;
+  }
+
+  Date.prototype.addMinutes = function(m) {
+    this.setMinutes(this.getMinutes() + parseInt(m));
+    return this;
+  }
+
 app.factory('Util', function () {
 
   var Util = {
@@ -108,4 +118,5 @@ app.factory('Util', function () {
   };
   
   return Util;
+
 });
