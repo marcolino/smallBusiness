@@ -3,7 +3,8 @@
 app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth/*, UserNotify*/) {
   console.info('servicereports controller...');
 
-  $scope.servicereport = { number: '', date: '', customer: '', customername: '', location: '', notes: '', operator: '', dateCreation: '', };
+  $scope.servicereport = { number: '', dateIn: '', dateOut: '', customer: '', customername: '', location: '', notes: '', operator: '', dateCreation: '', };
+
   $scope.$watch(Auth.currentUser, function(user) {
     if (user) {
       //$scope.servicereport = angular.copy($scope.servicereportPlaceholder);
@@ -15,6 +16,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
       });
 */
       $scope.servicereport.dateIn = new Date();
+      $scope.servicereport.dateOut = new Date();
       $scope.servicereport.duration = '1:30';
 
       $scope.servicereport.operator = $scope.currentUser.username;
@@ -22,6 +24,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
 console.info('$scope.servicereport.number:', $scope.servicereport.number);
 
       $scope.servicereportPlaceholder = angular.copy($scope.servicereport);
+console.log('$scope.servicereportPlaceholder:', $scope.servicereportPlaceholder);
 
       console.info($scope.servicereport);
     }
@@ -126,12 +129,23 @@ console.info('INIT DATE');
     var now = new Date();
     $scope.servicereport.dateCreation = now;
 
+      Date.prototype.addHours = function(h) {
+        this.setHours(this.getHours() + parseInt(h));
+        return this;
+      }
+
+      Date.prototype.addMinutes = function(m) {
+        this.setMinutes(this.getMinutes() + parseInt(m));
+        return this;
+      }
+
     // set report date out
     $scope.servicereport.dateOut = angular.copy($scope.servicereport.dateIn);
+    var d = new Date($scope.servicereport.dateOut);
     var hhmm = $scope.servicereport.duration.split(':');
-    $scope.servicereport.dateOut.addHours(hhmm[0] || 0);
-    $scope.servicereport.dateOut.addMinutes(hhmm[1] || 0);
-    console.log('dateIn:', $scope.servicereport.dateIn);
+    d.addHours(hhmm[0] || 0);
+    d.addMinutes(hhmm[1] || 0);
+    $scope.servicereport.dateOut = d;
     console.log('dateOut:', $scope.servicereport.dateOut);
 
     if ($scope.servicereportEditMode) {

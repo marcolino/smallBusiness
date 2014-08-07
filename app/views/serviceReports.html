@@ -2,7 +2,7 @@
 
   <div ng-show="signedIn()" ng-controller="ServicereportsCtrl">
 
-    <form class="form-horizontal" ng-hide="servicereportAddMode || servicereportEditMode || servicereportPrintMode">
+    <form class="form-horizontal" ng-hide="servicereportPrintMode || servicereportAddMode || servicereportEditMode">
       <div class="form-group">
         <div class="col-xs-3" title="Add new service report">
           <button type="submit" class="btn btn-primary" ng-show="signedIn() && !(servicereportAddMode || servicereportEditMode)" ng-click="servicereportAddMode = true">
@@ -21,7 +21,7 @@
       <div class="vertical-spacer" style="height: 1.0em;"></div>
     </form>
 
-    <div ng-hide="servicereportPrintMode">
+    <div ng-hide="servicereportPrintMode || servicereportAddMode || servicereportEditMode">
       <table ng-table="tableParams" class="table">
         <tr>
           <th>
@@ -83,7 +83,7 @@
       </table>  
     </div>
 
-    <form ng-show="signedIn() && (servicereportPrintMode || servicereportAddMode || servicereportEditMode)" class="servicereport f_orm-horizontal">
+    <form ng-show="servicereportAddMode || servicereportEditMode" class="servicereport form-inline">
 
       <div class="row" title="Number">
         <div class="col-xs-6 col-sm-4 col-lg-2">
@@ -186,7 +186,243 @@
 
     </form>
 
+<style>
+.print-report {
+  margin: 0;
+  padding: 0;
+  width: 545pt; /* 595pt; /* A4 width in points */
+  height: 842pt; /* A4 height in points */
+  font-size: 12pt;
+  border: 1px solid #ccc;
+          border-radius: 12px;
+     -moz-border-radius: 12px;
+   -khtml-border-radius: 12px;
+  -webkit-border-radius: 12px;
+}
+.print-row {
+  margin-bottom: 1.5em;
+}
+.print-report label {
+  text-align: right;
+  padding-right: 0.5em;
+  font-style: normal;
+}
+.print-report input, textarea {
+          border-radius: 4px;
+     -moz-border-radius: 4px;
+   -khtml-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  width: 100%;
+}
+</style>
+
+    <form ng-show="servicereportPrintMode" class="servicereport">
+      <div class="print-report servicereport">
+
+        <div class="row print-row">
+          <div class="col-xs-4">
+            <h6><img src="icons/favicon.png">Sistemi Solari Rossi</h6>
+          </div>
+          <div class="col-xs-4 text-right">
+            <h2>Service&nbsp;report</h2>
+          </div>
+          <div class="col-xs-4">
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-4">
+            <label>Service&nbsp;report&nbsp;n&deg;</label>
+            <input type="text" value="{{ servicereport.number }}" disabled="true" />
+          </div>
+          <div class="col-xs-8">
+            <label>Operator</label>
+            <input type="text" value="{{ servicereport.operator }}" disabled="true" />
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-3">
+            <label>Date</label>
+            <input type="text" value="{{ servicereport.dateIn | date: 'dd MMMM yyyy' }}" disabled="true"/>
+          </div>
+          <div class="col-xs-3">
+            <label>Duration&nbsp;(hh:mm)</label>
+            <input type="text" value="{{ servicereport.duration | date: 'HH:mm' }}" disabled="true"/>
+          </div>
+          <div class="col-xs-6">
+            <label>Location</label>
+            <input type="text" value="{{ servicereport.location }}" disabled="true"/>
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-12">
+            <hr>
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-3">
+            <label>Customer</label>
+            <input type="text" value="{{ servicereport.customer.name }}" disabled="true" />
+          </div>
+          <div class="col-xs-3">
+            <label>P.&nbsp;IVA</label>
+            <input type="text" value="{{ servicereport.customer.piva }}" disabled="true" />
+          </div>
+          <div class="col-xs-6">
+            <label>Address</label>
+            <input type="text" value="{{ servicereport.customer.address }}" disabled="true" />
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-4">
+            <label>Email</label>
+            <input type="text" value="{{ servicereport.customer.email }}" disabled="true" />
+          </div>
+          <div class="col-xs-4">
+            <label>Phone</label>
+            <input type="text" value="{{ servicereport.customer.phone }}" disabled="true" />
+          </div>
+          <div class="col-xs-4">
+            <label>Fax</label>
+            <input type="text" value="{{ servicereport.customer.fax }}" disabled="true" />
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-12">
+            <hr>
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-12">
+            <label>Notes</label>
+            <textarea rows="13" disabled="true">{{ servicereport.notes }}</textarea>
+          </div>
+        </div>
+        
+        <div class="row print-row">
+          <div class="col-xs-12">
+            <hr>
+          </div>
+        </div>
+
+        <div class="row print-row">
+          <div class="col-xs-6">
+            <label>Customer's signature</label>
+            <input type="text" value="" disabled="true" style="height: 4.0em;" />
+          </div>
+          <div class="col-xs-6">
+            <label>Operator's signature</label>
+            <input type="text" value="" disabled="true" style="height: 4.0em;" />
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row no-print" style="margin-top: 1.0em;">
+        <div class="col">
+
+          <button type="submit" class="btn btn-primary" ng-hide="servicereportPrintMode" ng-click="submitServicereport()">
+            <i class="glyphicon glyphicon-save"></i>&nbsp;Save
+          </button>
+
+          <button type="submit" class="btn btn-primary" ng-show="servicereportPrintMode" ng-click="printServicereport()">
+            <i class="glyphicon glyphicon-print"></i>&nbsp;Print
+          </button>
+
+          &emsp;
+
+          <button type="text" class="btn btn-default" ng-click="cancelServicereport()">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;cancel
+          </button>
+        </div>
+      </div>
+
+    </form>
+
 <!--
+    <form ng-show="servicereportPrintMode" class="servicereport form-inline">
+
+      <div class="servicereport-print">
+
+        <fieldset>
+          <label class="control-label">Number: </label>
+          <input type="text" class="form-control" ng-value="servicereport.number" disabled="true" />
+          &nbsp;
+          <label class="control-label">Operator: </label>
+          <input type="text" class="form-control" ng-value="servicereport.operator" disabled="true" />
+          &nbsp;
+          <label class="control-label">Date: </label>
+          <input type="text" class="form-control" ng-value="servicereport.dateIn | date: 'dd MMMM yyyy HH:mm'" disabled="true" />
+          &nbsp;         
+          <label class="control-label">Duration: </label>
+          <input type="text" class="form-control" style="width:50%" ng-value="servicereport.duration" disabled="true" />
+        </fieldset>
+        <hr>
+
+        <fieldset>
+          <label class="control-label">Customer: </label>
+          <input type="text" class="form-control" ng-value="servicereport.customername" disabled="true" />
+          &nbsp;         
+          <label class="control-label">Location: </label>
+          <input type="text" class="form-control form-control-full-width" ng-value="servicereport.location" disabled="true" />
+        </fieldset>
+  
+        <div class="row" title="Customer phone number">
+          <div class="col-xs-10 col-sm-7 col-lg-4">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-phone-alt"></span></span>
+              <input type="text" class="form-control" ng-model="servicereport.customer.phone" placeholder="" ng-disabled="servicereportPrintMode" />
+            </div>
+          </div>
+        </div>
+  
+        <div class="row" title="Customer email address">
+          <div class="col-xs-10 col-sm-7 col-lg-4">
+            <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+              <input type="text" class="form-control" ng-model="servicereport.customer.email" placeholder="" ng-disabled="servicereportPrintMode" />
+            </div>
+          </div>
+        </div>  
+  
+        <div class="row" title="Notes">
+          <div class="col-xs-12 col-sm-10 col-lg-6">
+            <div class="input-group">
+              <textarea cols="80" rows="5" class="form-control" ng-model="servicereport.notes" placeholder="Notes" ng-disabled="servicereportPrintMode"></textarea>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+
+      <div class="servicereport row no-print" style="margin-top: 1.0em;">
+        <div class="col">
+
+          <button type="submit" class="btn btn-primary" ng-hide="servicereportPrintMode" ng-click="submitServicereport()">
+            <i class="glyphicon glyphicon-save"></i>&nbsp;Save
+          </button>
+
+          <button type="submit" class="btn btn-primary" ng-show="servicereportPrintMode" ng-click="printServicereport()">
+            <i class="glyphicon glyphicon-print"></i>&nbsp;Print
+          </button>
+
+          &emsp;
+
+          <button type="text" class="btn btn-default" ng-click="cancelServicereport()">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;cancel
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+<!- -
       <div class="form-group form-group-condensed" title="Number of service report">
         <label class="control-label col-xs-2">Number</label>
         <div class="col-xs-1">
@@ -264,6 +500,7 @@
         </div>
       </div>
       <div class="form-group form-group-condensed" title="Customer name">
+- ->
 -->
 
   </div>
