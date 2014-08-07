@@ -3,6 +3,52 @@
 app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth/*, UserNotify*/) {
   console.info('servicereports controller...');
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  function initializeDate () {
+    $scope.today = function() {
+      $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+      $scope.dt = null;
+    };
+
+    $scope.disabled = function(/*date, mode*/) {
+      //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+      return false;
+    };
+
+    $scope.minDate = null;
+/*
+    $scope.toggleMin = function() {
+      $scope.minDate = $scope.minDate ? null : new Date();
+    };
+    $scope.toggleMin();
+*/
+
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.opened = true;
+    };
+
+    $scope.dateOptions = {
+      formatYear: 'yyyy',
+      startingDay: 1,
+      showWeeks: false
+    };
+    console.info('dateOptions:', $scope.dateOptions);
+
+    $scope.initDate = $scope.servicereport.date;
+    /*
+    $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
+    */
+    $scope.format = 'dd MMMM yyyy';
+  }
+  ////////////////////////////////////////////////////////////////////////////////////
+
   $scope.servicereport = { number: '', dateIn: '', dateOut: '', customer: '', customername: '', location: '', notes: '', operator: '', dateCreation: '', };
 
   $scope.$watch(Auth.currentUser, function(user) {
@@ -78,52 +124,6 @@ console.info('INIT DATE');
   //}());
   ////////////////////////////////////////////////////////////////////////////////////
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  function initializeDate () {
-    $scope.today = function() {
-      $scope.dt = new Date();
-    };
-    $scope.today();
-
-    $scope.clear = function () {
-      $scope.dt = null;
-    };
-
-    $scope.disabled = function(/*date, mode*/) {
-      //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-      return false;
-    };
-
-    $scope.minDate = null;
-/*
-    $scope.toggleMin = function() {
-      $scope.minDate = $scope.minDate ? null : new Date();
-    };
-    $scope.toggleMin();
-*/
-
-    $scope.open = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $scope.opened = true;
-    };
-
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1,
-      showWeeks: false
-    };
-    console.info('dateOptions:', $scope.dateOptions);
-
-    $scope.initDate = $scope.servicereport.date;
-    /*
-    $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
-    */
-    $scope.format = 'dd MMMM yyyy';
-  }
-  ////////////////////////////////////////////////////////////////////////////////////
-
   $scope.submitServicereport = function () {
     // set report creation date
     var now = new Date();
@@ -132,12 +132,12 @@ console.info('INIT DATE');
       Date.prototype.addHours = function(h) {
         this.setHours(this.getHours() + parseInt(h));
         return this;
-      }
+      };
 
       Date.prototype.addMinutes = function(m) {
         this.setMinutes(this.getMinutes() + parseInt(m));
         return this;
-      }
+      };
 
     // set report date out
     $scope.servicereport.dateOut = angular.copy($scope.servicereport.dateIn);
