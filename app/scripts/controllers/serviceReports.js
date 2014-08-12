@@ -1,232 +1,148 @@
 'use strict';
  
-app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth/*, UserNotify*/) {
-  console.info('servicereports controller...');
+app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth, DateTime) {
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  function initializeDate () {
-    $scope.today = function() {
-      $scope.dt = new Date();
-    };
-    $scope.today();
+  $scope.servicereport = {};
+  $scope.servicereports = Servicereport.all;
 
-    $scope.clear = function () {
-      $scope.dt = null;
-    };
-
-    $scope.disabled = function(/*date, mode*/) {
-      //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-      return false;
-    };
-
-    $scope.minDate = null;
-/*
-    $scope.toggleMin = function() {
-      $scope.minDate = $scope.minDate ? null : new Date();
-    };
-    $scope.toggleMin();
-*/
-
-    $scope.open = function($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $scope.opened = true;
-    };
-
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1,
-      showWeeks: false
-    };
-    console.info('dateOptions:', $scope.dateOptions);
-
-    $scope.initDate = $scope.servicereport.date;
-    /*
-    $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-    $scope.format = $scope.formats[0];
-    */
-    $scope.format = 'dd MMMM yyyy';
-  }
-  ////////////////////////////////////////////////////////////////////////////////////
-
-  $scope.servicereport = { number: '', dateIn: '', dateOut: '', customer: '', customername: '', location: '', notes: '', operator: '', dateCreation: '', };
-
+  // initialize report operator if user is authenticated
   $scope.$watch(Auth.currentUser, function(user) {
     if (user) {
-      //$scope.servicereport = angular.copy($scope.servicereportPlaceholder);
-/*
-      $scope.stash.$on('loaded', function () {
-        var number = stash['serviceReportNumber'];
-        console.log('number was ', number, 'returning ', number + 1);
-        $scope.servicereport.number = number + 1;
-      });
-*/
-      $scope.servicereport.dateIn = new Date();
-      $scope.servicereport.dateOut = new Date();
-      $scope.servicereport.duration = '1:30';
-
       $scope.servicereport.operator = $scope.currentUser.username;
-      $scope.servicereport.number = Servicereport.getNumberNext();
-console.info('$scope.servicereport.number:', $scope.servicereport.number);
-
-      $scope.servicereportPlaceholder = angular.copy($scope.servicereport);
-console.log('$scope.servicereportPlaceholder:', $scope.servicereportPlaceholder);
-
-      console.info($scope.servicereport);
     }
   }, true);
 
-  //if ($location.path() === '/servicereports') {
-    $scope.servicereports = Servicereport.all;
-  //}
+  $scope.servicereports.$on('loaded', function() {
+    $scope.servicereport.number = Servicereport.getNumberNext();
+  });
 
-  $scope.servicereportSelected = '';
-  $scope.servicereportIdCurrent = null;
-
-  $scope.servicereportAddMode = false;
-  $scope.servicereportEditMode = false;  
-  $scope.servicereportPrintMode = false;
-  $scope.orderby = '-number';
-console.info('INIT DATE');
-  initializeDate();
-
-/*
-    $scope.dateOptions = {
-      formatYear: 'yyyy',
-      startingDay: 1,
-      showWeeks: false
-    };
-    console.info('dateOptions:', $scope.dateOptions);
-*/
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  // onbeforeprint / onafterprint compatibility stub
-  ////////////////////////////////////////////////////////////////////////////////////
-  //(function() {
-  var beforePrint = function() {
-    console.log('Functionality to run before printing.');
+  $scope.initServicereport = function () {
+    //$scope.servicereport.number = null;
+    $scope.servicereport.operator = $scope.currentUser ? $scope.currentUser.username : null;
+    $scope.servicereport.dateIn = new Date();
+    $scope.servicereport.dateOut = $scope.servicereport.dateIn;
+    $scope.servicereport.duration = null;
+    $scope.servicereport.customer = null;
+    $scope.servicereport.location = null;
+    $scope.servicereport.notes = null;
+    $scope.servicereport.dateCreation = null;
+  
+    $scope.formAddEditSubmitted = false;
+    $scope.currentId = null;
+    $scope.addMode = false;
+    $scope.editMode = false;  
+    $scope.printMode = false;
+    $scope.orderby = '-number';
+    $scope.dateInit();
   };
-  var afterPrint = function() {
-    console.log('Functionality to run after printing');
-  };
-  if (window.matchMedia) {
-    var mediaQueryList = window.matchMedia('print');
-    mediaQueryList.addListener(function(mql) {
-      if (mql.matches) {
-        beforePrint();
-      } else {
-        afterPrint();
-      }
-    });
-  }
-  window.onbeforeprint = beforePrint;
-  window.onafterprint = afterPrint;
-  //}());
-  ////////////////////////////////////////////////////////////////////////////////////
 
-  $scope.submitServicereport = function () {
-    // set report creation date
-    var now = new Date();
-    $scope.servicereport.dateCreation = now;
+  $scope.submitServicereport = function (valid) {
+    $scope.formAddEditSubmitted = true; // allow validation errors to be shown
+    if (!valid) {
+      return;
+    }
 
-      Date.prototype.addHours = function(h) {
-        this.setHours(this.getHours() + parseInt(h));
-        return this;
-      };
+    $scope.servicereport.dateCreation = new Date(); // set report creation date
+    $scope.setDateOut();
 
-      Date.prototype.addMinutes = function(m) {
-        this.setMinutes(this.getMinutes() + parseInt(m));
-        return this;
-      };
-
-    // set report date out
-    $scope.servicereport.dateOut = angular.copy($scope.servicereport.dateIn);
-    var d = new Date($scope.servicereport.dateOut);
-    var hhmm = $scope.servicereport.duration.split(':');
-    d.addHours(hhmm[0] || 0);
-    d.addMinutes(hhmm[1] || 0);
-    $scope.servicereport.dateOut = d;
-    console.log('dateOut:', $scope.servicereport.dateOut);
-
-    if ($scope.servicereportEditMode) {
-      //var servicereportId = $scope.servicereportIdCurrent;
-      var servicereport = {};
-      for (var fld in $scope.servicereportPlaceholder) {
-        servicereport[fld] = $scope.servicereport[fld];
-      }
-      Servicereport.set($scope.servicereportIdCurrent, servicereport).then(function () {
-        $scope.servicereport = angular.copy($scope.servicereportPlaceholder);
+    if ($scope.editMode) {
+      Servicereport.set($scope.currentId, $scope.servicereport).then(function () {
+        $scope.initServicereport();
       });
     }
-    if ($scope.servicereportAddMode) {
-        Servicereport.create($scope.servicereport).then(function (/*servicereportId*/) {
-        $scope.servicereport = angular.copy($scope.servicereportPlaceholder);
+    if ($scope.addMode) {
+      Servicereport.create($scope.servicereport).then(function (/*servicereportId*/) {
+        $scope.servicereport.number = Servicereport.setNumberNext($scope.servicereport.number);
+        $scope.initServicereport();
       });
     }
-    $scope.servicereportAddMode = $scope.servicereportEditMode = false;
+    $scope.addMode = $scope.editMode = false;
+    $scope.formAddEditSubmitted = false; // forbid validation errors to be shown until next submission
   };
 
   $scope.cancelServicereport = function () {
-    $scope.servicereportAddMode = $scope.servicereportEditMode = $scope.servicereportPrintMode = false;
-console.info('$scope.servicereport:', $scope.servicereport);
-    $scope.servicereport = angular.copy($scope.servicereportPlaceholder);
+    $scope.addMode = $scope.editMode = $scope.printMode = false;
+    $scope.initServicereport();
   };
 
   $scope.deleteServicereport = function (servicereport) {
     var id = servicereport.$id;
-    console.info('DELETE SR CTRL:', id);
     Servicereport.delete(id);
   };
 
   $scope.editServicereport = function (servicereport) {
     var id = servicereport.$id;
-    if (!$scope.servicereportEditMode) {
-      $scope.servicereportIdCurrent = id;
+    if (!$scope.editMode) {
+      $scope.currentId = id;
       $scope.servicereport = Servicereport.find(id);
       console.info('EDIT $scope.servicereport:', id, $scope.servicereport);
-      $scope.servicereportEditMode = true;
-  $scope.servicereportPrintMode = false;
+      $scope.editMode = true;
     } else {
-      $scope.servicereportEditMode = false;
+      $scope.editMode = false;
     }
   };
 
   $scope.preprintServicereport = function (servicereport) {
     var id = servicereport.$id;
-    if (!$scope.servicereportPrintMode) {
-      $scope.servicereportIdCurrent = id;
+    if (!$scope.printMode) {
+      $scope.currentId = id;
       $scope.servicereport = Servicereport.find(id);
       console.info('Preprint $scope.servicereport:', id, $scope.servicereport);
-      $scope.servicereportPrintMode = true;
+      $scope.printMode = true;
     } else {
-      $scope.servicereportPrintMode = false;
+      $scope.printMode = false;
     }
   };
 
   $scope.printServicereport = function () {
-    if ($scope.servicereportPrintMode) {
+    if ($scope.printMode) {
       $scope.print();
       window.onafterprint = function () {
         console.log('Printing dialog closed...');
-        $scope.servicereportPrintMode = false;
+        $scope.printMode = false;
         $scope.$apply();
       };
     }
   };
 
-  $scope.resetServicereportSelected = function () {
-    $scope.servicereportSelected = '';
+  $scope.dateInit = function () {
+    $scope.dateMin = null;
+    $scope.dateMax = null;
+    $scope.dateFormat = 'dd MMMM yyyy HH:mm';
+    $scope.dateOptions = {
+      formatYear: 'yyyy',
+      startingDay: 1,
+      showWeeks: false
+    };
+    $scope.dateDisabled = function(/*date, mode*/) {
+      //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+      return false;
+    };
+    $scope.dateOpen = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.dateOpened = true;
+    };
+  };
+
+  $scope.setDateOut = function () {
+    var d = new DateTime($scope.servicereport.dateOut);
+    var hhmm = $scope.servicereport.duration.split(':');
+    d.addHours(hhmm[0] || 0);
+    d.addMinutes(hhmm[1] || 0);
+    $scope.servicereport.dateOut = d.get();
   };
 
   $scope.getCustomers = function (viewValue) {
-console.info('getCustomers() - viewValue:', viewValue);
+    console.info('getCustomers() - viewValue:', viewValue);
     return Customer.all;
   };
+
   $scope.onCustomerSelect = function(item, model, label) {
     console.info('onCustomerSelect() - item, model, label:', item, model, label);
     //if (!$scope.servicereport.location)
     $scope.servicereport.customer = item;
-    $scope.servicereport.location = item.address; // TODO: remove this, use customer object...
+    $scope.servicereport.location = item.address;
   };
 
   $scope.typeof = function (val) {
@@ -244,32 +160,6 @@ console.info('getCustomers() - viewValue:', viewValue);
     }, 0);
   };
 
-});
-
-/*
-app.controller('ServicereportsCtrl', function ($scope, $location, Servicereport) {
-
-  if ($location.path() === '/servicereports') { // avoid overriding $scope.servicereports when listing specific user's servicereports
-    $scope.servicereports = Servicereport.all;
-  }
-  var now = new Date();
-  //var today = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss Z');
-  //console.info('today:', today);
-
-  $scope.servicereportPlaceholder = { customer: '', title: '', date: now, text: '', };
-  $scope.servicereport = $scope.servicereportPlaceholder;
-
-  $scope.submitServicereport = function () {
-    //console.log('submitServicereport in ServicereportsCtrl');
-    Servicereport.create($scope.servicereport).then(function () {
-      $scope.servicereport = $scope.servicereportPlaceholder;
-      //$location.path('/servicereports/' + servicereportId);
-    });
-  };
-
-  $scope.deleteServicereport = function (servicereportId) {
-    Servicereport.delete(servicereportId);
-  };
+  $scope.initServicereport();
 
 });
-*/

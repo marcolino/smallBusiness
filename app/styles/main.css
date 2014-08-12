@@ -270,6 +270,42 @@ form.form-search:before {
 }
 */
 
+.error-container {
+  padding-top: 1.0em;
+}
+.error {
+  color: darkred;
+}
+
+/* service report print */
+.print-report {
+  margin: 0;
+  padding: 0;
+  width: 545pt; /* 595pt; /* A4 width in points */
+  height: 842pt; /* A4 height in points */
+  font-size: 12pt;
+  border: 1px solid #ccc;
+          border-radius: 12px;
+     -moz-border-radius: 12px;
+   -khtml-border-radius: 12px;
+  -webkit-border-radius: 12px;
+}
+.print-report label {
+  text-align: right;
+  padding-right: 0.5em;
+  font-style: normal;
+}
+.print-report input, textarea {
+          border-radius: 4px;
+     -moz-border-radius: 4px;
+   -khtml-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  width: 100%;
+}
+.print-row {
+  margin-bottom: 1.5em;
+}
+
 /* print */
 @media print {    
   .no-print, .no-print * {

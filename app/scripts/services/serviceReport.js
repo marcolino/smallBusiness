@@ -20,7 +20,6 @@ app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
         return servicereports.$add(servicereport).then(function (ref) {
           var servicereportId = ref.name(); 
           user.$child('servicereports').$child(servicereportId).$set(servicereportId);
-          servicereports.$child('stash').$set({ 'serviceReportNumber': servicereport.number });
           return servicereportId;
         });
       }
@@ -38,7 +37,15 @@ app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
     },
     getNumberNext: function () {
       var n = servicereports.$child('stash').serviceReportNumber;
-      return n ? n + 1 : 1;
+      n = n ? n : 1;
+      console.info('getNumberNext() - serviceReportNumber is now', n);
+      return n;
+    },
+    setNumberNext: function (n) {
+      n = n ? n + 1 : 1;
+      console.info('setNumberNext() - serviceReportNumber will be', n);
+      servicereports.$child('stash').$set({ 'serviceReportNumber': n });
+      return n;
     },
 /*
     setAttribute: function (servicereportId, attributeValue) {
