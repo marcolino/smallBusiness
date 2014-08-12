@@ -41,9 +41,16 @@ app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
       console.info('getNumberNext() - serviceReportNumber is now', n);
       return n;
     },
-    setNumberNext: function (n) {
+    setNumberNext: function () {
+      var n = servicereports.$child('stash').serviceReportNumber;
       n = n ? n + 1 : 1;
       console.info('setNumberNext() - serviceReportNumber will be', n);
+      servicereports.$child('stash').$set({ 'serviceReportNumber': n });
+      return n;
+    },
+    resetNumberNext: function () {
+      var n = servicereports.$child('stash').serviceReportNumber;
+      n = n && n > 1 ? n - 1 : 1;
       servicereports.$child('stash').$set({ 'serviceReportNumber': n });
       return n;
     },

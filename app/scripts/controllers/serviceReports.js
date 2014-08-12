@@ -47,13 +47,13 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
 
     if ($scope.editMode) {
       Servicereport.set($scope.currentId, $scope.servicereport).then(function () {
-        $scope.initServicereport();
+        //$scope.servicereport.number = Servicereport.setNumberNext($scope.servicereport.number);
+        //$scope.initServicereport();
       });
     }
     if ($scope.addMode) {
       Servicereport.create($scope.servicereport).then(function (/*servicereportId*/) {
-        $scope.servicereport.number = Servicereport.setNumberNext($scope.servicereport.number);
-        $scope.initServicereport();
+        //$scope.servicereport.number = Servicereport.setNumberNext($scope.servicereport.number);
       });
     }
     $scope.addMode = $scope.editMode = false;
@@ -61,13 +61,22 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
   };
 
   $scope.cancelServicereport = function () {
-    $scope.addMode = $scope.editMode = $scope.printMode = false;
+    if ($scope.addMode) {
+      $scope.servicereport.number = Servicereport.resetNumberNext();
+    }
     $scope.initServicereport();
   };
 
   $scope.deleteServicereport = function (servicereport) {
     var id = servicereport.$id;
     Servicereport.delete(id);
+  };
+
+  $scope.addServicereport = function () {
+    console.info('addServicereport');
+    $scope.initServicereport();
+    $scope.addMode = true;
+    $scope.servicereport.number = Servicereport.setNumberNext();
   };
 
   $scope.editServicereport = function (servicereport) {
