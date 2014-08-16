@@ -23,7 +23,7 @@ app.directive('duration', function() {
           }
         }
         var m = (hh * 60) + mm;
-        if (m > 0) {
+        if (m > 0) { // it is valid, set it and return viewValue
           ctrl.$setValidity('duration', true);
           return viewValue;
         } else {

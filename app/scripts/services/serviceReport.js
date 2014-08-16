@@ -15,7 +15,7 @@ app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
       if (User.signedIn()) {
         var user = User.getCurrent();
 
-        servicereport.owner = user.username;
+        servicereport.operator = user.username;
         
         return servicereports.$add(servicereport).then(function (ref) {
           var servicereportId = ref.name(); 
@@ -67,7 +67,7 @@ app.factory('Servicereport', function ($firebase, FIREBASE_URL, User) {
         var servicereport = Servicereport.find(servicereportId);
 
         servicereport.$on('loaded', function () {
-          var user = User.findByUsername(servicereport.owner);
+          var user = User.findByUsername(servicereport.operator);
  
           console.info('delete SR service servicereportId');
           servicereports.$remove(servicereportId).then(function () {

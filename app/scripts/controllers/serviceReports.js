@@ -44,7 +44,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
 
     $scope.servicereport.dateCreation = new Date(); // set report creation date
     $scope.setDateOut();
-
+    $scope.servicereport.duration = $scope.formatTimeDuration($scope.servicereport.duration);
     if ($scope.editMode) {
       Servicereport.set($scope.currentId, $scope.servicereport).then(function () {
         //$scope.servicereport.number = Servicereport.setNumberNext($scope.servicereport.number);
@@ -150,8 +150,26 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
   $scope.onCustomerSelect = function(item, model, label) {
     console.info('onCustomerSelect() - item, model, label:', item, model, label);
     //if (!$scope.servicereport.location)
+    console.info('item:', item);
     $scope.servicereport.customer = item;
     $scope.servicereport.location = item.address;
+  };
+
+  $scope.formatTimeDuration = function(value) {
+    value = value.replace(/\./g, ':');
+    //console.info('value:', value);
+    var sepidx = value.indexOf(':');
+    //console.info('sepidx:' , sepidx);
+    if (sepidx >= 0) {
+      //console.info('value.substr(sepidx + 1).length :', value.substr(sepidx + 1).length);
+      if (value.substr(sepidx + 1).length <= 1) {
+        value = value.substr(0, sepidx + 1) + '0' + value.substr(sepidx + 1);
+      }
+    } else {
+      value += ':00';
+    }
+    //console.info('return value:', value);
+    return value;
   };
 
   $scope.typeof = function (val) {
