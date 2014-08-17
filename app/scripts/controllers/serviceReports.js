@@ -5,6 +5,21 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
   $scope.servicereport = {};
   $scope.servicereports = Servicereport.all;
 
+  $scope.customersById = {};
+  $scope.customers = Customer.all;
+  $scope.customers.$on('loaded', function() {
+    console.log('///', $scope.customers);
+    angular.forEach($scope.customers, function(customer, id) {
+      console.log('iii', id);
+      console.log('T +++', $scope.typeof(customer));
+      if ($scope.typeof(customer) === 'object') {
+        console.log('+++', customer);
+        $scope.customersById[id] = customer;
+      }
+    });
+    console.info($scope.customersById);
+  });
+
   // initialize report operator if user is authenticated
   $scope.$watch(Auth.currentUser, function(user) {
     if (user) {
@@ -14,19 +29,31 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
 
   $scope.servicereports.$on('loaded', function() {
     $scope.servicereport.number = Servicereport.getNumberNext();
+    $scope.servicereport.customer = Customer.all;
   });
 
+/*
+    $scope.customers.$on('loaded', function() {
+      $scope.servicereport.customer = Customer.find($scope.servicereport.customerId); // replace customer's id with customer
+      / *
+      $scope.customers.find($scope.servicereport.customer).then(function (customer) { // replace customer's id with customer
+        console.info("* customer *:", customer);
+        $scope.servicereport.customer = customer;
+      });
+      * /
+    });
+*/
   $scope.initServicereport = function () {
     //$scope.servicereport.number = null;
     $scope.servicereport.operator = $scope.currentUser ? $scope.currentUser.username : null;
     $scope.servicereport.dateIn = new Date();
     $scope.servicereport.dateOut = $scope.servicereport.dateIn;
     $scope.servicereport.duration = null;
-    $scope.servicereport.customer = null;
     $scope.servicereport.location = null;
     $scope.servicereport.notes = null;
     $scope.servicereport.dateCreation = null;
   
+    $scope.customer = null;
     $scope.formAddEditSubmitted = false;
     $scope.currentId = null;
     $scope.addMode = false;
@@ -42,6 +69,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
       return;
     }
 
+    $scope.servicereport.customerId = $scope.customer.$id; // save customer's id
     $scope.servicereport.dateCreation = new Date(); // set report creation date
     $scope.setDateOut();
     $scope.servicereport.duration = $scope.formatTimeDuration($scope.servicereport.duration);
@@ -84,6 +112,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     if (!$scope.editMode) {
       $scope.currentId = id;
       $scope.servicereport = Servicereport.find(id);
+      $scope.customer = Customer.find($scope.servicereport.customerId);
       console.info('EDIT $scope.servicereport:', id, $scope.servicereport);
       $scope.editMode = true;
     } else {
@@ -96,6 +125,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     if (!$scope.printMode) {
       $scope.currentId = id;
       $scope.servicereport = Servicereport.find(id);
+      $scope.customer = Customer.find($scope.servicereport.customerId);
       console.info('Preprint $scope.servicereport:', id, $scope.servicereport);
       $scope.printMode = true;
     } else {
@@ -142,6 +172,17 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     $scope.servicereport.dateOut = d.get();
   };
 
+/*
+  $scope.getCustomerName = function (customerId) {
+    / *
+    console.info('getCustomerName() - CID:', customerId);
+    var customer = Customer.find(customerId);
+    return customer.name;
+    * /
+    return Customer.find(customerId).name;
+  };
+*/
+
   $scope.getCustomers = function (viewValue) {
     console.info('getCustomers() - viewValue:', viewValue);
     return Customer.all;
@@ -151,7 +192,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     console.info('onCustomerSelect() - item, model, label:', item, model, label);
     //if (!$scope.servicereport.location)
     console.info('item:', item);
-    $scope.servicereport.customer = item;
+    $scope.customer = item;
     $scope.servicereport.location = item.address;
   };
 
