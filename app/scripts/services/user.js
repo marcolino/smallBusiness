@@ -2,7 +2,6 @@
  
 app.factory('User', function ($rootScope, $firebase, FIREBASE_URL) {
   var ref = new Firebase(FIREBASE_URL + 'users');
- 
   var users = $firebase(ref);
  
   var User = {

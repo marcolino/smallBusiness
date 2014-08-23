@@ -271,9 +271,17 @@ form.form-search:before {
 */
 
 .error-container {
-  padding-top: 1.0em;
+  padding-top: 0.8em;
 }
 .error {
+  border: 1px solid #c8c8c8;
+          border-radius: 4px;
+     -moz-border-radius: 4px;
+   -khtml-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 0 0.5em;
+  margin: 0 0.2em;
+  background-color: #d0d0d8;
   color: darkred;
 }
 
@@ -283,7 +291,7 @@ form.form-search:before {
   padding: 0;
   width: 545pt; /* 595pt; /* A4 width in points */
   height: 842pt; /* A4 height in points */
-  font-size: 12pt;
+  font-size: 9pt;
   border: 1px solid #ccc;
           border-radius: 12px;
      -moz-border-radius: 12px;

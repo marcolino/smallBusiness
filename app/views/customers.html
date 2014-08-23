@@ -1,115 +1,273 @@
 <div class="container customers-page">
+
   <div ng-show="signedIn()" ng-controller="CustomersCtrl">
 
-<!--
-    <form class="form-search form-inline customer" ng-show="signedIn() && !(customerAddMode || customerEditMode)">
-      <div class="input-group" title="Search customer by name">
-        <input type="text" class="form-control search-query" NOplaceholder="Search..." />
-        <span class="input-group-btn">
-          <button type="submit" class="btn btn-primary">Search</button>
-        </span>
-      </div>
-    </form>
--->
-    <form ng-show="signedIn() && !(customerAddMode || customerEditMode)" class="customer form-inline">
-      <div class="form-group form-group-condensed" title="Filter customers by name">
-        <div class="right-inner-addon">
-          <i class="glyphicon glyphicon-search"></i>
-          <input type="text" ng-model="customerSelected" typeahead="customer as customer.name for customer in customers | orderByPriority | filter:{name: $viewValue} | limitTo:8" class="form-control form-control-search">
-        </div>
-      </div>
-    </form>
-    <br />
-
-    <table ng-table="tableParams" class="table">
-      <!-- TODO (?): see http://bazalt-cms.com/ng-table/example/3 for table sorting -->
-<!--
-      <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted') && ((typeof(customerSelected) !== 'object') || (customer.name === customerSelected.name))">
--->
-<!--
-      <tr ng-repeat="(customerId, customer) in customers" ng-if="!customer.hasOwnProperty('deleted') && ((typeof(customerSelected) !== 'object') || (match(customer.name, customerSelected.name)))">
--->
-      <tr ng-repeat="(customerId, customer) in customers | onlySearched:customerSelected.name" ng-if="!customer.hasOwnProperty('deleted')">
-        <td title="Customer name" sortable="'name'" class="condensed">
-          {{ customer.name }}
-        </td>
-        <td title="Partita IVA" sortable="'piva'" class="condensed">
-          {{ customer.piva }}
-        </td>
-        <td title="Street address" sortable="'address'" class="condensed">
-          {{ customer.address }}
-        </td>
-        <td title="Phone number" sortable="'phone'" class="condensed">
-          {{ customer.phone }}
-        </td>
-        <td title="Email address" sortable="'email'" class="condensed">
-          {{ customer.email }}
-        </td>
-        <td title="Edit customer data" class="condensed">
-          <a href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editCustomer(customerId)" t_itle="Edit customer data"><i class="glyphicon glyphicon-pencil"></i></a>
-        </td>
-        <td title="Delete customer" class="condensed">
-          <button
-            class="btn btn-primary btn-xs glyphicon glyphicon-trash"
-            really-message="Are you really sure to remove customer <i>{{customer.name}}</i> ?" really-click="deleteCustomer(customerId)"
-          >
+    <form class="form-horizontal" ng-hide="printMode || addMode || editMode">
+      <div class="form-group">
+        <div class="col-xs-3" title="Add new customer">
+          <button type="submit" class="btn btn-primary" ng-show="signedIn() && !(addMode || editMode)" ng-click="addCustomer()">
+            <i class="glyphicon glyphicon-plus"></i>&nbsp;New customer
           </button>
-<!--            <i class="glyphicon glyphicon-trash"></i> -->
-        </td>
-      </tr>
-    </table>  
-    <hr>
+        </div>
+        <div class="col-xs-6">
+        </div>
+        <div class="col-xs-3" title="Filter customers">
+          <div class="right-inner-addon">
+            <i class="glyphicon glyphicon-search"></i>
+            <input type="text" ng-model="search" class="form-control form-control-search" style="min-width: 8.0em;">
+          </div>
+        </div>  
+      </div>
+      <div class="vertical-spacer" style="height: 1.0em;"></div>
+    </form>
 
-    <input type="button" value="New customer" ng-show="signedIn() && !(customerAddMode || customerEditMode)" ng-click="customerAddMode = true" />
+    <div ng-hide="printMode || addMode || editMode" style="max-height: 20.0em; overflow: auto;">
+      <table ng-table="tableParams" class="table">
+        <tr>
+          <th>
+            <span ng-click="orderby = '-name'">Name</span>
+            <a ng-click="orderby = 'name'"><small><i ng-show="orderby === '-name'" class="glyphicon glyphicon-chevron-up"></i></small></a>
+            <a ng-click="orderby = '-name'"><small><i ng-show="orderby === 'name'" class="glyphicon glyphicon-chevron-down"></i></small></a>
+          </th>
+          <th>
+            P.IVA
+          </th>
+          <th>
+            Phone
+          </th>
+          <th>
+            Email
+          </th>
+          <th>
+            Address
+          </th>
+          <th>
+            <!-- command buttons -->
+          </th>
+        </tr>
+        <tr ng-repeat="(customerId, customer) in customers | orderByPriority | filter:search | orderBy: orderby" ng-if="!customer.hasOwnProperty('deleted')">
+          <td title="Customer name" sortable="'name'" class="condensed">
+            {{ customer.name }}
+          </td>
+          <td title="P.IVA" sortable="'cfpiva'" class="condensed">
+            {{ customer.cfpiva }}
+          </td>
+          <td title="Phone" sortable="'phone'" class="condensed">
+            {{ customer.phone }}
+          </td>
+          <td title="Email" sortable="'email'" class="condensed">
+            {{ customer.email }}
+          </td>
+          <td title="Address" sortable="'address'" class="condensed">
+            {{ customer.address }}
+          </td>
+          <td class="condensed">
+            <a title="Edit customer" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editCustomer(customer)"><i class="glyphicon glyphicon-pencil"></i></a>
+            <a title="Print customer" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="preprintCustomer(customer)"><i class="glyphicon glyphicon-print"></i></a>
+            <button
+              title="Delete customer" 
+              class="btn btn-primary btn-xs glyphicon glyphicon-trash"
+              really-message="Are you really sure to remove customer <i>{{customer.name}}</i> ?" really-click="deleteCustomer(customer)"
+            ></button>
+          </td>
+        </tr>
+      </table>  
+    </div>
 
-    <form ng-show="signedIn() && (customerAddMode || customerEditMode)" class="customer form-horizontal">
-
-      <div class="form-group form-group-condensed" title="Name of the customer">
-        <label for="name" class="control-label col-xs-2">Name</label>
-        <div class="col-xs-10 left-inner-addon">
-          <i class="glyphicon glyphicon-user"></i>
-          <input type="text" class="form-control" id="name" ng-model="customer.name" autofocus>
+    <form name="formAddEdit" ng-show="addMode || editMode" novalidate class="customer form-horizontal">
+      <div class="row" title="Customer name">
+        <div class="col-xs-6 col-sm-2 col-lg-2">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+            <input type="text" name="name" class="form-control" ng-model="customer.name" placeholder="Name" auto-focus="addMode || editMode" autocomplete="off" required check-customer-name />
+          </div>
+        </div>
+        <div class="col-xs-1 small">
+          <span ng-show="formAddEdit.name.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        </div>
+        <div class="error-container" ng-show="formAddEdit.name.$invalid && formAddEditSubmitted">
+          <small class="error" ng-show="formAddEdit.name.$error.required">
+            A customer name is required
+          </small>
         </div>
       </div>
-
-      <div class="form-group form-group-condensed" title="P. IVA of the customer">
-        <label for="piva" class="control-label col-xs-2">P. IVA</label>
-        <div class="col-xs-10 left-inner-addon">
-          <i class="glyphicon glyphicon-credit-card"></i>
-          <input type="text" class="form-control" id="piva" ng-model="customer.piva">
+      <div class="row" title="Codice Fiscale or P.IVA of the customer">
+        <div class="col-xs-9 col-sm-4 col-lg-3">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-credit-card"></span></span>
+            <input type="text" name="cfpiva" class="form-control" ng-model="customer.cfpiva" placeholder="Codice Fiscale / P.IVA" autocomplete="off" required check-cf-or-piva />
+          </div>
+        </div>
+        <div class="col-xs-1 small">
+          <span ng-show="formAddEdit.cfpiva.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        </div>
+        <div class="error-container" ng-show="formAddEdit.cfpiva.$invalid && formAddEditSubmitted">
+          <small class="error" ng-show="formAddEdit.cfpiva.$error.required || formAddEdit.cfpiva.$error.norCfNorPiva">
+            A Codice Fiscale or a P.IVA is required
+          </small>
+          <small class="error" ng-show="formAddEdit.cfpiva.$error.cfinvalidchar">
+            Codice Fiscale contains invalid character(s)
+          </small>
+          <small class="error" ng-show="formAddEdit.cfpiva.$error.cfcrcwrong">
+            Codice Fiscale control code doesn't match
+          </small>
+          <small class="error" ng-show="formAddEdit.cfpiva.$error.pivainvalidchar">
+            P.IVA contains invalid character(s)
+          </small>
+          <small class="error" ng-show="formAddEdit.cfpiva.$error.pivacrcwrong">
+            P.IVA control code doesn't match
+          </small>
         </div>
       </div>
-
-      <div class="form-group form-group-condensed" title="Street address of the customer">
-        <label for="address" class="control-label col-xs-2">Address</label>
-        <div class="col-xs-10 left-inner-addon">
-          <i class="glyphicon glyphicon-globe"></i>
-          <input type="text" class="form-control" id="address" ng-model="customer.address" ng-autocomplete="result1" details="details1" options="options1" placeholder="" />
+      <div class="row" title="Customer phone number">
+        <div class="col-xs-9 col-sm-4 col-lg-3">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-phone-alt"></span></span>
+            <input type="text" name="phone" class="form-control" ng-model="customer.phone" placeholder="Phone number" autocomplete="off" required check-phone />
+          </div>
+        </div>
+        <div class="col-xs-1 small">
+          <span ng-show="formAddEdit.phone.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        </div>
+        <div class="error-container" ng-show="formAddEdit.phone.$invalid && formAddEditSubmitted">
+          <small class="error" ng-show="formAddEdit.cfpiva.$error.required">
+            A phone number is required
+          </small>
+          <small class="error" ng-show="formAddEdit.phone.$error.invalid">
+            Phone number is not valid
+          </small>
         </div>
       </div>
-
-      <div class="form-group form-group-condensed" title="Phone number of the customer">
-        <label for="phone" class="control-label col-xs-2">Phone</label>
-        <div class="col-xs-10 left-inner-addon">
-          <i class="glyphicon glyphicon-phone-alt"></i>
-          <input type="tel" class="form-control" id="phone" ng-model="customer.phone">
+      <div class="row" title="Customer email address">
+        <div class="col-xs-12 col-sm-6 col-lg-4">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+            <input type="text" name="email" class="form-control" ng-model="customer.email" placeholder="Email address" autocomplete="off" required check-email />
+          </div>
+        </div>
+        <div class="col-xs-1 small">
+          <span ng-show="formAddEdit.email.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        </div>
+        <div class="error-container" ng-show="formAddEdit.email.$invalid && formAddEditSubmitted">
+          <small class="error" ng-show="formAddEdit.cfpiva.$error.required">
+            An email address is required
+          </small>
+          <small class="error" ng-show="formAddEdit.email.$error.invalid">
+            Email address is not valid
+          </small>
         </div>
       </div>
-
-      <div class="form-group form-group-condensed" title="Email address of the customer">
-        <label for="email" class="control-label col-xs-2">Email</label>
-        <div class="col-xs-10 left-inner-addon">
-          <i class="glyphicon glyphicon-envelope"></i>
-          <input type="email" class="form-control" id="email" ng-model="customer.email">
+      <div class="row" title="Customer street address">
+        <div class="col-xs-12 col-sm-8 col-lg-4">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
+            <input type="text" name="address" class="form-control" ng-model="customer.address" ng-autocomplete="autocompleteAddressResult" details="autocompleteAddressDetails" options="autocompleteAddressOptions" placeholder="Address" required />
+          </div>
+        </div>
+        <div class="col-xs-1 small">
+          <span ng-show="formAddEdit.address.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        </div>
+        <div class="error-container" ng-show="formAddEdit.address.$invalid && formAddEditSubmitted">
+          <small class="error" ng-show="formAddEdit.address.$error.required">
+            A street address is required
+          </small>
         </div>
       </div>
-      <div class="customer row" style="margin-top: 0.2em;">
-        <div class="col-xs-12">
-          <button type="submit" ng-click="submitCustomer()">Save</button>
-          <button type="reset" ng-click="cancelCustomer()">cancel</button>
+      <div class="customer row no-print" style="margin-top: 1.0em;">
+        <div class="col">
+          <button type="submit" class="btn btn-primary" ng-click="submitCustomer(formAddEdit.$valid)">
+            <i class="glyphicon glyphicon-save"></i>&nbsp;Save
+          </button>
+          &emsp;
+          <button type="text" class="btn btn-default" ng-click="cancelCustomer()">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;cancel
+          </button>
         </div>
       </div>
+    </form>
 
-    </form>  
+    <form ng-show="printMode" class="customer">
+      <div class="print-report customer">
+        <div class="row print-row">
+          <div class="col-xs-4">
+            <h6><img src="icons/favicon.png">Sistemi Solari Rossi</h6>
+          </div>
+          <div class="col-xs-7 text-right">
+            <h2>Customer Card (da fare...)</h2>
+          </div>
+          <div class="col-xs-1">
+          </div>
+        </div>
+        <div class="row print-row">
+          <div class="col-xs-12">
+            <label>Name</label>
+            <input type="text" value="{{ customer.name }}" disabled="true" />
+          </div>
+        </div>
+        <div class="row print-row">
+          <div class="col-xs-4">
+            <label>Date</label>
+            <input type="text" value="{{ customer.dateIn | date: 'dd MMMM yyyy HH:mm' }}" disabled="true"/>
+          </div>
+          <div class="col-xs-2">
+            <label>Duration</label>
+            <input type="text" value="{{ customer.duration | date: 'HH:mm' }}" disabled="true"/>
+          </div>
+          <div class="col-xs-6">
+            <label>Location</label>
+            <input type="text" value="{{ customer.location }}" disabled="true"/>
+          </div>
+        </div>
+        <div class="row print-row">
+          <div class="col-xs-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row print-row">
+          <div class="col-xs-3">
+            <label>Customer</label>
+            <input type="text" value="{{ customer.name }}" disabled="true" />
+          </div>
+          <div class="col-xs-3">
+            <label>P.&nbsp;IVA</label>
+            <input type="text" value="{{ customer.cfpiva }}" disabled="true" />
+          </div>
+          <div class="col-xs-6">
+            <label>Address</label>
+            <input type="text" value="{{ customer.address }}" disabled="true" />
+          </div>
+        </div>
+        <div class="row print-row">
+          <div class="col-xs-4">
+            <label>Email</label>
+            <input type="text" value="{{ customer.email }}" disabled="true" />
+          </div>
+          <div class="col-xs-4">
+            <label>Phone</label>
+            <input type="text" value="{{ customer.phone }}" disabled="true" />
+          </div>
+          <div class="col-xs-4">
+            <label>Fax</label>
+            <input type="text" value="{{ customer.fax }}" disabled="true" />
+          </div>
+        </div>
+        <div class="row print-row">
+          <div class="col-xs-12">
+            <h_r>
+          </div>
+        </div>
+      </div>
+      <div class="row no-print" style="margin-top: 1.0em;">
+        <div class="col">
+          <button type="submit" class="btn btn-primary" ng-click="printCustomer()">
+            <i class="glyphicon glyphicon-print"></i>&nbsp;Print
+          </button>
+          &emsp;
+          <button type="text" class="btn btn-default" ng-click="cancelCustomer()">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;cancel
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 </div>

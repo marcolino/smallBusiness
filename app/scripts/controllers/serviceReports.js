@@ -1,6 +1,6 @@
 'use strict';
  
-app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth, DateTime) {
+app.controller('ServicereportsCtrl', function ($scope, /*$rootScope, */$location, Servicereport, Customer, Auth, DateTime) {
 
   $scope.servicereport = {};
   $scope.servicereports = Servicereport.all;
@@ -8,16 +8,12 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
   $scope.customersById = {};
   $scope.customers = Customer.all;
   $scope.customers.$on('loaded', function() {
-    console.log('///', $scope.customers);
     angular.forEach($scope.customers, function(customer, id) {
-      console.log('iii', id);
-      console.log('T +++', $scope.typeof(customer));
-      if ($scope.typeof(customer) === 'object') {
-        console.log('+++', customer);
+      if (typeof customer === 'object') {
         $scope.customersById[id] = customer;
       }
     });
-    console.info($scope.customersById);
+    //console.info($scope.customersById);
   });
 
   // initialize report operator if user is authenticated
@@ -29,20 +25,8 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
 
   $scope.servicereports.$on('loaded', function() {
     $scope.servicereport.number = Servicereport.getNumberNext();
-    $scope.servicereport.customer = Customer.all;
   });
 
-/*
-    $scope.customers.$on('loaded', function() {
-      $scope.servicereport.customer = Customer.find($scope.servicereport.customerId); // replace customer's id with customer
-      / *
-      $scope.customers.find($scope.servicereport.customer).then(function (customer) { // replace customer's id with customer
-        console.info("* customer *:", customer);
-        $scope.servicereport.customer = customer;
-      });
-      * /
-    });
-*/
   $scope.initServicereport = function () {
     //$scope.servicereport.number = null;
     $scope.servicereport.operator = $scope.currentUser ? $scope.currentUser.username : null;
@@ -108,8 +92,8 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
   };
 
   $scope.editServicereport = function (servicereport) {
-    var id = servicereport.$id;
     if (!$scope.editMode) {
+      var id = servicereport.$id;
       $scope.currentId = id;
       $scope.servicereport = Servicereport.find(id);
       $scope.customer = Customer.find($scope.servicereport.customerId);
@@ -213,15 +197,17 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     return value;
   };
 
+/*
   $scope.typeof = function (val) {
     return typeof val;
   };
-
+*/
+/*
   $scope.match = function (str, pattern) {
     var regex = new RegExp(pattern, 'g');
     return str.match(regex);
   };
-
+*/
   $scope.print = function () {
     setTimeout(function () {
       window.print();

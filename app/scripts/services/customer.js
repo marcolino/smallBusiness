@@ -21,16 +21,19 @@ app.factory('Customer', function ($firebase, FIREBASE_URL, User) {
     find: function (customerId) {
       return customers.$child(customerId);
     },
+    /*
     findByCustomername: function (customername) {
       if (customername) {
         return customers.$child(customername);
       }
     },
+    */
     delete: function (customerId) {
       //console.log('deleting:', customerId);
       var customer = Customer.find(customerId);
+      customer.deleted = true;
       customer.$on('loaded', function () {
-        customers.$child(customerId).$set({ deleted: true });
+        customers.$child(customerId).$set(customer);
       });
     }
   };

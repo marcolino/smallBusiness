@@ -1,6 +1,6 @@
 'use strict';
 
-app.filter('onlySearched', function () {
+app.filter('searching', function () {
   return function(all, searched) {
     var matching = [];
 

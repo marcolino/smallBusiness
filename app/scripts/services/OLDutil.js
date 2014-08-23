@@ -20,13 +20,6 @@ app.factory('Util', function () {
         return 'Phone number doesn\'t apper to be valid';
       }
       return null;
-/*
-      var result = value.replace(/[^\d]/g, ''); // remove all non-digits
-      if (!result || result.length !== 10) {
-        return 'Phone number is wrong: it\'s length should be exactly 10 digits';
-      }
-      return null;
-*/
     },
 
     /**

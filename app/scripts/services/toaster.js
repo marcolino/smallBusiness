@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('UserNotify', function ($timeout) {
+app.factory('Toaster', function ($timeout) {
   toastr.options = {
     'closeButton': false,
     'debug': false,

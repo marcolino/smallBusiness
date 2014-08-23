@@ -51,7 +51,7 @@
             <!-- command buttons -->
           </th>
         </tr>
-        <tr ng-repeat="(servicereportId, servicereport) in servicereports | orderByPriority | filter:search | orderBy: orderby" ng-if="!servicereport.hasOwnProperty('deleted') && servicereport.hasOwnProperty('number')">
+        <tr ng-repeat="(servicereportId, servicereport) in servicereports | orderByPriority | searchServiceReport:customersById:search | orderBy: orderby" ng-if="!servicereport.hasOwnProperty('deleted') && !servicereport.hasOwnProperty('serviceReportNumber')">
           <td title="Number" sortable="'number'" class="condensed">
             {{ servicereport.number }}
           </td>
@@ -93,7 +93,7 @@
         <div class="col-xs-6 col-sm-2 col-lg-2">
           <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-flag"></span></span>
-            <input type="text" class="form-control" ng-model="servicereport.number" placeholder="" ng-disabled="true" />
+            <input type="text" class="form-control" ng-model="servicereport.number" ng-disabled="true" />
           </div>
         </div>
       </div>
@@ -101,10 +101,10 @@
         <div class="col-xs-8 col-sm-4 col-lg-2">
           <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-            <input type="text" name="operator" class="form-control" ng-model="servicereport.operator" placeholder="" required />
+            <input type="text" name="operator" class="form-control" ng-model="servicereport.operator" required />
           </div>
         </div>
-        <div class="error-container" ng-show="formAddEdit.operator.$invalid && !formAddEdit.operatorSubmitted">
+        <div class="error-container" ng-show="formAddEdit.operator.$invalid && formAddEditSubmitted">
           <small class="error" ng-show="formAddEdit.operator.$error.required">
             An operator is required
           </small>
@@ -130,7 +130,7 @@
         <div class="col-xs-12 col-sm-8 col-lg-4">
           <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-globe"></span></span>
-            <input type="text" class="form-control" ng-model="servicereport.location" placeholder="" />
+            <input type="text" class="form-control" ng-model="servicereport.location" />
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@
         <div class="col-xs-9 col-sm-4 col-lg-3">
           <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-phone-alt"></span></span>
-            <input type="text" class="form-control" ng-model="customer.phone" placeholder="" />
+            <input type="text" class="form-control" ng-model="customer.phone" disabled />
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@
         <div class="col-xs-12 col-sm-6 col-lg-4">
           <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-            <input type="text" class="form-control" ng-model="customer.email" placeholder="" />
+            <input type="email" class="form-control" ng-model="customer.email" disabled />
           </div>
         </div>
       </div>
@@ -162,7 +162,7 @@
         <div class="col-xs-6 col-sm-2 col-lg-2">
           <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-            <input type="text" name="duration" class="form-control" ng-model="servicereport.duration" placeholder="hh:mm" autocomplete="off" required duration />
+            <input type="text" name="duration" class="form-control" ng-model="servicereport.duration" placeholder="hh:mm" autocomplete="off" required check-duration />
           </div>
         </div>
         <div class="error-container" ng-show="formAddEdit.duration.$invalid && formAddEditSubmitted">
@@ -239,7 +239,7 @@
           </div>
           <div class="col-xs-3">
             <label>P.&nbsp;IVA</label>
-            <input type="text" value="{{ customer.piva }}" disabled="true" />
+            <input type="text" value="{{ customer.cfpiva }}" disabled="true" />
           </div>
           <div class="col-xs-6">
             <label>Address</label>
