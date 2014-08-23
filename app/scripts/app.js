@@ -37,7 +37,6 @@ app.config(function ($routeProvider) {
   $routeProvider
     .when('/', {
       templateUrl: 'views/home.html',
-      //controller: 'HomeCtrl'
       controller: 'AuthCtrl' // WITHOUT THIS lINE A HARD PAGE REFRESH LOOSES AUTH USER! ...
     })
     .when('/register', {

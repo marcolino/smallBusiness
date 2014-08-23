@@ -1,6 +1,8 @@
 'use strict';
  
-app.controller('CustomersCtrl', function ($scope, $location, Customer) {
+app.controller('CustomersCtrl', function ($scope, $rootScope, $location, Customer) {
+
+  $rootScope.formLabel = 'Customers';
 
   $scope.customer = {};
   $scope.customers = Customer.all;

@@ -20,7 +20,7 @@
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/customers">Customers</a>
       </li>
       <li role="presentation">
-        <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" n_g-href="#/orders" href="javascript:void(0)">Orders</a>
+        <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" NOng-href="#/orders" onclick="toastr.warning('Not yet available...');">Orders</a>
       </li>
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/servicereports">Service reports</a>
@@ -41,24 +41,39 @@
 </nav>
 
 <div ng-controller="NavCtrl" class="no-print">
-  <ul class="list-inline list-inline-right" ng-hide="signedIn()">
-    <li>
-      <a class="btn btn-primary" href="#/register"><span class="glyphicon glyphicon-user" title="Register if you have not an account already"></span>&emsp;<span>Register</span></a>
-    <li>
-<!--      <a href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in"></span></a> -->
-      <a class="btn btn-primary" href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in with your credentials"></span>&emsp;<span>Login</span></a>
-    </li>
-  </ul>
-  <ul class="list-inline list-inline-right" ng-show="signedIn()">
-    <li>
-      <a href="#/users/{{ currentUser.username }}">
-        <img class="nav-pic-user" ng-src="http://www.gravatar.com/avatar/{{ currentUser.md5_hash }}" title="logged user: {{ currentUser.username }}" />
-          <span title="logged user: {{ currentUser.username }}"><i>{{ currentUser.username }}</i></span>
-      </a>
-    </li>
-    <li>
-<!--      <a href="#" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Logout"></span></a> -->
-      <a class="btn btn-primary" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Log out"></span></a>
-    </li>
-  </ul>
+  <div ng-hide="signedIn()">
+    <div class="nav-alignleft">
+      <span class="nav-alignleft breadcrumb" ng-show="formLabel">
+        {{ formLabel }}
+      </span>
+    </div>
+    <div class="nav-alignright">
+      <span>
+        <a class="btn btn-primary" href="#/register"><span class="glyphicon glyphicon-user" title="Register if you have not an account already"></span>&emsp;<span>Register</span></a>
+      </span>
+      <span>
+        <a class="btn btn-primary" href="#/login"><span class="glyphicon glyphicon-log-in" title="Log in with your credentials"></span>&emsp;<span>Login</span></a>
+      </span>
+    </div>
+    <div class="alignclearboth"></div>
+  </div>
+  <div ng-show="signedIn()">
+    <div class="nav-alignleft">
+      <span class="nav-alignleft breadcrumb" ng-show="formLabel">
+        {{ formLabel }}
+      </span>
+    </div>
+    <div class="nav-alignright">
+      <span>
+        <a href="#/users/{{ currentUser.username }}">
+          <img class="nav-pic-user" ng-src="http://www.gravatar.com/avatar/{{ currentUser.md5_hash }}" title="logged user: {{ currentUser.username }}" />
+            <span title="logged user: {{ currentUser.username }}"><i>{{ currentUser.username }}</i></span>
+        </a>
+      </span>
+      <span>
+        <a class="btn btn-primary" ng-click="logout()"><span class="glyphicon glyphicon-log-out" title="Log out"></span></a>
+      </span>
+    </div>
+    <div class="alignclearboth"></div>
+  </div>
 </div>

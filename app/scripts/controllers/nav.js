@@ -1,6 +1,6 @@
 'use strict';
  
-app.controller('NavCtrl', function ($scope, $location, Auth) {
+app.controller('NavCtrl', function ($scope, $rootScope, $location, Auth) {
 /*
   $scope.orderPlaceholder = { url: 'http://', title: '' };
   $scope.order = $scope.orderPlaceholder;
@@ -13,10 +13,12 @@ app.controller('NavCtrl', function ($scope, $location, Auth) {
       $location.path('/orders/' + orderId);
     });
   };
-*/
+*/ 
+  $rootScope.formLabel = '';
 
   $scope.logout = function () {
     //console.info('logout...');
+    $rootScope.formLabel = '';
     Auth.logout();
   };
 });

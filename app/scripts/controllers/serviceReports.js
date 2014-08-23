@@ -1,6 +1,8 @@
 'use strict';
  
-app.controller('ServicereportsCtrl', function ($scope, /*$rootScope, */$location, Servicereport, Customer, Auth, DateTime) {
+app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth, DateTime) {
+
+  $rootScope.formLabel = 'Service Reports';
 
   $scope.servicereport = {};
   $scope.servicereports = Servicereport.all;

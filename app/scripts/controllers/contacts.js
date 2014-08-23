@@ -7,5 +7,6 @@
  * # ContactsCtrl
  * Controller of the smallBusinessApp
  */
-app.controller('ContactsCtrl', function (/*$scope*/) {
+app.controller('ContactsCtrl', function (/*$scope, */$rootScope) {
+  $rootScope.formLabel = 'Contacts';
 });

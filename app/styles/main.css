@@ -40,10 +40,34 @@ a, a:hover {
 .nav-pic-user {
   max-height: 28px;
 }
+.list-inline-left {
+  margin-top: -0.5em;
+  float: left;
+  padding-left: 1.0em;
+}
 .list-inline-right {
   margin-top: -0.5em;
-  text-align: right;
+  float: right;
   padding-right: 1.0em;
+}
+.nav-alignleft { /* TODO: rename these (for formLabel on nav and login...) */
+  float: left;
+  padding-left: 1.0em;
+  margin-bottom: 0.5em;
+}
+.nav-alignright {
+  float: right;
+  padding-right: 1.0em;
+  margin-bottom: 0.5em;
+}
+.alignclearboth {
+  clear: both;
+}
+.breadcrumb {
+  color: #888;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  font-style: italic;
 }
 .centered {
   text-align: center;
@@ -269,6 +293,11 @@ form.form-search:before {
     z-index: 1000;
 }
 */
+
+.form-label {
+  text-align: center;
+  font-size: 1.5em;
+}
 
 .error-container {
   padding-top: 0.8em;
