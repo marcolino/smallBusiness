@@ -6,12 +6,22 @@ app.controller('CustomersCtrl', function ($scope, $rootScope, $location, Custome
 
   $scope.customer = {};
   $scope.customers = Customer.all;
-
   /*
-  if ($location.path() === '/customers') { // to handle /customers:$id
+  if ($location.path() === '/customers') { // to handle routes like "/customers:$id"
     $scope.customers = Customer.all;
   }
   */
+/*
+  $scope.customersByName = {};
+  $scope.customers.$on('loaded', function() {
+    angular.forEach($scope.customers, function(customer, id) {
+      if (typeof customer === 'object') {
+        $scope.customersByName[customer.name] = id;
+      }
+    });
+    //console.info($scope.customersByName);
+  });
+*/
 
 /*
   $scope.customerSelected = '';
@@ -95,6 +105,13 @@ app.controller('CustomersCtrl', function ($scope, $rootScope, $location, Custome
     }
   };
 
+/*
+  $scope.findCustomerName = function (name) {
+    if ($scope.customersByName[name]) {
+      return $scope.customersByName[name]; // return customer's id
+    }
+  };
+*/
   $scope.preprintCustomer = function (customer) {
     var id = customer.$id;
     if (!$scope.printMode) {

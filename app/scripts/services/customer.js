@@ -21,13 +21,9 @@ app.factory('Customer', function ($firebase, FIREBASE_URL, User) {
     find: function (customerId) {
       return customers.$child(customerId);
     },
-    /*
-    findByCustomername: function (customername) {
-      if (customername) {
-        return customers.$child(customername);
-      }
+    findByName: function (customerName) {
+      return null; // TODO: ...
     },
-    */
     delete: function (customerId) {
       //console.log('deleting:', customerId);
       var customer = Customer.find(customerId);

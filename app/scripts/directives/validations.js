@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('checkUsername', function(User) {
+app.directive('checkUserName', function(User) {
   return {
     require: 'ngModel',
     link: function(scope, elm, attrs, model) {
@@ -55,6 +55,36 @@ app.directive('checkDuration', function() {
         } else {
           // it is invalid, return undefined (no model update)
           ctrl.$setValidity('duration', false);
+          return undefined;
+        }
+      });
+    }
+  };
+});
+
+app.directive('checkCustomerName', function(/*Customer*/) {
+  return {
+    require: 'ngModel',
+    link: function(scope, elm, attrs, model) {
+      var CUSTOMERNAME_REGEXP = /^[^.$\[\]#\/\s]+$/;
+      model.$parsers.unshift(function(viewValue) {
+        if (CUSTOMERNAME_REGEXP.test(viewValue)) {
+/*
+          if (Customer.findByUsername(viewValue).$getIndex().length === 0) {
+*/
+            model.$setValidity('taken', true);
+            model.$setValidity('invalid', true);
+            return viewValue;
+/*
+          } else {
+            model.$setValidity('taken', false);
+            model.$setValidity('invalid', true);
+            return undefined;
+          }
+*/
+        } else {
+          model.$setValidity('taken', true);
+          model.$setValidity('invalid', false);
           return undefined;
         }
       });

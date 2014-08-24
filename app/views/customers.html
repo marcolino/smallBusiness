@@ -89,6 +89,12 @@
           <small class="error" ng-show="formAddEdit.name.$error.required">
             A customer name is required
           </small>
+          <small class="error" ng-show="formAddEdit.name.$error.invalid">
+            Customer name is not valid
+          </small>
+          <small class="error" ng-show="formAddEdit.name.$error.taken">
+            Customer name is already present
+          </small>
         </div>
       </div>
       <div class="row" title="Codice Fiscale or P.IVA of the customer">

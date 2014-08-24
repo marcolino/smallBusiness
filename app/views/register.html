@@ -11,7 +11,7 @@
       <div ng-show="form.password.$error.equals" class="text-danger">Passwords do not match</div>
     </div>
     <div style="clear: both;"></div>
-  	<input type="text" ng-model="user.username" placeholder="Username" name="username" class="form-control" autocomplete="off" required check-username><br>
+  	<input type="text" ng-model="user.username" placeholder="Username" name="username" class="form-control" autocomplete="off" required check-user-name><br>
     <input type="email" ng-model="user.email" placeholder="Email" class="form-control" autocomplete="on" auto-fill-sync required><br> 
     <input type="password" ng-model="user.password" placeholder="Password" name="password" class="form-control" autocomplete="on" auto-fill-sync required equals="{{user.passwordVerify}}"><br>
     <input type="password" ng-model="user.passwordVerify" placeholder="Confirm password" name="password-verify" class="form-control" autocomplete="on" auto-fill-sync required equals="{{user.password}}"><br>
