@@ -58,7 +58,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     $scope.servicereport.customerId = $scope.customer.$id; // save customer's id
     $scope.servicereport.dateCreation = new Date(); // set report creation date
     $scope.setDateOut();
-    $scope.servicereport.duration = $scope.formatTimeDuration($scope.servicereport.duration);
+    //$scope.servicereport.duration = $scope.formatTimeDuration($scope.servicereport.duration);
     if ($scope.editMode) {
       Servicereport.set($scope.currentId, $scope.servicereport).then(function () {
         //$scope.servicereport.number = Servicereport.setNumberNext($scope.servicereport.number);
@@ -182,6 +182,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     $scope.servicereport.location = item.address;
   };
 
+/*
   $scope.formatTimeDuration = function(value) {
     value = value.replace(/\./g, ':');
     //console.info('value:', value);
@@ -198,6 +199,7 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
     //console.info('return value:', value);
     return value;
   };
+*/
 
 /*
   $scope.typeof = function (val) {

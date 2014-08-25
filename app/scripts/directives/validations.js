@@ -1,5 +1,27 @@
 'use strict';
 
+function capitalizeAllWords(text) {
+  var words = text.split(' ');
+  for (var i = 0; i < words.length; i++) {
+    var j = words[i].charAt(0).toUpperCase();
+    words[i] = j + words[i].substr(1);
+  }
+  return words.join(' ');
+}
+
+function formatDuration(text) {
+  var value = text.replace(/\./g, ':');
+  var sepidx = value.indexOf(':');
+  if (sepidx >= 0) {
+    if (value.substr(sepidx + 1).length <= 1) {
+      value = value.substr(0, sepidx + 1) + '0' + value.substr(sepidx + 1);
+    }
+  } else {
+    value += ':00';
+  }
+  return value;
+}
+
 app.directive('checkUserName', function(User) {
   return {
     require: 'ngModel',
@@ -22,6 +44,12 @@ app.directive('checkUserName', function(User) {
           return undefined;
         }
       });
+      elm.bind('blur', function() {
+        if (model.$viewValue) { // capitalize all words in value
+          model.$viewValue = capitalizeAllWords(model.$viewValue);
+          model.$render();
+        }
+      });
     }
   };
 });
@@ -29,10 +57,10 @@ app.directive('checkUserName', function(User) {
 app.directive('checkDuration', function() {
   return {
     require: 'ngModel',
-    link: function(scope, elm, attrs, ctrl) {
+    link: function(scope, elm, attrs, model) {
       var POSITIVE_INTEGER_REGEXP = /^\d+$/;
       var DURATION_REGEXP = /^\d+[:.]\d+$/;
-      ctrl.$parsers.unshift(function(viewValue) {
+      model.$parsers.unshift(function(viewValue) {
         var hh = -1;
         var mm = -1;
         if (POSITIVE_INTEGER_REGEXP.test(viewValue)) {
@@ -50,42 +78,53 @@ app.directive('checkDuration', function() {
         }
         var m = (hh * 60) + mm;
         if (m > 0) { // it is valid, set it and return viewValue
-          ctrl.$setValidity('duration', true);
+          model.$setValidity('duration', true);
           return viewValue;
         } else {
           // it is invalid, return undefined (no model update)
-          ctrl.$setValidity('duration', false);
+          model.$setValidity('duration', false);
           return undefined;
+        }
+      });
+      elm.bind('blur', function() {
+        console.info('formatDuration blur:', model.$viewValue);
+        if (model.$viewValue) { // capitalize all words in value
+          console.info('formatDuration blur before format:', model.$viewValue);
+          model.$viewValue = formatDuration(model.$viewValue);
+          console.info('formatDuration blur after format:', model.$viewValue);
+          model.$render();
         }
       });
     }
   };
 });
 
-app.directive('checkCustomerName', function(/*Customer*/) {
+app.directive('checkCustomerName', function(Customer) {
   return {
     require: 'ngModel',
     link: function(scope, elm, attrs, model) {
-      var CUSTOMERNAME_REGEXP = /^[^.$\[\]#\/\s]+$/;
+      var CUSTOMERNAME_REGEXP = /^[^\[\]\{\}\/#]+$/; // TODO: find a better regexp...
+      var retval;
       model.$parsers.unshift(function(viewValue) {
         if (CUSTOMERNAME_REGEXP.test(viewValue)) {
-/*
-          if (Customer.findByUsername(viewValue).$getIndex().length === 0) {
-*/
+          if (/*!scope.addMode || */Customer.findByName(viewValue).$getIndex().length === 0) {
             model.$setValidity('taken', true);
             model.$setValidity('invalid', true);
-            return viewValue;
-/*
+            retval = viewValue;
           } else {
             model.$setValidity('taken', false);
             model.$setValidity('invalid', true);
-            return undefined;
           }
-*/
         } else {
           model.$setValidity('taken', true);
           model.$setValidity('invalid', false);
-          return undefined;
+        }
+        return retval;
+      });
+      elm.bind('blur', function() {
+        if (model.$viewValue) { // capitalize all words in value
+          model.$viewValue = capitalizeAllWords(model.$viewValue);
+          model.$render();
         }
       });
     }
@@ -106,6 +145,12 @@ app.directive('checkEmail', function() {
           return undefined;
         }
       });
+      elm.bind('blur', function() {
+        if (model.$viewValue) { // lowercase value
+          model.$viewValue = model.$viewValue.toLowerCase();
+          model.$render();
+        }
+      });
     }
   };
 });
@@ -116,13 +161,29 @@ app.directive('checkPhone', function() {
     link: function(scope, elm, attrs, model) {
       var PHONE_REGEXP = /^[\s()+-]*([0-9][\s()+-]*){6,20}$/;
       //var PHONE_REGEXP = /^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/;
+      var retval;
       model.$parsers.unshift(function(viewValue) {
         if (PHONE_REGEXP.test(viewValue)) {
           model.$setValidity('invalid', true);
-          return viewValue;
+          retval = viewValue;
         } else {
           model.$setValidity('invalid', false);
-          return undefined;
+        }
+        return retval;
+      });
+      elm.bind('blur', function() {
+        var value = model.$viewValue;
+        if (value) { // remove all non-digits and insert one space after mobile prefix
+          var mobilePrefixStartsWith = '3';
+          var mobilePrefixLength = 3;
+          if (value.length > mobilePrefixLength && value.substr(0, 1) === mobilePrefixStartsWith) {
+            value = value.replace(/[^0-9]/g, '');
+            value = [value.slice(0, mobilePrefixLength), ' ', value.slice(mobilePrefixLength)].join('');
+            model.$viewValue = value;
+            model.$render();
+          } else { // do not reformat non-mobile numbers
+          }
+        } else { // do not reformat empty values
         }
       });
     }
@@ -137,6 +198,7 @@ app.directive('checkCfOrPiva', function() {
       var PIVA_LENGTH = 11;
       model.$parsers.unshift(function(viewValue) {
         var error = null;
+        var retval;
         var valid, i, c, s;
         if (!viewValue || (viewValue.length !== CF_LENGTH && viewValue.length !== PIVA_LENGTH)) { // can't tell if this was a CF or PIVA
           error = 'norCfNorPiva';
@@ -193,14 +255,20 @@ app.directive('checkCfOrPiva', function() {
         }
         if (error) {
           model.$setValidity(error, false);
-          return undefined;
         } else {
           model.$setValidity('norCfNorPiva', true);
           model.$setValidity('cfinvalidchar', true);
           model.$setValidity('cfcrcwrong', true);
           model.$setValidity('pivainvalidchar', true);
           model.$setValidity('pivacrcwrong', true);
-          return viewValue;
+          retval = viewValue;
+        }
+        return retval;
+      });
+      elm.bind('blur', function() {
+        if (model.$viewValue) { // uppercase value
+          model.$viewValue = model.$viewValue.toUpperCase();
+          model.$render();
         }
       });
     }

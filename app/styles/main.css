@@ -314,6 +314,19 @@ form.form-search:before {
   color: darkred;
 }
 
+.checkmark {
+  margin-top: 10px;
+}
+
+.checkmark-ok {
+  color: green;
+}
+
+.checkmark-error {
+  color: darkred;
+}
+
+
 /* service report print */
 .print-report {
   margin: 0;

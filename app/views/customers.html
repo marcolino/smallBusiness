@@ -82,8 +82,8 @@
             <input type="text" name="name" class="form-control" ng-model="customer.name" placeholder="Name" auto-focus="addMode || editMode" autocomplete="off" required check-customer-name />
           </div>
         </div>
-        <div class="col-xs-1 small">
-          <span ng-show="formAddEdit.name.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        <div class="col-xs-1 small" ng-show="formAddEdit.name.$valid">
+          <span class="glyphicon glyphicon-ok checkmark checkmark-ok"></span>
         </div>
         <div class="error-container" ng-show="formAddEdit.name.$invalid && formAddEditSubmitted">
           <small class="error" ng-show="formAddEdit.name.$error.required">
@@ -93,7 +93,7 @@
             Customer name is not valid
           </small>
           <small class="error" ng-show="formAddEdit.name.$error.taken">
-            Customer name is already present
+            This customer name is already present
           </small>
         </div>
       </div>
@@ -104,8 +104,8 @@
             <input type="text" name="cfpiva" class="form-control" ng-model="customer.cfpiva" placeholder="Codice Fiscale / P.IVA" autocomplete="off" required check-cf-or-piva />
           </div>
         </div>
-        <div class="col-xs-1 small">
-          <span ng-show="formAddEdit.cfpiva.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        <div class="col-xs-1 small" ng-show="formAddEdit.cfpiva.$valid">
+          <span class="glyphicon glyphicon-ok checkmark checkmark-ok"></span>
         </div>
         <div class="error-container" ng-show="formAddEdit.cfpiva.$invalid && formAddEditSubmitted">
           <small class="error" ng-show="formAddEdit.cfpiva.$error.required || formAddEdit.cfpiva.$error.norCfNorPiva">
@@ -132,8 +132,8 @@
             <input type="text" name="phone" class="form-control" ng-model="customer.phone" placeholder="Phone number" autocomplete="off" required check-phone />
           </div>
         </div>
-        <div class="col-xs-1 small">
-          <span ng-show="formAddEdit.phone.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        <div class="col-xs-1 small" ng-show="formAddEdit.phone.$valid">
+          <span class="glyphicon glyphicon-ok checkmark checkmark-ok"></span>
         </div>
         <div class="error-container" ng-show="formAddEdit.phone.$invalid && formAddEditSubmitted">
           <small class="error" ng-show="formAddEdit.cfpiva.$error.required">
@@ -151,8 +151,8 @@
             <input type="text" name="email" class="form-control" ng-model="customer.email" placeholder="Email address" autocomplete="off" required check-email />
           </div>
         </div>
-        <div class="col-xs-1 small">
-          <span ng-show="formAddEdit.email.$valid" class="glyphicon glyphicon-ok" style="color: green; margin-top: 10px;"></span>
+        <div class="col-xs-1 small" ng-show="formAddEdit.email.$valid">
+          <span class="glyphicon glyphicon-ok checkmark checkmark-ok"></span>
         </div>
         <div class="error-container" ng-show="formAddEdit.email.$invalid && formAddEditSubmitted">
           <small class="error" ng-show="formAddEdit.cfpiva.$error.required">

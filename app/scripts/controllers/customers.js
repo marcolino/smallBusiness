@@ -11,26 +11,6 @@ app.controller('CustomersCtrl', function ($scope, $rootScope, $location, Custome
     $scope.customers = Customer.all;
   }
   */
-/*
-  $scope.customersByName = {};
-  $scope.customers.$on('loaded', function() {
-    angular.forEach($scope.customers, function(customer, id) {
-      if (typeof customer === 'object') {
-        $scope.customersByName[customer.name] = id;
-      }
-    });
-    //console.info($scope.customersByName);
-  });
-*/
-
-/*
-  $scope.customerSelected = '';
-  $scope.customerIdCurrent = null;
-
-  $scope.customerPlaceholder = { name: '', cfpiva: '', address: '', phone: '', email: '', dateCreation: '', };
-  $scope.customer = angular.copy($scope.customerPlaceholder);
-  $scope.addMode = $scope.editMode = false;
-*/
 
   $scope.initCustomer = function () {
     $scope.customer.name = null;
