@@ -31,7 +31,7 @@ var app = angular.module('smallBusinessApp', [
   'ngRoute',
   'ngAutocomplete',
   'firebase',
-  'ui.bootstrap',
+  'ui.bootstrap'
 ]); 
 app.config(function ($routeProvider) {
   $routeProvider
@@ -81,9 +81,6 @@ app.config(function ($routeProvider) {
 
 });
 app.config(function (datepickerConfig, datepickerPopupConfig) {
-  datepickerPopupConfig.showWeeks = false;
-  datepickerPopupConfig.formatYear = 'yyyy';
-  datepickerPopupConfig.startingDay = 1;
   datepickerPopupConfig.showButtonBar = false;
 });
 /*

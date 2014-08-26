@@ -28,8 +28,9 @@ app.directive('checkUserName', function(User) {
     link: function(scope, elm, attrs, model) {
       var USERNAME_REGEXP = /^[^.$\[\]#\/\s]+$/;
       model.$parsers.unshift(function(viewValue) {
+        console.log('User.findByUsername(viewValue):', User.findByUsername(viewValue));
         if (USERNAME_REGEXP.test(viewValue)) {
-          if (User.findByUsername(viewValue).$getIndex().length === 0) {
+          if (/*!scope.addMode || */User.findByUsername(viewValue).$getIndex().length === 0) {
             model.$setValidity('taken', true);
             model.$setValidity('invalid', true);
             return viewValue;
@@ -87,11 +88,8 @@ app.directive('checkDuration', function() {
         }
       });
       elm.bind('blur', function() {
-        console.info('formatDuration blur:', model.$viewValue);
         if (model.$viewValue) { // capitalize all words in value
-          console.info('formatDuration blur before format:', model.$viewValue);
           model.$viewValue = formatDuration(model.$viewValue);
-          console.info('formatDuration blur after format:', model.$viewValue);
           model.$render();
         }
       });
@@ -103,19 +101,22 @@ app.directive('checkCustomerName', function(Customer) {
   return {
     require: 'ngModel',
     link: function(scope, elm, attrs, model) {
-      var CUSTOMERNAME_REGEXP = /^[^\[\]\{\}\/#]+$/; // TODO: find a better regexp...
+      //var CUSTOMERNAME_REGEXP = /^[^\[\]\{\}\/#]+$/; // TODO: find a better regexp...
+      var CUSTOMERNAME_REGEXP = /^([ \u00c0-\u01ffa-zA-Z'\-])+$/;
       var retval;
       model.$parsers.unshift(function(viewValue) {
         if (CUSTOMERNAME_REGEXP.test(viewValue)) {
-          if (/*!scope.addMode || */Customer.findByName(viewValue).$getIndex().length === 0) {
+          var current = attrs.customerId;
+          var exists = Customer.findByName(viewValue);
+          if (exists && exists !== current) { // customer name exists
+            model.$setValidity('taken', false);
+            model.$setValidity('invalid', true);
+          } else { // customer name does not exist
             model.$setValidity('taken', true);
             model.$setValidity('invalid', true);
             retval = viewValue;
-          } else {
-            model.$setValidity('taken', false);
-            model.$setValidity('invalid', true);
           }
-        } else {
+        } else { // customer name is not valid
           model.$setValidity('taken', true);
           model.$setValidity('invalid', false);
         }

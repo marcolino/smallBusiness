@@ -1,7 +1,6 @@
 'use strict';
  
 app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Servicereport, Customer, Auth, DateTime) {
-
   $rootScope.formLabel = 'Service Reports';
 
   $scope.servicereport = {};
@@ -87,7 +86,6 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
   };
 
   $scope.addServicereport = function () {
-    console.info('addServicereport');
     $scope.initServicereport();
     $scope.addMode = true;
     $scope.servicereport.number = Servicereport.setNumberNext();
@@ -133,12 +131,16 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
   $scope.dateInit = function () {
     $scope.dateMin = null;
     $scope.dateMax = null;
-    $scope.dateFormat = 'dd MMMM yyyy HH:mm';
+    $scope.dateFormat = 'dd MMMM yyyy';
     $scope.dateOptions = {
       formatYear: 'yyyy',
       startingDay: 1,
       showWeeks: false
     };
+    $scope.hourStep = 1;
+    $scope.minuteStep = 1;
+    $scope.showMeridian = false;
+
     $scope.dateDisabled = function(/*date, mode*/) {
       //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
       return false;
@@ -147,6 +149,14 @@ app.controller('ServicereportsCtrl', function ($scope, $rootScope, $location, Se
       $event.preventDefault();
       $event.stopPropagation();
       $scope.dateOpened = true;
+    };
+    $scope.timeChanged = function() {
+      console.info('dateIn without time set:', $scope.servicereport.dateIn);
+      console.info('timeChanged:', $scope.timeIn.getHours(), $scope.timeIn.getMinutes());
+      $scope.servicereport.dateIn.setHours($scope.timeIn.getHours());
+      $scope.servicereport.dateIn.setMinutes($scope.timeIn.getMinutes());
+      $scope.servicereport.dateIn.setSeconds(0);
+      console.info('dateIn with time set:', $scope.servicereport.dateIn);
     };
   };
 

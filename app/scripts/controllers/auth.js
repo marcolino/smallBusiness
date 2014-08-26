@@ -2,7 +2,7 @@
  
 app.controller('AuthCtrl', function ($scope, $location, Auth, User) {
   if (Auth.signedIn()) {
-  	console.info('signedIn');
+  	//console.info('signedIn');
     $location.path('/');
   }
 

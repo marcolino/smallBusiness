@@ -13,7 +13,8 @@ app.factory('Customer', function ($firebase, FIREBASE_URL, User) {
     create: function (customer) {
       return customers.$add(customer).then(function (ref) {
         var customerId = ref.name();
-        customersByName.$child(customer.name).$set(customerId);
+        customersByName.$child(customer.name.toLowerCase()).$set(customerId);
+        console.info('customersByName:', customersByName);
         return customerId;
       });
     },
@@ -22,22 +23,20 @@ app.factory('Customer', function ($firebase, FIREBASE_URL, User) {
       if (customer.name !== oldname) {
         customersByName.$remove(oldname);
       }
-      customersByName.$child(customer.name).$set(customerId);
+      customersByName.$child(customer.name.toLowerCase()).$set(customerId);
       return customers.$child(customerId).$set(customer);
     },
     find: function (customerId) {
       return customers.$child(customerId);
     },
-    findByName: function (customerName) { // TESTING...
-      return customersByName.$child(customerName);
+    findByName: function (customerName) {
+      return customersByName[customerName.toLowerCase()];
     },
     delete: function (customerId) {
       var customer = Customer.find(customerId);
       customer.deleted = true;
-      customer.$on('loaded', function () {
-        customersByName.$remove(customer.name);
-        customers.$child(customerId).$set(customer);
-      });
+      customersByName.$remove(customer.name.toLowerCase());
+      customers.$child(customerId).$set(customer);
     }
   };
 
