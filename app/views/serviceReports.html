@@ -21,8 +21,8 @@
       <div class="vertical-spacer" style="height: 1.0em;"></div>
     </form>
 
-    <div ng-hide="printMode || addMode || editMode" NOOOstyle="max-height: 20.0em; overflow: auto;" style="overflow: scroll; border: 1px solid red" resize ng-style="{ 'border': 1px solid red, max-height': windowHeight - 100 - 50, 'overflow': scroll }">
-      <table ng-table="tableParams" class="table">
+    <div ng-hide="printMode || addMode || editMode" resize ng-style="{ 'height': windowHeight - 200 - 30, 'overflow': 'auto' }">
+       <table ng-table="tableParams" class="table">
         <tr>
           <th>
             <span ng-click="orderby = '-number'">N&deg;</span>
