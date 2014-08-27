@@ -29,8 +29,7 @@ a, a:hover {
 .footer {
   font-size: 80%;
   text-align: right;
-  margin-top: 0.5em;
-  padding-top: 0.3em;
+  padding-top: 0.2em;
   color: #555;
   border-top: 1px solid #ccc;
 }
@@ -326,6 +325,9 @@ form.form-search:before {
   color: darkred;
 }
 
+.scrollable {
+  overflow: auto;
+}
 
 /* service report print */
 .print-report {
@@ -355,6 +357,82 @@ form.form-search:before {
 .print-row {
   margin-bottom: 1.5em;
 }
+
+/* media query classes */
+
+/*
+/* custom, iPhone Retina * /
+@media only screen and (min-width: 320px) {
+  .custom-hide { display: none; }
+  .phone-hide       { display: none; }
+  .tablet-hide      { display: none; }
+  .desktop-hide     { display: none; }
+  .wide-hide        { display: none; }
+}
+
+/* extra small devices, phones * /
+@media only screen and (min-width: 480px) {
+  .phone-hide       { display: none; }
+  .tablet-hide      { display: none; }
+  .desktop-hide     { display: none; }
+  .wide-hide        { display: none; }
+}
+
+/* small devices, tablets * /
+@media only screen and (min-width: 768px) {
+  .tablet-hide      { display: none; }
+  .desktop-hide     { display: none; }
+  .wide-hide        { display: none; }
+}
+
+/* medium devices, desktops * /
+@media only screen and (min-width: 992px) {
+  .desktop-hide     { display: none; }
+  .wide-hide        { display: none; }
+}
+
+/* large devices, wide screens * /
+@media only screen and (min-width: 1200px) {
+  .wide-hide        { display: none; }
+}
+*/
+
+
+/* large devices, wide screens */
+@media only screen and (max-width: 1200px) {
+  .custom-hide { display: none; }
+  .xsmall-hide { display: none; }
+  .small-hide  { display: none; }
+  .medium-hide { display: none; }
+  .large-hide  { display: none; }
+}
+
+/* medium devices, desktops */
+@media only screen and (max-width: 992px) {
+  .custom-hide { display: none; }
+  .xsmall-hide { display: none; }
+  .small-hide  { display: none; }
+  .medium-hide { display: none; }
+}
+
+/* small devices, tablets */
+@media only screen and (max-width: 768px) {
+  .custom-hide { display: none; }
+  .xsmall-hide { display: none; }
+  .small-hide  { display: none; }
+}
+
+/* extra small devices, phones */ 
+@media only screen and (max-width: 480px) {
+  .custom-hide { display: none; }
+  .xsmall-hide { display: none; }
+}
+
+/* custom, iPhone Retina */ 
+@media only screen and (max-width: 320px) {
+  .custom-hide { display: none; }
+}
+
 
 /* print */
 @media print {    

@@ -3,25 +3,26 @@
   <div ng-show="signedIn()" ng-controller="CustomersCtrl">
 
     <form class="form-horizontal" ng-hide="printMode || addMode || editMode">
-      <div class="form-group">
-        <div class="col-xs-3" title="Add new customer">
-          <button type="submit" class="btn btn-primary" ng-show="signedIn() && !(addMode || editMode)" ng-click="addCustomer()">
-            <i class="glyphicon glyphicon-plus"></i>&nbsp;New customer
-          </button>
-        </div>
-        <div class="col-xs-6">
-        </div>
-        <div class="col-xs-3" title="Filter customers">
-          <div class="right-inner-addon">
-            <i class="glyphicon glyphicon-search"></i>
-            <input type="text" ng-model="search" class="form-control form-control-search" style="min-width: 8.0em;">
+      <div class="form-group" style="margin-bottom: 0;">
+        <div class="row">
+          <div class="col-xs-3" title="Add new customer">
+            <button type="submit" class="btn btn-primary" ng-show="signedIn() && !(addMode || editMode)" ng-click="addCustomer()">
+              <i class="glyphicon glyphicon-plus"></i>&nbsp;New customer
+            </button>
           </div>
-        </div>  
+          <div class="col-xs-6">
+          </div>
+          <div class="col-xs-3" title="Filter customers">
+            <div class="right-inner-addon">
+              <i class="glyphicon glyphicon-search"></i>
+              <input type="text" ng-model="search" class="form-control form-control-search" style="min-width: 8.0em;">
+            </div>
+          </div>  
+        </div>
       </div>
-      <div class="vertical-spacer" style="height: 1.0em;"></div>
     </form>
 
-    <div ng-hide="printMode || addMode || editMode" style="max-height: 20.0em; overflow: auto;">
+    <div ng-hide="printMode || addMode || editMode" class="scrollable" spring="footer">
       <table ng-table="tableParams" class="table">
         <tr>
           <th>
@@ -29,16 +30,16 @@
             <a ng-click="orderby = 'name'"><small><i ng-show="orderby === '-name'" class="glyphicon glyphicon-chevron-up"></i></small></a>
             <a ng-click="orderby = '-name'"><small><i ng-show="orderby === 'name'" class="glyphicon glyphicon-chevron-down"></i></small></a>
           </th>
-          <th>
+          <th class="small-hide">
             P.IVA
           </th>
           <th>
             Phone
           </th>
-          <th>
+          <th class="xsmall-hide">
             Email
           </th>
-          <th>
+          <th class="large-hide">
             Address
           </th>
           <th>
@@ -49,16 +50,16 @@
           <td title="Customer name" sortable="'name'" class="condensed">
             {{ customer.name }}
           </td>
-          <td title="P.IVA" sortable="'cfpiva'" class="condensed">
+          <td title="P.IVA" sortable="'cfpiva'" class="condensed small-hide">
             {{ customer.cfpiva }}
           </td>
           <td title="Phone" sortable="'phone'" class="condensed">
             {{ customer.phone }}
           </td>
-          <td title="Email" sortable="'email'" class="condensed">
+          <td title="Email" sortable="'email'" class="condensed xsmall-hide">
             {{ customer.email }}
           </td>
-          <td title="Address" sortable="'address'" class="condensed">
+          <td title="Address" sortable="'address'" class="condensed large-hide">
             {{ customer.address }}
           </td>
           <td class="condensed">

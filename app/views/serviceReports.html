@@ -21,7 +21,7 @@
       <div class="vertical-spacer" style="height: 1.0em;"></div>
     </form>
 
-    <div ng-hide="printMode || addMode || editMode" resize ng-style="{ 'height': windowHeight - 200 - 30, 'overflow': 'auto' }">
+    <div ng-hide="printMode || addMode || editMode" class="scrollable" spring="footer">
        <table ng-table="tableParams" class="table">
         <tr>
           <th>
