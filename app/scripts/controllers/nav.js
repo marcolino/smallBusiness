@@ -21,4 +21,5 @@ app.controller('NavCtrl', function ($scope, $rootScope, $location, Auth) {
     $rootScope.formLabel = '';
     Auth.logout();
   };
+
 });

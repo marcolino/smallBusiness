@@ -9,7 +9,7 @@ Email address
 Client secret
     KC1CTcOK_hUQxju0_-DBqEzw
 Redirect URIs
-        https://auth.firebase.com/auth/google/callback
+    https://auth.firebase.com/auth/google/callback
 Javascript Origins
-        https://auth.firebase.com
+    https://auth.firebase.com
 -------------------------------------------------------------------------------

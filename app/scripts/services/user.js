@@ -8,7 +8,7 @@ app.factory('User', function ($rootScope, $firebase, FIREBASE_URL) {
     create: function (authUser, username) {
       /* jshint camelcase: false */
       users[username] = {
-        md5_hash: authUser.md5_hash,
+        md5_hash: authUser.md5_hash, // we need this for gravatars
         username: username,
         $priority: authUser.uid
       };
@@ -36,18 +36,23 @@ app.factory('User', function ($rootScope, $firebase, FIREBASE_URL) {
     //console.log('setCurrentUser('+username+') - $rootScope.currentUser:', $rootScope.currentUser);
   }
 
+  function resetCurrentUser () {
+    delete $rootScope.currentUser;
+  }
+
   $rootScope.$on('$firebaseSimpleLogin:login', function (e, authUser) {
     var query = $firebase(ref.startAt(authUser.uid).endAt(authUser.uid));
      
     query.$on('loaded', function () {
       //console.info('query.$on("loaded" ...:', authUser.uid);
+      console.info('query.$on("loaded" ...:', query.$getIndex()[0]);
       setCurrentUser(query.$getIndex()[0]);
     });
   });
 
   $rootScope.$on('$firebaseSimpleLogin:logout', function() {
     //console.info('Logout fired...');
-    delete $rootScope.currentUser;
+    resetCurrentUser();
   });
 
   return User;

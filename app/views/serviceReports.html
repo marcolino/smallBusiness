@@ -76,8 +76,16 @@
           </td>
           -->
           <td class="condensed">
-            <a title="Edit service report" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editServicereport(servicereport)"><i class="glyphicon glyphicon-pencil"></i></a>
-            <a title="Print service report" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="preprintServicereport(servicereport)"><i class="glyphicon glyphicon-print"></i></a>
+            <button
+              title="Edit service report"
+              class="btn btn-primary btn-xs glyphicon glyphicon-pencil"
+              ng-click="editServicereport(servicereport)"
+            ></button>
+            <button
+              title="Print service report"
+              class="btn btn-primary btn-xs glyphicon glyphicon-print"
+              ng-click="preprintServicereport(servicereport)"
+            ></button>
             <button
               title="Delete service report" 
               class="btn btn-primary btn-xs glyphicon glyphicon-trash"

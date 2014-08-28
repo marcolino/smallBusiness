@@ -30,16 +30,16 @@
             <a ng-click="orderby = 'name'"><small><i ng-show="orderby === '-name'" class="glyphicon glyphicon-chevron-up"></i></small></a>
             <a ng-click="orderby = '-name'"><small><i ng-show="orderby === 'name'" class="glyphicon glyphicon-chevron-down"></i></small></a>
           </th>
-          <th class="small-hide">
+          <th class="tablet-hide">
             P.IVA
           </th>
           <th>
             Phone
           </th>
-          <th class="xsmall-hide">
+          <th class="phone-hide">
             Email
           </th>
-          <th class="large-hide">
+          <th class="wide-hide">
             Address
           </th>
           <th>
@@ -50,21 +50,29 @@
           <td title="Customer name" sortable="'name'" class="condensed">
             {{ customer.name }}
           </td>
-          <td title="P.IVA" sortable="'cfpiva'" class="condensed small-hide">
+          <td title="P.IVA" sortable="'cfpiva'" class="condensed tablet-hide">
             {{ customer.cfpiva }}
           </td>
           <td title="Phone" sortable="'phone'" class="condensed">
             {{ customer.phone }}
           </td>
-          <td title="Email" sortable="'email'" class="condensed xsmall-hide">
+          <td title="Email" sortable="'email'" class="condensed phone-hide">
             {{ customer.email }}
           </td>
-          <td title="Address" sortable="'address'" class="condensed large-hide">
+          <td title="Address" sortable="'address'" class="condensed wide-hide">
             {{ customer.address }}
           </td>
           <td class="condensed">
-            <a title="Edit customer" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="editCustomer(customer)"><i class="glyphicon glyphicon-pencil"></i></a>
-            <a title="Print customer" href="javascript:void(0)" class="btn btn-primary btn-xs" ng-click="preprintCustomer(customer)"><i class="glyphicon glyphicon-print"></i></a>
+            <button
+              title="Edit customer"
+              class="btn btn-primary btn-xs glyphicon glyphicon-pencil"
+              ng-click="editCustomer(customer)"
+            ></button>
+            <button
+              title="Print customer"
+              class="btn btn-primary btn-xs glyphicon glyphicon-print"
+              ng-click="preprintCustomer(customer)"
+            ></button>
             <button
               title="Delete customer" 
               class="btn btn-primary btn-xs glyphicon glyphicon-trash"

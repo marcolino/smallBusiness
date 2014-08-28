@@ -5,8 +5,8 @@
   * The bottom element's id must be passed as attribute's value.
   * The element behaves as a vertical spring.
   */
-/* global $:false */
 
+/* global $:false */
 app.directive('spring', function ($window) {
   return {
     link: function (scope, element, attrs) {
@@ -22,7 +22,6 @@ app.directive('spring', function ($window) {
         return {
           windowHeight: window.innerHeight(),
           topHeight: element[0].offsetTop, // this element offset from top
-          elementHeight: element[0].clientHeight,
           bottomHeight: bottomElementHeight
         };
       };
@@ -30,7 +29,6 @@ app.directive('spring', function ($window) {
       scope.$watch(scope.getWindowHeight, function (newValue/*, oldValue*/) {
         var windowHeightNew = newValue.windowHeight; // full window current height
         var topHeight = newValue.topHeight; // top element height
-      //var thisHeight = newValue.elementHeight; // this element height
         var bottomHeight = newValue.bottomHeight; // bottom elements height
         var thisHeightNew = windowHeightNew - (topHeight + bottomHeight); // this element recalculated height
         element.css({ 'height': thisHeightNew });
@@ -40,5 +38,53 @@ app.directive('spring', function ($window) {
         scope.$apply();
       });
     }
+  };
+});
+
+app.directive('showDeviceClass', function ($window) {
+  console.log('show');
+  return {
+    link: function (scope, element) {
+      var window = angular.element($window);
+
+      scope.getWindowWidth = function () {
+        return window.width();
+      };
+
+      scope.$watch(scope.getWindowWidth, function (newValue) {
+        var windowWidth = newValue;
+        console.info('showDeviceClass() - window width:', windowWidth);
+        var deviceClass = 'huge';
+        if (windowWidth <= 1200) {
+          deviceClass = 'wide';
+        }
+        if (windowWidth <= 992) {
+          deviceClass = 'desktop';
+        }
+        if (windowWidth <= 768) {
+          deviceClass = 'tablet';
+        }
+        if (windowWidth <= 480) {
+          deviceClass = 'phone';
+        }
+        if (windowWidth <= 320) {
+          deviceClass = 'custom';
+        }
+        console.info('showDeviceClass() - device class:', deviceClass);
+        element.html(
+          '<span style="color:darkgreen;font-style:italic;">' +
+          'width: ' + windowWidth + 'px' +
+          '&emsp;' +
+          'device: ' + deviceClass +
+          '&emsp;&emsp;' +
+
+          '</span>'
+        );
+      }, true);
+  
+      window.bind('resize', function () {
+        scope.$apply();
+      });
+    },
   };
 });
