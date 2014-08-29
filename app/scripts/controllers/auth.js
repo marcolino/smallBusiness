@@ -34,4 +34,15 @@ app.controller('AuthCtrl', function ($scope, $location, Auth, User) {
       $scope.error = error.toString();
     });
   };
+
+  $scope.sendPasswordResetEmail = function (email) {
+    Auth.sendPasswordResetEmail(email, function(error) {
+      if (error === null) {
+        console.info('Password reset email sent successfully');
+      } else {
+        console.info('Error sending password reset email:', error);
+      }
+    });
+  };
+
 });

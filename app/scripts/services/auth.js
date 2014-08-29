@@ -35,25 +35,34 @@ app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope) {
     logout: function () {
       auth.$logout();
     },
-    removeUser: function () { // TODO: test this
-      auth.removeUser(email, password, function(error) { // password is password_hash ?
+    removeUser: function (user) { // TODO: test this
+      auth.$removeUser(user.email, user.password, function(error) { // password is password_hash ?
         if (error === null) {
-          console.log("User removed successfully");
+          console.log('User removed successfully');
         } else {
-          console.log("Error removing user:", error);
+          console.log('Error removing user:', error);
         }
         return error;
       });
     },
-    sendPasswordResetEmail: function () { // TODO: test this
-      auth.sendPasswordResetEmail(email, function(error) {
-        if (error === null) {
-          console.log("Password reset email sent successfully");
-        } else {
-          console.log("Error sending password reset email:", error);
-        }
-        return error;
-      });
+    sendPasswordResetEmail: function (email) { // TODO: test this
+      if (!email) {
+        console.log('Please specify your email');
+      } else {
+        console.info('auth:', auth);
+        return auth.$sendPasswordResetEmail(email);
+        /*
+        auth.$sendPasswordResetEmail(email, function(error) {
+          console.info('error:', error);
+          if (error === null) {
+            console.log('Password reset email sent successfully');
+          } else {
+            console.log('Error sending password reset email:', error);
+          }
+          return error;
+        });
+        */
+      }
     }
   };
 

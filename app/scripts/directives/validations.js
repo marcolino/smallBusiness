@@ -156,6 +156,10 @@ app.directive('checkEmail', function() {
   };
 });
 
+app.directive('checkPassword', function() {
+  // TODO...
+});
+
 app.directive('checkPhone', function() {
   return {
     require: 'ngModel',

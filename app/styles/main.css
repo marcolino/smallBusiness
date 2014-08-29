@@ -299,7 +299,7 @@ form.form-search:before {
 }
 
 .error-container {
-  padding-top: 0.8em;
+  padding-top: 0.2em;
 }
 .error {
   border: 1px solid #c8c8c8;
