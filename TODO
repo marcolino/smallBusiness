@@ -8,6 +8,14 @@ TODO:
  - hide timepicker chevrons: added class 'hide' to chevron tr's
     in 'bower_components/angular-bootstrap/ui-bootstrap-tpls.js'
     (see 'template/timepicker/timepicker.html'); use something more solid...
+ - remove custom roles system, use Firebase roles, something like this:
+    {
+      "rules": {
+      ".read": true,
+      "users": {
+        ".write": "root.child('users').child(auth.uid).child('role').val() == 'admin'"
+      }
+    }
 
 
 
