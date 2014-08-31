@@ -71,9 +71,14 @@ app.config(function ($routeProvider) {
       templateUrl: 'views/about.html',
       controller: 'AboutCtrl'
     })
+    .when('/users', {
+      templateUrl: 'views/users.html',
+      controller: 'UsersCtrl'
+    })
     .when('/users/:username', {
-      templateUrl: 'views/profile.html',
-      controller: 'ProfileCtrl'
+      templateUrl: 'views/users.html',
+    //templateUrl: 'views/profile.html',
+      controller: 'UsersCtrl'
     })
     .otherwise({
       redirectTo: '/'
@@ -93,7 +98,17 @@ app.config(function(ngQuickDateDefaultsProvider) {
   });
 });
 */
+
+// TODO: ALWAYS USE CFG, REMOVE THIS...
 app.constant('FIREBASE_URL', 'https://smallbusiness.firebaseio.com/');
+
+app.constant('CFG', {
+  FIREBASE_URL: 'https://smallbusiness.firebaseio.com/',
+  ROLES: {
+    ADMIN:              1,
+    EDIT_CUSTOMERS:     2
+  }
+});
 
 /*
   .config(function ($httpProvider) {

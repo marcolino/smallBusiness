@@ -1,11 +1,12 @@
 'use strict';
  
-app.controller('CustomersCtrl', function ($scope, $rootScope, $location, Customer) {
+app.controller('CustomersCtrl', function ($scope, $rootScope, $location, CFG, Customer) {
 
   $rootScope.formLabel = 'Customers';
-
   $scope.customer = {};
   $scope.customers = Customer.all;
+
+  $scope.CFG = CFG; // to access CFG from view
   /*
   if ($location.path() === '/customers') { // to handle routes like "/customers:$id"
     $scope.customers = Customer.all;

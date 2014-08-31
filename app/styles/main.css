@@ -14,6 +14,13 @@ a, a:hover {
   outline: 0 !important;
   text-decoration: none !important;
 }
+
+/* to allow browser's address bar to hide on mobiles...
+body { min-height: 640px; }  
+body[orient="portrait"] { min-height: 640px; }
+body[orient="landscape"] { min-height: 360px; }
+*/
+
 .container {
   margin: auto;
 }
@@ -27,7 +34,7 @@ a, a:hover {
 }
 
 .footer {
-  font-size: 85%;
+  font-size: 80%;
   text-align: right;
   padding-top: 0.2em;
   color: #555;
@@ -87,12 +94,6 @@ a, a:hover {
 .nav-tabs {
   margin-top: 30px;
 }
-/*
-.vote {
-  height: 20px;
-  cursor: pointer;
-}
-*/
 .auth-forms {
   max-width: 400px;
   margin: 0 auto;
@@ -298,8 +299,14 @@ form.form-search:before {
   font-size: 1.5em;
 }
 
+/* TODO: why this doesn't work ???
+.form-auth {
+  margin-top: 1.5em;
+}
+*/
+
 .error-container {
-  padding-top: 0.2em;
+  padding-top: 0; /* 0.2em; */
 }
 .error {
   border: 1px solid #c8c8c8;

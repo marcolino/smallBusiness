@@ -1,19 +1,38 @@
 'use strict';
  
-app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope) {
-  var ref = new Firebase(FIREBASE_URL);
+app.factory('Auth', function ($firebaseSimpleLogin, CFG, $rootScope) {
+  var ref = new Firebase(CFG. FIREBASE_URL);
 
   var auth = $firebaseSimpleLogin(ref);
 
   var Auth = {
     register: function (user) {
-      return auth.$createUser(user.email, user.password);
+      if (user !== null) {
+        return auth.$createUser(user.email, user.password);
+      }
     },
     signedIn: function () {
       if (auth.user !== null) {
         //console.log('auth.user:', auth.user, '$rootScope.currentUser:', $rootScope.currentUser);
         return true;
       }
+      return false;
+    },
+    hasRole: function (roles) {
+      console.info('hasRole()');
+      if ((auth.user !== null) && $rootScope.currentUser && $rootScope.currentUser.roles) {
+        /* jslint bitwise: true */
+        if ((roles & CFG.ROLES.ADMIN) && $rootScope.currentUser.roles.admin) {
+          //console.info('hasRole(admin) true');
+          return true;
+        }
+        /* jslint bitwise: true */
+        if ((roles & CFG.ROLES.EDIT_CUSTOMERS) && $rootScope.currentUser.roles.editCustomers) {
+          //console.info('hasRole(edit_customers) true');
+          return true;
+        }
+      }
+      //console.info('hasRole() false');
       return false;
     },
     currentUser: function () {
@@ -60,5 +79,9 @@ app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope) {
     return Auth.signedIn();
   };
  
+  $rootScope.hasRole = function (role) {
+    return Auth.hasRole(role);
+  };
+
   return Auth;
 });

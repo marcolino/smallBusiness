@@ -11,12 +11,12 @@ app.directive('spring', function ($window) {
   return {
     link: function (scope, element, attrs) {
       var bottomElement = $('body').find('#' + attrs.spring)[0];
-      if (typeof bottomElement === 'undefined') {
-        return; // bottom element not found, return immediately
-      }
       var window = angular.element($window);
+      var bottomElementHeight = 0;
       var bottomElementPadding = 3;
-      var bottomElementHeight = bottomElementPadding + bottomElement.clientHeight;
+      if (typeof bottomElement !== 'undefined') {
+        bottomElementHeight = bottomElementPadding + bottomElement.clientHeight;
+      }
   
       scope.getWindowHeight = function () {
         return {

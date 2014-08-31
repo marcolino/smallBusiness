@@ -11,6 +11,9 @@ app.controller('AuthCtrl', function ($scope, $location, Auth, User) {
     $location.path('/');
   });
 
+  $scope.error = null;
+  $scope.info = null;
+
   $scope.login = function () {
   	//console.info('$scope.login() - $scope.user:', $scope.user);
     if ($scope.user) {
@@ -30,15 +33,32 @@ app.controller('AuthCtrl', function ($scope, $location, Auth, User) {
     }
   };
 
-  $scope.register = function () {
-    Auth.register($scope.user).then(function (authUser) {
-      User.create(authUser, $scope.user.username);
-      console.info('registered user:', authUser);
-      $location.path('/');
-    }, function (error) {
-      console.info('NOT registered user:', error);
-      $scope.error = error.toString();
-    });
+  $scope.register = function (valid) {
+    $scope.formRegisterSubmitted = true; // allow validation errors to be shown
+    if (!valid) {
+      return;
+    }
+
+    if ($scope.user) {
+      Auth.register($scope.user).then(function (authUser) {
+        User.create(authUser, $scope.user.username);
+        console.info('registered user:', authUser);
+        //$scope.formRegister = false;
+        $location.path('/');
+      }, function (error) {
+        if (error.code === 'INVALID_EMAIL') {
+          $scope.error = 'Please, specify a valid email';
+        } else {
+          if (error.code === 'EMAIL_TAKEN') {
+            $scope.error = 'Sorry, email is already registered';
+          } else {
+            $scope.error = 'Sorry, could not register user. Retry later';
+          }
+        }
+      });
+    } else {
+      $scope.error = 'Please specify user\'s data';
+    }
   };
 
   $scope.sendPasswordResetEmail = function (email) {
@@ -63,9 +83,10 @@ app.controller('AuthCtrl', function ($scope, $location, Auth, User) {
     });
   };
 
-  $scope.reset= function() {
+  $scope.reset = function() {
     $scope.error = null;
     $scope.info = null;
+    console.info('reset error:', $scope.error);
   };
 
   $scope.reset();

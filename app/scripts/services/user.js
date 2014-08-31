@@ -6,6 +6,7 @@ app.factory('User', function ($rootScope, $firebase, FIREBASE_URL) {
  
   var User = {
     create: function (authUser, username) {
+console.info('authUser:', authUser);
       /* jshint camelcase: false */
       users[username] = {
         md5_hash: authUser.md5_hash, // we need this for gravatars

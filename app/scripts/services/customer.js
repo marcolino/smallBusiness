@@ -1,11 +1,11 @@
 'use strict';
 
 /* jshint unused: false */
-app.factory('Customer', function ($firebase, FIREBASE_URL, User) {
+app.factory('Customer', function ($firebase, CFG, User) {
   // N.B.: User injection is necessary to mantain current user across hard page loads...
-  var ref = new Firebase(FIREBASE_URL + 'customers');
+  var ref = new Firebase(CFG.FIREBASE_URL + 'customers');
   var customers = $firebase(ref);
-  var refByName = new Firebase(FIREBASE_URL + 'customersByName');
+  var refByName = new Firebase(CFG.FIREBASE_URL + 'customersByName');
   var customersByName = $firebase(refByName);
 
   var Customer = {

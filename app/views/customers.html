@@ -1,21 +1,21 @@
 <div class="container customers-page">
 
-  <div ng-show="signedIn()" ng-controller="CustomersCtrl">
+  <div ng-show="signedIn() && hasRole(CFG.ROLES.EDIT_CUSTOMERS)" ng-controller="CustomersCtrl">
 
     <form class="form-horizontal" ng-hide="printMode || addMode || editMode">
       <div class="form-group" style="margin-bottom: 0;">
         <div class="row">
           <div class="col-xs-3" title="Add new customer">
-            <button type="submit" class="btn btn-primary" ng-show="signedIn() && !(addMode || editMode)" ng-click="addCustomer()">
+            <button type="submit" class="btn btn-primary" ng-show="!(addMode || editMode)" ng-click="addCustomer()">
               <i class="glyphicon glyphicon-plus"></i>&nbsp;New customer
             </button>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-4">
           </div>
-          <div class="col-xs-3" title="Filter customers">
+          <div class="col-xs-5" title="Filter customers">
             <div class="right-inner-addon">
               <i class="glyphicon glyphicon-search"></i>
-              <input type="text" ng-model="search" class="form-control form-control-search" style="min-width: 8.0em;">
+              <input type="text" ng-model="search" class="form-control form-control-search" s_tyle="min-width: 8.0em;">
             </div>
           </div>  
         </div>

@@ -157,7 +157,22 @@ app.directive('checkEmail', function() {
 });
 
 app.directive('checkPassword', function() {
-  // TODO...
+  return {
+    require: 'ngModel',
+    link: function(scope, elm, attrs, model) {
+      model.$parsers.unshift(function(viewValue) {
+        // TODO: better check password strength
+        console.info('viewValue:', viewValue);
+        if (viewValue.length >= 8) {
+          model.$setValidity('invalid', true);
+          return viewValue;
+        } else {
+          model.$setValidity('invalid', false);
+          return undefined;
+        }
+      });
+    }
+  };
 });
 
 app.directive('checkPhone', function() {

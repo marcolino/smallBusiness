@@ -11,7 +11,7 @@
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse" id="navbar-collapse" nav-collapse="">
+  <div class="collapse navbar-collapse" id="navbar-collapse" nav-collapse>
     <ul class="nav navbar-nav navbar-right">
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#">Home</a>
@@ -20,7 +20,7 @@
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/customers">Customers</a>
       </li>
       <li role="presentation">
-        <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" NOng-href="#/orders" onclick="toastr.warning('Not yet available...');">Orders</a>
+        <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" disabled-ng-href="#/orders" onclick="toastr.warning('Not yet available...');">Orders</a>
       </li>
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/servicereports">Service reports</a>
@@ -29,15 +29,25 @@
       <li class="divider-vertical">
       </li>
 
+      <li class="dropdown">
+        <a class="dropdown-toggle" ng-click="$event.stopPropagation()">Setup <b class="caret"></b></a>
+        <ul class="nav navbar-nav navbar-inverse dropdown-menu" style="">
+          <li role="presentation">
+            <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/users">Users</a>
+          </li>
+        </ul>
+      </li>
+
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/contacts">Contacts</a>
       </li>
       <li role="presentation">
         <a role="menuitem" tabindex="-1" ng-click="isCollapsed = !isCollapsed" ng-href="#/about">About</a>
       </li>
-    </ul>
 
-  </div><!-- /.navbar navbar-collapse -->
+    </ul>
+  </div>
+
 </nav>
 
 <div ng-controller="NavCtrl" class="no-print">
