@@ -42,7 +42,6 @@ app.directive('spring', function ($window) {
 });
 
 app.directive('showDeviceClass', function ($window) {
-  console.log('show');
   return {
     link: function (scope, element) {
       var window = angular.element($window);
@@ -53,7 +52,6 @@ app.directive('showDeviceClass', function ($window) {
 
       scope.$watch(scope.getWindowWidth, function (newValue) {
         var windowWidth = newValue;
-        console.info('showDeviceClass() - window width:', windowWidth);
         var deviceClass = 'huge';
         if (windowWidth <= 1200) {
           deviceClass = 'wide';
@@ -70,7 +68,6 @@ app.directive('showDeviceClass', function ($window) {
         if (windowWidth <= 320) {
           deviceClass = 'custom';
         }
-        console.info('showDeviceClass() - device class:', deviceClass);
         element.html(
           '<span style="color:darkgreen;font-style:italic;">' +
           'width: ' + windowWidth + 'px' +

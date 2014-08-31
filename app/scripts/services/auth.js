@@ -46,23 +46,13 @@ app.factory('Auth', function ($firebaseSimpleLogin, FIREBASE_URL, $rootScope) {
       });
     },
     sendPasswordResetEmail: function (email) { // TODO: test this
-      if (!email) {
-        console.log('Please specify your email');
-      } else {
-        console.info('auth:', auth);
-        return auth.$sendPasswordResetEmail(email);
-        /*
-        auth.$sendPasswordResetEmail(email, function(error) {
-          console.info('error:', error);
-          if (error === null) {
-            console.log('Password reset email sent successfully');
-          } else {
-            console.log('Error sending password reset email:', error);
-          }
+      //console.info('auth:', auth, email);
+      return auth.$sendPasswordResetEmail(email).then(
+        null,
+        function (error) {
           return error;
-        });
-        */
-      }
+        }
+      );
     }
   };
 

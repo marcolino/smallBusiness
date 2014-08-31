@@ -313,6 +313,15 @@ form.form-search:before {
   color: darkred;
 }
 
+.login-error {
+  font-size: 75%;
+  color: darkred;
+}
+.login-info {
+  font-size: 75%;
+  color: darkgreen;
+}
+
 .checkmark {
   margin-top: 10px;
 }
