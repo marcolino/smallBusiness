@@ -52,7 +52,11 @@ app.controller('AuthCtrl', function ($scope, $location, Auth, User) {
           if (error.code === 'EMAIL_TAKEN') {
             $scope.error = 'Sorry, email is already registered';
           } else {
-            $scope.error = 'Sorry, could not register user. Retry later';
+            if (error.code === 'AUTHENTICATION_DISABLED') {
+              $scope.error = 'Sorry, authentication is currently disabled. Contact administrators.';
+            } else {
+              $scope.error = error.code + 'Sorry, could not register user. Retry later.';
+            }
           }
         }
       });

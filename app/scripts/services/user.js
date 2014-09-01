@@ -1,7 +1,7 @@
 'use strict';
  
-app.factory('User', function ($rootScope, $firebase, FIREBASE_URL) {
-  var ref = new Firebase(FIREBASE_URL + 'users');
+app.factory('User', function ($rootScope, $firebase, CFG) {
+  var ref = new Firebase(CFG.FIREBASE_URL + 'users');
   var users = $firebase(ref);
  
   var User = {

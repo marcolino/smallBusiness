@@ -103,7 +103,7 @@ app.config(function(ngQuickDateDefaultsProvider) {
 app.constant('FIREBASE_URL', 'https://smallbusiness.firebaseio.com/');
 
 app.constant('CFG', {
-  FIREBASE_URL: 'https://smallbusiness.firebaseio.com/',
+  FIREBASE_URL: 'https://small-business.firebaseio.com/',
   ROLES: {
     ADMIN:              1,
     EDIT_CUSTOMERS:     2
